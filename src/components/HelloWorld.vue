@@ -1,6 +1,7 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
+    <button @click="handleTestBtn">Test</button>
     <p>
       For a guide and recipes on how to configure / customize this project,<br>
       check out the
@@ -37,6 +38,19 @@ export default {
   name: 'HelloWorld',
   props: {
     msg: String
+  },
+  methods: {
+    handleTestBtn() {
+      console.log("테스트");
+
+      this.$axios.get('http://localhost:8080/ppiyung/test/json')
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((result) => {
+        console.error(result);
+      })
+    }
   }
 }
 </script>
