@@ -2,6 +2,8 @@
   <div class="hello">
     <h1>{{ msg }}</h1>
     <button @click="handleTestBtn">Test</button>
+    <button @click="handleTestBtn2">Test2</button>
+    <button @click="handleTestBtn3">Test3</button>
     <p>
       For a guide and recipes on how to configure / customize this project,<br />
       check out the
@@ -111,7 +113,38 @@ export default {
   },
   methods: {
     handleTestBtn() {
-      console.log('테스트');
+      console.log('테스트1');
+
+      this.$axios
+        .get('http://localhost:8080/ppiyung/test/json', { withCredentials: true })
+        .then((result) => {
+          console.log(result);
+        })
+        .catch((result) => {
+          console.error(result);
+        });
+    },
+    handleTestBtn2() {
+      console.log('테스트2');
+
+      this.$axios
+        .post(
+          'http://localhost:8080/ppiyung/test/session',
+          {
+            member_id: 'hong',
+            member_pw: '1234'
+          },
+          { withCredentials: true }
+        )
+        .then((result) => {
+          console.log(result);
+        })
+        .catch((result) => {
+          console.error(result);
+        });
+    },
+    handleTestBtn3() {
+      console.log('테스트3');
 
       this.$axios
         .get('http://localhost:8080/ppiyung/test/json')
