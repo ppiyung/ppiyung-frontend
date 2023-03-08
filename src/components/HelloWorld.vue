@@ -1,9 +1,8 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-    <button @click="handleTestBtn">Test</button>
-    <button @click="handleTestBtn2">Test2</button>
-    <button @click="handleTestBtn3">Test3</button>
+    <b-button @click="handleTestBtn">Test</b-button>
+    <b-button @click="handleTestBtn2">Test2</b-button>
     <p>
       For a guide and recipes on how to configure / customize this project,<br />
       check out the
