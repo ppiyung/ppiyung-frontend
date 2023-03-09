@@ -1,19 +1,22 @@
 <template>
-  <div class="home">
-    메인입니다.
-    아이디: {{ this.$store.state.member_id }}
-    비밀번호: {{ this.$store.state.member_pw }}
-
-    <router-link to="/recruit">Go to recruit</router-link>
-  </div>
+  <base-layout>
+    메인 영역
+    {{ userInfo }}
+  </base-layout>
 </template>
 
 <script>
-// @ is an alias to /src
+import BaseLayout from '@/components/common/BaseLayout.vue';
 
 export default {
   name: 'HomeView',
   components: {
+    BaseLayout
+  },
+  computed: {
+    userInfo() {
+      return this.$store.getters.getMemberInfo;
+    }
   }
 };
 </script>

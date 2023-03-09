@@ -1,7 +1,7 @@
 <template>
   <basic-layout>
     <div>
-      채용 페이지 영역
+      커뮤니티 페이지 영역
     </div>
   </basic-layout>
 </template>
@@ -10,7 +10,7 @@
 import BasicLayout from '@/components/common/BaseLayout.vue';
 
 export default {
-  name: 'RecruitView',
+  name: 'BoardView',
   components: {
     BasicLayout
   }

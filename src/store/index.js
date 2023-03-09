@@ -9,7 +9,7 @@ export default new Vuex.Store({
     currentMember: {}
   },
   getters: {
-    getMemberInfo() {
+    getMemberInfo(state) {
       return state.currentMember;
     }
   },

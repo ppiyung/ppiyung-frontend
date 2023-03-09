@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 import MainView from '../views/home/MainView.vue';
 import LoginView from '../views/member/LoginView.vue';
 import RecruitMainView from '../views/recruit/RecruitMainView.vue';
+import BoardMainView from '../views/board/BoardMainView.vue';
 
 Vue.use(VueRouter);
 
@@ -21,6 +22,11 @@ const routes = [
     path: '/recruit',
     name: 'recruit',
     component: RecruitMainView
+  },
+  {
+    path: '/board',
+    name: 'board',
+    component: BoardMainView
   }
 ];
 
