@@ -1,7 +1,7 @@
 <template>
   <div>
     <nav-bar />
-    <b-container>
+    <b-container class="main-container">
       <b-row>
           <slot>
           </slot>
@@ -9,8 +9,8 @@
     </b-container>
     <footer>
       <b-container>
-                  팀삐융 2023<br>
-          @KOSA-솔트룩스 교육
+        팀삐융 2023<br>
+        KOSA-솔트룩스 교육과정
       </b-container>
     </footer>
   </div>
@@ -27,8 +27,14 @@ export default {
 </script>
 
 <style scoped>
-.container {
+.main-container {
   margin-top: 30px;
-  min-height: 600px;
+  min-height: 800px;
+}
+footer {
+  text-align: center;
+  font-size: 80%;
+  background-color: #E0E0E0;
+  height: 60px;
 }
 </style>

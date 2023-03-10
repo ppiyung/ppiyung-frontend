@@ -1,6 +1,6 @@
 <template>
 <div>
-    <b-form @submit="onSubmit" @reset="onReset">
+    <b-form @submit="onSubmit">
         <b-form-input
             id="input-1"
             v-model="member_id"
@@ -16,8 +16,9 @@
           required
         ></b-form-input>
 
-      <b-button type="submit" variant="primary">Submit</b-button>
-      <b-button type="reset" variant="danger">Reset</b-button>
+      <div class="login-control">
+        <b-button type="submit" variant="primary">로그인</b-button>
+      </div>
     </b-form>
   </div>
 </template>
@@ -30,35 +31,55 @@ export default {
       member_pw: ''
     };
   },
+  computed: {
+    logined() {
+      return this.$store.getters.getMemberInfo.member_id === '';
+    }
+  },
+  watch: {
+    logined(val) {
+      if (val) {
+        this.$router.push({ name: 'main' });
+      }
+    }
+  },
   methods: {
-    onSubmit() {
+    async onSubmit() {
       // eslint-disable-next-line
       event.preventDefault();
-      console.log(this.member_id);
-      console.log(this.member_pw);
 
-      this.$axios
-        .post(
-          'http://localhost:8080/ppiyung/auth/login',
-          {
-            member_id: this.member_id,
-            member_pw: this.member_pw
-          },
-          { withCredentials: true }
-        )
+      this.$axios.post(
+        this.$apiUri.login,
+        {
+          member_id: this.member_id,
+          member_pw: this.member_pw
+        },
+        { withCredentials: true }
+      )
         .then((result) => {
-          console.log(result);
-          this.$store.state.currentMember = result.data.payload;
+          const memberInfo = result.data.payload;
+          this.$store.commit('setMemberInfo', {
+            member_id: memberInfo.member_id,
+            member_name: memberInfo.member_name,
+            member_type: memberInfo.member_type
+          });
           this.$router.push({ name: 'main' });
         })
         .catch((result) => {
           console.error(result);
+          // eslint-disable-next-line
+          alert('로그인에 실패하였습니다.');
         });
-    },
-    onReset() {
-      this.member_id = '';
-      this.member_pw = '';
     }
   }
 };
 </script>
+
+<style scoped>
+form {
+  margin-top: 50px;
+}
+.login-control {
+  margin-top: 25px;
+}
+</style>

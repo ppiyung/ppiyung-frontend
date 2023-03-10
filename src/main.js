@@ -10,11 +10,12 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import App from './App.vue';
 import router from './router';
 import store from './store';
+import apiUri from './apiUri';
 
 Vue.config.productionTip = false;
 
 Vue.prototype.$axios = axios;
-Vue.prototype.$baseUrl = 'http://localhost:8080';
+Vue.prototype.$apiUri = apiUri;
 
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
