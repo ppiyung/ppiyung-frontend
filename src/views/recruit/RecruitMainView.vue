@@ -1,18 +1,19 @@
 <template>
   <basic-layout>
-    <div>
-      채용 페이지 영역
-    </div>
+    <h1>채용</h1>
+     <recruit-grid />
   </basic-layout>
 </template>
 
 <script>
 import BasicLayout from '@/components/common/BaseLayout.vue';
+import RecruitGrid from '@/components/recruit/RecruitGrid.vue';
 
 export default {
   name: 'RecruitView',
   components: {
-    BasicLayout
+    BasicLayout,
+    RecruitGrid
   }
 };
 </script>

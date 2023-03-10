@@ -31,18 +31,6 @@ export default {
       member_pw: ''
     };
   },
-  computed: {
-    logined() {
-      return this.$store.getters.getMemberInfo.member_id === '';
-    }
-  },
-  watch: {
-    logined(val) {
-      if (val) {
-        this.$router.push({ name: 'main' });
-      }
-    }
-  },
   methods: {
     async onSubmit() {
       // eslint-disable-next-line
@@ -58,11 +46,12 @@ export default {
       )
         .then((result) => {
           const memberInfo = result.data.payload;
-          this.$store.commit('setMemberInfo', {
+          this.$store.commit('auth/setMemberInfo', {
             member_id: memberInfo.member_id,
             member_name: memberInfo.member_name,
             member_type: memberInfo.member_type
           });
+          this.$store.commit('auth/setMemberVerified', true);
           this.$router.push({ name: 'main' });
         })
         .catch((result) => {

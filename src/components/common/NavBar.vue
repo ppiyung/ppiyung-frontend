@@ -31,14 +31,23 @@
                         <b-nav-item>
                             <font-awesome-icon icon="fa-solid fa-bell" />
                         </b-nav-item>
-                        <b-nav-item>
+                        <b-nav-item v-if="!isLogin">
                             <router-link :to="{ name: 'login' }">
                                 로그인
                             </router-link>
                         </b-nav-item>
-                        <b-nav-item>
+                        <b-nav-item v-if="!isLogin">
                             회원가입
                         </b-nav-item>
+                        <b-nav-item-dropdown
+                            v-if="isLogin"
+                            size="sm"
+                            :text="memberInfo.member_name + '님'"
+                            variant="primary"
+                            right>
+                            <b-dropdown-item @click="onLogout">로그아웃</b-dropdown-item>
+                            <b-dropdown-item>마이페이지</b-dropdown-item>
+                        </b-nav-item-dropdown>
                     </b-navbar-nav>
                 </b-collapse>
             </b-container>
@@ -48,6 +57,11 @@
 
 <script>
 export default {
+  methods: {
+    onLogout() {
+      this.$router.push({ name: 'logout' });
+    }
+  },
   computed: {
     currentMenu() {
       const { name } = this.$route;
@@ -57,6 +71,12 @@ export default {
         return 'board';
       }
       return '';
+    },
+    memberInfo() {
+      return this.$store.getters['auth/getMemberInfo'];
+    },
+    isLogin() {
+      return this.$store.getters['auth/isLogin'];
     }
   }
 };
