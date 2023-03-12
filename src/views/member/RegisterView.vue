@@ -1,19 +1,19 @@
 <template>
   <basic-layout>
-    <h1>채용</h1>
-     <recruit-grid />
+    <h1>회원가입</h1>
+     <register-step-1 />
   </basic-layout>
 </template>
 
 <script>
 import BasicLayout from '@/components/common/BaseLayout.vue';
-import RecruitGrid from '@/components/recruit/RecruitGrid.vue';
+import RegisterStep1 from '@/components/member/RegisterStep1.vue';
 
 export default {
-  name: 'RecruitView',
+  name: 'RegisterView',
   components: {
     BasicLayout,
-    RecruitGrid
+    RegisterStep1
   }
 };
 </script>
