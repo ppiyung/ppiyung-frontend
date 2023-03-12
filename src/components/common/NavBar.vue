@@ -37,12 +37,14 @@
                             </router-link>
                         </b-nav-item>
                         <b-nav-item v-if="!isLogin">
-                            회원가입
+                            <router-link :to="{ name: 'register' }">
+                                회원가입
+                            </router-link>
                         </b-nav-item>
                         <b-nav-item-dropdown
                             v-if="isLogin"
                             size="sm"
-                            :text="memberInfo.member_name + '님'"
+                            :text="memberInfo.memberNickname + '님'"
                             variant="primary"
                             right>
                             <b-dropdown-item @click="onLogout">로그아웃</b-dropdown-item>
@@ -73,7 +75,7 @@ export default {
       return '';
     },
     memberInfo() {
-      return this.$store.getters['auth/getMemberInfo'];
+      return this.$store.getters['auth/memberInfo'];
     },
     isLogin() {
       return this.$store.getters['auth/isLogin'];

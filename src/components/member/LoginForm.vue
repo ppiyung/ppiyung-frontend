@@ -3,14 +3,14 @@
     <b-form @submit="onSubmit">
         <b-form-input
             id="input-1"
-            v-model="member_id"
+            v-model="memberId"
             placeholder="아이디"
             required
         ></b-form-input>
 
         <b-form-input
           id="input-2"
-          v-model="member_pw"
+          v-model="memberPw"
           placeholder="비밀번호"
           type="password"
           required
@@ -27,38 +27,43 @@
 export default {
   data() {
     return {
-      member_id: '',
-      member_pw: ''
+      memberId: '',
+      memberPw: ''
     };
+  },
+  computed: {
+    isSuccess() {
+      return this.$store.getters['auth/isAuthSuccess'];
+    },
+    isLogin() {
+      return this.$store.getters['auth/isLogin'];
+    }
+  },
+  watch: {
+    isSuccess(val) {
+      if (val) {
+        this.$router.push({ name: 'main' });
+      } else if (!val) {
+        alert('로그인에 실패했습니다. 아이디와 비밀번호를 한 번 더 확인해주세요.');
+      } else if (val === null) {
+        // 로그아웃 상태
+      }
+    }
   },
   methods: {
     async onSubmit() {
       // eslint-disable-next-line
       event.preventDefault();
 
-      this.$axios.post(
-        this.$apiUri.login,
-        {
-          member_id: this.member_id,
-          member_pw: this.member_pw
-        },
-        { withCredentials: true }
-      )
-        .then((result) => {
-          const memberInfo = result.data.payload;
-          this.$store.commit('auth/setMemberInfo', {
-            member_id: memberInfo.member_id,
-            member_name: memberInfo.member_name,
-            member_type: memberInfo.member_type
-          });
-          this.$store.commit('auth/setMemberVerified', true);
-          this.$router.push({ name: 'main' });
-        })
-        .catch((result) => {
-          console.error(result);
-          // eslint-disable-next-line
-          alert('로그인에 실패하였습니다.');
-        });
+      this.$store.dispatch('auth/login', {
+        memberId: this.memberId,
+        memberPw: this.memberPw
+      });
+    }
+  },
+  mounted() {
+    if (this.isLogin) {
+      this.$store.dispatch('auth/logout');
     }
   }
 };

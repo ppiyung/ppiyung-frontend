@@ -1,6 +1,6 @@
-/* eslint-disable */
-import axios from "axios";
+import axios from 'axios';
 import apiUri from '@/apiUri';
+// eslint-disable-next-line
 import router from '../router';
 
 export default {
@@ -19,18 +19,22 @@ export default {
     }
   },
   actions: {
-    requestRecruitList({ commit }) {
-      axios.get(apiUri.recruit,
-      { withCredentials: true })
-      .then((result) => {
-        commit('setRecruitList', result.data.payload);
-      })
-      .catch((error) => {
-        if (error.response.status === 403) {
-          router.push({ name: 'login' });
+    requestRecruitList({ commit, rootGetters }) {
+      axios.get(
+        apiUri.recruit,
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${rootGetters['auth/accessToken']}`
+          }
         }
-        console.error(error);
-      })
+      )
+        .then((result) => {
+          commit('setRecruitList', result.data.payload);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     }
   }
 };

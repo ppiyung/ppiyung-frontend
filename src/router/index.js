@@ -3,8 +3,10 @@ import VueRouter from 'vue-router';
 import MainView from '../views/home/MainView.vue';
 import LoginView from '../views/member/LoginView.vue';
 import LogoutView from '../views/member/LogoutView.vue';
+import RegisterView from '../views/member/RegisterView.vue';
 import RecruitMainView from '../views/recruit/RecruitMainView.vue';
 import BoardMainView from '../views/board/BoardMainView.vue';
+// eslint-disable-next-line
 import store from '../store';
 
 Vue.use(VueRouter);
@@ -24,6 +26,11 @@ const routes = [
     path: '/member/logout',
     name: 'logout',
     component: LogoutView
+  },
+  {
+    path: '/member/register',
+    name: 'register',
+    component: RegisterView
   },
   {
     path: '/recruit',
@@ -51,17 +58,8 @@ router.beforeEach(async (to, from, next) => {
       next({
         name: 'login'
       });
-    } else if (store.getters['auth/isLogin'] && store.getters['auth/isVerifed']) { // 로그인 정보가 있고 세션 검증된 경우
+    } else { // 로그인 정보가 있는 경우
       next();
-    } else if (store.getters['auth/isLogin'] && !store.getters['auth/isVerifed']) { // 로그인 정보 있으나 세션 검증이 되지 않음
-      await store.dispatch('auth/verify');
-      if (store.getters['auth/isVerifed']) {
-        next();
-      } else {
-        next({
-          name: 'login'
-        });
-      }
     }
   } else { // 인증 필요 없음
     next();

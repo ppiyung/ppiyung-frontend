@@ -1,73 +1,72 @@
-/* eslint-disable */
-import axios from "axios";
+import axios from 'axios';
 import apiUri from '@/apiUri';
 
 export default {
   namespaced: true,
   state: {
-    member_id: '',
-    member_name: '',
-    member_type: '',
-    member_verified: false
+    memberInfo: {},
+    accessToken: '',
+    refreshToken: '',
+    authSuccess: null
   },
   getters: {
-    getMemberInfo(state) {
-      return {
-        member_id: state.member_id,
-        member_name: state.member_name,
-        member_type: state.member_type
-      };
+    memberInfo(state) {
+      return state.memberInfo;
+    },
+    accessToken(state) {
+      return state.accessToken;
+    },
+    refreshToken(state) {
+      return state.refreshToken;
     },
     isLogin(state) {
-      if (state.member_id === ''
-              || state.member_name === ''
-              || state.member_type === '') {
+      if (Object.keys(state.memberInfo).length === 0
+              || state.accessToken === ''
+              || state.refreshToken === '') {
         return false;
       }
       return true;
     },
-    isVerifed(state) {
-        return state.member_verified;
+    isAuthSuccess(state) {
+      return state.authSuccess;
     }
   },
   mutations: {
-    setMemberInfo(state, { member_id, member_name, member_type }) {
-      state.member_id = member_id;
-      state.member_name = member_name;
-      state.member_type = member_type;
+    setMemberInfo(state, { memberInfo, accessToken, refreshToken }) {
+      state.memberInfo = memberInfo;
+      state.accessToken = accessToken;
+      state.refreshToken = refreshToken;
     },
-    setMemberVerified(state, isVerify) {
-        state.member_verified = isVerify;
+    setAuthSuccess(state, isSuccess) {
+      state.authSuccess = isSuccess;
     }
   },
   actions: {
-    async verify({ commit, state }) {
-        console.log('세션 검증 시작');
-        try {
-            const response = await axios.post(
-                apiUri.verify,
-                {},
-                { withCredentials: true }
-            )
-            console.log(response);
-            const memberInfo = response.data.payload
-            commit('setMemberInfo', {
-                member_id: memberInfo.member_id,
-                member_name: memberInfo.member_name,
-                member_type: memberInfo.member_type
-            });
-            commit('setMemberVerified', true);
-            console.log('세션 검증 완료 - 성공');
-        } catch(error) {
-            console.error(error);
-            commit('setMemberInfo', {
-                member_id: '',
-                member_name: '',
-                member_type: ''
-            });
-            commit('setMemberVerified', false);
-            console.log('세션 검증 완료 - 실패');
-        }
+    login({ commit }, { memberId, memberPw }) {
+      axios.post(
+        apiUri.login,
+        {
+          memberId,
+          memberPw
+        },
+        { withCredentials: true }
+      )
+        .then((result) => {
+          commit('setMemberInfo', result.data.payload);
+          commit('setAuthSuccess', true);
+        })
+        .catch((result) => {
+          console.error(result);
+          commit('setAuthSuccess', false);
+        });
+    },
+    logout({ commit }) {
+      commit('setMemberInfo', {
+        memberInfo: {},
+        accessToken: '',
+        refreshToken: ''
+      });
+      commit('setAuthSuccess', null);
     }
   }
 };
