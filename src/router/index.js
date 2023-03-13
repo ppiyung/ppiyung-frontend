@@ -53,6 +53,7 @@ const router = new VueRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
+  store.commit('common/setSuccess', null);
   if (to.matched.some((record) => record.meta.requiresAuth)) { // 인증 필요 경로
     if (!store.getters['auth/isLogin']) { // 로그인 정보가 없는 경우
       next({

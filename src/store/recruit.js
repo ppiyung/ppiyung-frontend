@@ -31,9 +31,11 @@ export default {
       )
         .then((result) => {
           commit('setRecruitList', result.data.payload);
+          commit('common/setSuccess', true, { root: true });
         })
         .catch((error) => {
           console.error(error);
+          commit('common/setSuccess', false, { root: true });
         });
     }
   }

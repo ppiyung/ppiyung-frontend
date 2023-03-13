@@ -12,7 +12,16 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch('recruit/requestRecruitList');
+    this.$store.dispatch('auth/authRequest', {
+      requestCallback: () => {
+        this.$store.dispatch('recruit/requestRecruitList');
+      },
+      failedCallback: (error) => {
+        console.error('실패');
+        console.error(error);
+        this.$store.commit('common/setSuccess', false);
+      }
+    });
   }
 };
 </script>

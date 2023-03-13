@@ -3,10 +3,10 @@
     <h2>회원 유형 선택</h2>
     <b-row  class="text-center select-type-control">
         <b-col lg="4" class="pb-2">
-            <b-button size="lg"  variant="primary">구직 회원</b-button>
+            <b-button size="lg" variant="primary" @click="selectType('N')">구직 회원</b-button>
         </b-col>
         <b-col lg="4" class="pb-2">
-            <b-button size="lg" variant="light">기업 회원</b-button>
+            <b-button size="lg" variant="light" @click="selectType('C')">기업 회원</b-button>
         </b-col>
     </b-row>
   </div>
@@ -14,6 +14,12 @@
 
 <script>
 export default {
+  methods: {
+    selectType(memberType) {
+      this.$store.commit('member/setRegisterMemberType', memberType);
+      this.$store.commit('member/nextRegisterStep');
+    }
+  },
 };
 </script>
 

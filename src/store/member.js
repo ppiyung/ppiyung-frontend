@@ -4,46 +4,50 @@ import apiUri from '@/apiUri.js';
 export default {
   namespaced: true,
   state: {
-    registerInfo: {}
+    registerInfo: {
+      currentStep: 1,
+      memberActive: true
+    },
   },
   getters: {
-    getregisterInfo(state) {
-      return state.getregisterInfo;
+    registerInfo(state) {
+      return state.registerInfo;
     }
   },
   mutations: {
-    setMemberType(state, memberType) {
+    nextRegisterStep(state) {
+      state.registerInfo.currentStep += 1;
+    },
+    prevRegisterStep(state) {
+      if (state.registerInfo.currentStep <= 1) { // 1단계 이전으로는 갈 수 없다
+        return;
+      }
+      state.registerInfo.currentStep -= 1;
+    },
+    setRegisterMemberType(state, memberType) {
       state.registerInfo.memberType = memberType;
+    },
+    setRegisterInfo(state, registerInfoParam) {
+      state.registerInfo = {
+        ...state.registerInfo,
+        ...registerInfoParam
+      };
     }
   },
   actions: {
-    async verify({ commit }) {
-      console.log('세션 검증 시작');
-      try {
-        const response = await axios.post(
-          apiUri.verify,
-          {},
-          { withCredentials: true }
-        );
-        console.log(response);
-        const memberInfo = response.data.payload;
-        commit('setMemberInfo', {
-          memberId: memberInfo.memberId,
-          memberName: memberInfo.memberName,
-          memberType: memberInfo.memberType
+    register({ commit, getters }) {
+      console.log('회원가입 요청 시작');
+      axios.post(
+        apiUri.signin,
+        getters.registerInfo
+      )
+        .then(() => {
+          commit('common/setSuccess', true, { root: true });
+        })
+        .catch((error) => {
+          console.error(error);
+          commit('common/setSuccess', false, { root: true });
         });
-        commit('setMemberVerified', true);
-        console.log('세션 검증 완료 - 성공');
-      } catch (error) {
-        console.error(error);
-        commit('setMemberInfo', {
-          memberId: '',
-          memberName: '',
-          memberType: ''
-        });
-        commit('setMemberVerified', false);
-        console.log('세션 검증 완료 - 실패');
-      }
     }
   }
 };
