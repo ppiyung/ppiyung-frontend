@@ -5,6 +5,7 @@ import auth from './auth';
 // eslint-disable-next-line
 import recruit from './recruit';
 import member from './member';
+import common from './common';
 
 Vue.use(Vuex);
 
@@ -23,7 +24,7 @@ export default new Vuex.Store({
   actions: {
   },
   modules: {
-    auth, recruit, member
+    auth, recruit, member, common
   },
   plugins: [vuexLocal.plugin]
 });

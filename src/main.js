@@ -11,11 +11,13 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 import apiUri from './apiUri';
+import secret from './secret';
 
 Vue.config.productionTip = false;
 
 Vue.prototype.$axios = axios;
 Vue.prototype.$apiUri = apiUri;
+Vue.prototype.$secret = secret;
 
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);

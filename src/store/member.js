@@ -4,46 +4,75 @@ import apiUri from '@/apiUri.js';
 export default {
   namespaced: true,
   state: {
-    registerInfo: {}
+    registerInfo: {
+      currentStep: 1,
+      memberActive: true
+    },
+    memberDetail: { }
   },
   getters: {
-    getregisterInfo(state) {
-      return state.getregisterInfo;
+    registerInfo(state) {
+      return state.registerInfo;
+    },
+    memberDetail(state) {
+      return state.memberDetail;
     }
   },
   mutations: {
-    setMemberType(state, memberType) {
+    nextRegisterStep(state) {
+      state.registerInfo.currentStep += 1;
+    },
+    prevRegisterStep(state) {
+      if (state.registerInfo.currentStep <= 1) { // 1단계 이전으로는 갈 수 없다
+        return;
+      }
+      state.registerInfo.currentStep -= 1;
+    },
+    setRegisterMemberType(state, memberType) {
       state.registerInfo.memberType = memberType;
+    },
+    setRegisterInfo(state, registerInfoParam) {
+      state.registerInfo = { // 전개 연산자 사용하여 값을 대체하지 않고 추가
+        ...state.registerInfo,
+        ...registerInfoParam
+      };
+    },
+    setMemberDetail(state, memberDetailParam) {
+      state.memberDetail = memberDetailParam;
     }
   },
   actions: {
-    async verify({ commit }) {
-      console.log('세션 검증 시작');
-      try {
-        const response = await axios.post(
-          apiUri.verify,
-          {},
-          { withCredentials: true }
-        );
-        console.log(response);
-        const memberInfo = response.data.payload;
-        commit('setMemberInfo', {
-          memberId: memberInfo.memberId,
-          memberName: memberInfo.memberName,
-          memberType: memberInfo.memberType
+    register({ commit, getters }) { // 회원가입 요청
+      console.log('회원가입 요청 시작');
+      axios.post(
+        apiUri.signin,
+        getters.registerInfo
+      )
+        .then(() => {
+          commit('common/setSuccess', true, { root: true });
+        })
+        .catch((error) => {
+          console.error(error);
+          commit('common/setSuccess', false, { root: true });
         });
-        commit('setMemberVerified', true);
-        console.log('세션 검증 완료 - 성공');
-      } catch (error) {
-        console.error(error);
-        commit('setMemberInfo', {
-          memberId: '',
-          memberName: '',
-          memberType: ''
+    },
+    getMemberById({ commit }, memberId) { // ID 중복검사
+      console.log('아이디 중복검사 요청 시작');
+      console.log(`${apiUri.member}/exist/${memberId}`);
+      axios.get(`${apiUri.member}/exist/${memberId}`)
+        .then((result) => {
+          console.log(result);
+          if (result.data.success) { // 중복이 아닐 때
+            commit('setMemberDetail', { memberId });
+          } else { // 중복일때
+            commit('setMemberDetail', { });
+          }
+          commit('common/setSuccess', true, { root: true });
+        })
+        .catch((error) => {
+          console.error(error);
+          commit('common/setSuccess', false, { root: true });
         });
-        commit('setMemberVerified', false);
-        console.log('세션 검증 완료 - 실패');
-      }
     }
   }
 };

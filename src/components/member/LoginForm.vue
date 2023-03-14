@@ -33,7 +33,7 @@ export default {
   },
   computed: {
     isSuccess() {
-      return this.$store.getters['auth/isAuthSuccess'];
+      return this.$store.getters['common/isSuccess'];
     },
     isLogin() {
       return this.$store.getters['auth/isLogin'];
@@ -41,12 +41,10 @@ export default {
   },
   watch: {
     isSuccess(val) {
-      if (val) {
+      if (val === true) {
         this.$router.push({ name: 'main' });
-      } else if (!val) {
+      } else if (val === false) {
         alert('로그인에 실패했습니다. 아이디와 비밀번호를 한 번 더 확인해주세요.');
-      } else if (val === null) {
-        // 로그아웃 상태
       }
     }
   },
