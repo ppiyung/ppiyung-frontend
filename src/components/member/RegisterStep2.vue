@@ -17,6 +17,12 @@
     </b-row>
 
     <b-row>
+      <b-container class="duplicate-indicator">
+        {{isDuplicated ? '사용할 수 없는 아이디입니다.' : '이 아이디는 사용할 수 있습니다.'}}
+      </b-container>
+    </b-row>
+
+    <b-row>
       <b-col lg="1" class="pb-2">
           비밀번호
       </b-col>
@@ -162,10 +168,28 @@ export default {
     },
     isCompany() {
       return this.registerType === 'C';
+    },
+    isDuplicated() {
+      const memberDetail = this.$store.getters['member/memberDetail'];
+      if (!memberDetail) {
+        return true;
+      }
+      return Object.keys(memberDetail).length === 0;
+    }
+  },
+  watch: {
+    'registerInfoParam.memberId': {
+      handler(val) {
+        this.$store.dispatch('member/getMemberById', val);
+      }
     }
   },
   methods: {
     saveAndNext() {
+      if (this.isDuplicated) {
+        alert('중복되는 아이디입니다. 다른 아이디를 사용해주세요.');
+        return;
+      }
       this.$store.commit('member/setRegisterInfo', this.registerInfoParam);
       this.$store.commit('member/nextRegisterStep');
     }
@@ -174,4 +198,7 @@ export default {
 </script>
 
 <style scoped>
+.duplicate-indicator {
+  margin-bottom: 10px;
+}
 </style>

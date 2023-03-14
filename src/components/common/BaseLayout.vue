@@ -1,6 +1,7 @@
 <template>
   <div>
-    <nav-bar />
+    <nav-bar v-if="!isCompany" />
+    <nav-bar-company v-if="isCompany" />
     <b-container class="main-container">
       <b-row>
           <slot>
@@ -18,10 +19,17 @@
 
 <script>
 import NavBar from './NavBar.vue';
+import NavBarCompany from './NavBarCompany.vue';
 
 export default {
+  computed: {
+    isCompany() {
+      return this.$store.getters['auth/memberInfo'].memberType === 'C';
+    }
+  },
   components: {
-    NavBar
+    NavBar,
+    NavBarCompany
   }
 };
 </script>

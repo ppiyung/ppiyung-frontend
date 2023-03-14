@@ -8,10 +8,14 @@ export default {
       currentStep: 1,
       memberActive: true
     },
+    memberDetail: { }
   },
   getters: {
     registerInfo(state) {
       return state.registerInfo;
+    },
+    memberDetail(state) {
+      return state.memberDetail;
     }
   },
   mutations: {
@@ -28,20 +32,41 @@ export default {
       state.registerInfo.memberType = memberType;
     },
     setRegisterInfo(state, registerInfoParam) {
-      state.registerInfo = {
+      state.registerInfo = { // 전개 연산자 사용하여 값을 대체하지 않고 추가
         ...state.registerInfo,
         ...registerInfoParam
       };
+    },
+    setMemberDetail(state, memberDetailParam) {
+      state.memberDetail = memberDetailParam;
     }
   },
   actions: {
-    register({ commit, getters }) {
+    register({ commit, getters }) { // 회원가입 요청
       console.log('회원가입 요청 시작');
       axios.post(
         apiUri.signin,
         getters.registerInfo
       )
         .then(() => {
+          commit('common/setSuccess', true, { root: true });
+        })
+        .catch((error) => {
+          console.error(error);
+          commit('common/setSuccess', false, { root: true });
+        });
+    },
+    getMemberById({ commit }, memberId) { // ID 중복검사
+      console.log('아이디 중복검사 요청 시작');
+      console.log(`${apiUri.member}/exist/${memberId}`);
+      axios.get(`${apiUri.member}/exist/${memberId}`)
+        .then((result) => {
+          console.log(result);
+          if (result.data.success) { // 중복이 아닐 때
+            commit('setMemberDetail', { memberId });
+          } else { // 중복일때
+            commit('setMemberDetail', { });
+          }
           commit('common/setSuccess', true, { root: true });
         })
         .catch((error) => {
