@@ -22,12 +22,29 @@ export default {
   computed: {
     recruitList() {
       return this.$store.getters['recruit/recruitList'];
+    },
+    workArea() {
+      return this.$store.getters['recruit/selectedWorkArea'];
+    }
+  },
+  watch: {
+    workArea() {
+      this.$store.dispatch('auth/authRequest', {
+        requestCallback: () => {
+          this.$store.dispatch('recruit/requestRecruitListByWorkArea');
+        },
+        failedCallback: (error) => {
+          console.error('실패');
+          console.error(error);
+          this.$store.commit('common/setSuccess', false);
+        }
+      });
     }
   },
   mounted() {
     this.$store.dispatch('auth/authRequest', {
       requestCallback: () => {
-        this.$store.dispatch('recruit/requestRecruitList');
+        this.$store.dispatch('recruit/requestRecruitListByWorkArea');
       },
       failedCallback: (error) => {
         console.error('실패');
