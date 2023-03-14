@@ -44,15 +44,17 @@
         대통령은 국가의 안위에 관계되는 중대한 교전상태에 있어서 국가를 보위하기 위하여 긴급한
         조치가 필요하고 국회의 집회가 불가능한 때에 한하여 법률의 효력을 가지는 명령을 발할 수 있다.
 
-        <div>
-          <b-button variant="primary">지원하기</b-button>&nbsp;
+        <div class="apply-control">
+          <b-button variant="primary" @click="requestApply">지원하기</b-button>&nbsp;
           <b-button variant="secondary">관심공고</b-button>
         </div>
       </b-col>
 
       <b-col lg="4" class="apply-control-right">
-          <b-button variant="primary">지원하기</b-button>&nbsp;
-          <b-button variant="secondary">관심공고</b-button>
+        <div class="apply-control">
+          <b-button variant="primary" @click="requestApply" size="lg">지원하기</b-button>&nbsp;
+          <b-button variant="secondary" size="lg">관심공고</b-button>
+        </div>
       </b-col>
     </b-row>
 
@@ -64,6 +66,13 @@ import BasicLayout from '@/components/common/BaseLayout.vue';
 
 export default {
   name: 'RecruitDetailView',
+  data() {
+    return {
+      applyResult: {
+        success: null
+      }
+    };
+  },
   components: {
     BasicLayout
   },
@@ -73,10 +82,46 @@ export default {
     },
     recruitDetail() {
       return this.$store.getters['recruit/recruitDetail'];
+    },
+    isSuccess() {
+      return this.$store.getters['common/isSuccess'];
+    },
+  },
+  watch: {
+    isSuccess(val) {
+      if (!val) {
+        alert('공고를 불러오는데 실패했습니다.');
+      }
+    },
+    'applyResult.success': {
+      handler(val) {
+        if (val) {
+          alert('공고 지원에 성공했습니다.');
+        } else {
+          alert('공고 지원에 실패했습니다.');
+        }
+      }
     }
   },
   mounted() {
     this.$store.dispatch('recruit/requestRecruitById', this.recruitId);
+  },
+  methods: {
+    requestApply() {
+      this.$store.dispatch('auth/authRequest', {
+        requestCallback: () => {
+          this.$store.dispatch(
+            'recruit/requestAddApply',
+            { recruitId: this.recruitId, resultRef: this.applyResult }
+          );
+        },
+        failedCallback: (error) => {
+          console.error('실패');
+          console.error(error);
+          this.applyResult.success = false;
+        }
+      });
+    }
   }
 };
 </script>
@@ -88,6 +133,10 @@ img {
 }
 h1 {
   margin-top: 20px;
+}
+.apply-control {
+  margin-top: 25px;
+  margin-bottom: 25px;
 }
 @media ( max-width : 1400px) {
   .apply-control-right {

@@ -87,6 +87,48 @@ export default {
           console.error(error);
           commit('common/setSuccess', false, { root: true });
         });
-    }
+    },
+    requestAddBookmark({ commit, rootGetters }, { recruitId, memberId }) {
+      axios.post(
+        `${apiUri.recruit}/bookmark`,
+        {
+          recruitId,
+          memberId
+        },
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${rootGetters['auth/accessToken']}`
+          }
+        }
+      )
+        .then(() => {
+          commit('common/setSuccess', true, { root: true });
+        })
+        .catch(() => {
+          commit('common/setSuccess', false, { root: true });
+        });
+    },
+    // eslint-disable-next-line
+    requestAddApply({ rootGetters }, { recruitId, resultRef }) {
+      axios.post(
+        `${apiUri.recruit}/apply/${recruitId}`,
+        { },
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${rootGetters['auth/accessToken']}`
+          }
+        }
+      )
+        .then(() => {
+          console.log('공고 지원 성공');
+          resultRef.success = true;
+        })
+        .catch(() => {
+          console.error('공고 지원 실패');
+          resultRef.success = false;
+        });
+    },
   }
 };
