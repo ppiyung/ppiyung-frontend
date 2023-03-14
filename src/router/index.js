@@ -7,6 +7,8 @@ import RegisterView from '../views/member/RegisterView.vue';
 import RecruitMainView from '../views/recruit/RecruitMainView.vue';
 import BoardMainView from '../views/board/BoardMainView.vue';
 import RecruitDetailView from '../views/recruit/RecruitDetailView.vue';
+import CompanyRecruitView from '../views/companyrecruit/CompanyRecruitMainView.vue';
+import MyPageView from '../views/member/MyPageView.vue';
 // eslint-disable-next-line
 import store from '../store';
 
@@ -34,6 +36,12 @@ const routes = [
     component: RegisterView
   },
   {
+    path: '/member',
+    name: 'mypage',
+    component: MyPageView,
+    meta: { requiresAuth: true }
+  },
+  {
     path: '/recruit',
     name: 'recruit',
     component: RecruitMainView,
@@ -49,6 +57,12 @@ const routes = [
     path: '/board',
     name: 'board',
     component: BoardMainView,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/company/recruit',
+    name: 'company/recruit',
+    component: CompanyRecruitView,
     meta: { requiresAuth: true }
   }
 ];

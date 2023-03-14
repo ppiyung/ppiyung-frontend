@@ -7,5 +7,6 @@ export default {
   member: `${baseUri}/member`,
   signin: `${baseUri}/member/signin`,
   recruit: `${baseUri}/recruit`,
+  resources: `${baseUri}/resources`,
   kakaoLocationByKeyword: 'https://dapi.kakao.com/v2/local/search/keyword.json'
 };

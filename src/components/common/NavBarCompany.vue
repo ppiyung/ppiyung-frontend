@@ -11,14 +11,14 @@
                 <b-collapse id="nav-collapse" is-nav>
                     <b-navbar-nav>
                         <b-nav-item>
-                            <router-link :to="{ name: 'recruit' }"
+                            <router-link :to="{ name: 'company/recruit' }"
                                 :class="{'selected': this.currentMenu === 'recruit'}">
                                 채용공고
                             </router-link>
                         </b-nav-item>
                         <b-nav-item>
                             <router-link :to="{ name: 'board' }"
-                                :class="{'selected': this.currentMenu === 'board'}">
+                                :class="{'selected': this.currentMenu === 'suggest'}">
                                 인재저격
                             </router-link>
                         </b-nav-item>
@@ -67,10 +67,10 @@ export default {
   computed: {
     currentMenu() {
       const { name } = this.$route;
-      if (name === 'recruit') {
+      if (name === 'company/recruit') {
         return 'recruit';
-      } if (name === 'board') {
-        return 'board';
+      } if (name === 'company/suggest') {
+        return 'suggest';
       }
       return '';
     },
