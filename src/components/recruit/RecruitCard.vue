@@ -1,5 +1,10 @@
 <template>
-    <b-card :title="recruitTitle" :sub-title="companyId" img-src="https://picsum.photos/600/400/?image=82" class="mb-2">
+    <b-card
+      :title="recruitTitle"
+      :sub-title="companyId"
+      img-src="https://picsum.photos/600/400/?image=82"
+      class="mb-2"
+      @click="moveToDetailPage(recuritId)">
             <b-card-text>
             공고 시작: {{recruitStartAt}} <br>
             공고 마감: {{recruitEndAt}}
@@ -25,6 +30,13 @@ export default {
     };
   },
   methods: {
+    moveToDetailPage(id) {
+      console.log(id);
+      this.$router.push({
+        name: 'recruitDetail',
+        params: { id }
+      });
+    }
   },
   mounted() {
   }
@@ -34,5 +46,6 @@ export default {
 <style scoped>
 .card {
   width: 250px;
+  cursor: pointer;
 }
 </style>
