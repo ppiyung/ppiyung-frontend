@@ -6,7 +6,7 @@
       class="mb-2"
       @click="moveToDetailPage(recuritId)">
             <b-card-text>
-            공고 시작: {{recruitStartAt}} <br>
+            공고 시작: {{recruitStartAt}} 
             공고 마감: {{recruitEndAt}}
             </b-card-text>
     </b-card>

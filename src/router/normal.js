@@ -28,4 +28,6 @@ export default [
         component: BoardMainView,
         meta: { requiresAuth: true }
       }
+    
+
 ]
