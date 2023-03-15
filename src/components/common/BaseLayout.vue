@@ -3,10 +3,8 @@
     <nav-bar v-if="!isCompany" />
     <nav-bar-company v-if="isCompany" />
     <b-container class="main-container">
-      <b-row>
-          <slot>
-          </slot>
-      </b-row>
+      <slot>
+      </slot>
     </b-container>
     <footer>
       <b-container>

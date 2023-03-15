@@ -56,7 +56,7 @@ export default {
           commit('common/setSuccess', false, { root: true });
         });
     },
-    getMemberById({ commit }, memberId) { // ID 중복검사
+    checkExistMember({ commit }, memberId) { // ID 중복검사
       console.log('아이디 중복검사 요청 시작');
       console.log(`${apiUri.member}/exist/${memberId}`);
       axios.get(`${apiUri.member}/exist/${memberId}`)
@@ -67,6 +67,47 @@ export default {
           } else { // 중복일때
             commit('setMemberDetail', { });
           }
+          commit('common/setSuccess', true, { root: true });
+        })
+        .catch((error) => {
+          console.error(error);
+          commit('common/setSuccess', false, { root: true });
+        });
+    },
+    getMemberById({ commit, rootGetters }, memberId) { // ID 회원 조회
+      console.log('회원조회 요청 시작');
+      axios.get(`${apiUri.member}/${memberId}`,
+      {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${rootGetters['auth/accessToken']}`
+        }
+      })
+        .then((result) => {
+          console.log(result);
+          commit('setMemberDetail', result.data.payload);
+          commit('common/setSuccess', true, { root: true });
+        })
+        .catch((error) => {
+          console.error(error);
+          commit('common/setSuccess', false, { root: true });
+        });
+    },
+    getCompanyMemberById({ commit, rootGetters }, memberId) { // ID 회원 조회
+      console.log('회원조회 요청 시작');
+      axios.get(`${apiUri.member}/${memberId}`,
+      {
+        withCredentials: true,
+        params: {
+          isCompany: true
+        },
+        headers: {
+          Authorization: `Bearer ${rootGetters['auth/accessToken']}`
+        }
+      })
+        .then((result) => {
+          console.log(result);
+          commit('setMemberDetail', result.data.payload);
           commit('common/setSuccess', true, { root: true });
         })
         .catch((error) => {
