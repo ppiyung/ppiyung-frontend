@@ -25,5 +25,7 @@ export default {
 .row {
   align-content: center;
   height: 100vh;
+  flex-direction: column;
+  justify-content: center;
 }
 </style>

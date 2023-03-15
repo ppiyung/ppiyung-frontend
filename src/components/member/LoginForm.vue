@@ -40,11 +40,12 @@ export default {
     }
   },
   watch: {
-    isSuccess(val) {
-      if (val === true) {
-        this.$router.push({ name: 'main' });
-      } else if (val === false) {
+    isSuccess(newVal) {
+      if (newVal === false) {
         alert('로그인에 실패했습니다. 아이디와 비밀번호를 한 번 더 확인해주세요.');
+        this.$store.commit('common/setSuccess', null);
+      } else if (newVal === true) {
+        this.$router.push({ name: 'main' });
       }
     }
   },
@@ -70,6 +71,7 @@ export default {
 <style scoped>
 form {
   margin-top: 50px;
+  width: 300px;
 }
 .login-control {
   margin-top: 25px;

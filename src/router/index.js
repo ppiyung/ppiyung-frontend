@@ -4,17 +4,17 @@ import MainView from '../views/home/MainView.vue';
 import LoginView from '../views/member/LoginView.vue';
 import LogoutView from '../views/member/LogoutView.vue';
 import RegisterView from '../views/member/RegisterView.vue';
-import RecruitMainView from '../views/recruit/RecruitMainView.vue';
-import BoardMainView from '../views/board/BoardMainView.vue';
-import RecruitDetailView from '../views/recruit/RecruitDetailView.vue';
-import CompanyRecruitView from '../views/companyrecruit/CompanyRecruitMainView.vue';
 import MyPageView from '../views/member/MyPageView.vue';
-// eslint-disable-next-line
+
+import adminRoutes from './admin';
+import companyRoutes from './company';
+import normalRoutes from './normal';
+
 import store from '../store';
 
 Vue.use(VueRouter);
 
-const routes = [
+const globalRoutes = [
   {
     path: '/',
     name: 'main',
@@ -40,37 +40,18 @@ const routes = [
     name: 'mypage',
     component: MyPageView,
     meta: { requiresAuth: true }
-  },
-  {
-    path: '/recruit',
-    name: 'recruit',
-    component: RecruitMainView,
-    meta: { requiresAuth: true }
-  },
-  {
-    path: '/recruit/:id',
-    name: 'recruitDetail',
-    component: RecruitDetailView,
-    meta: { requiresAuth: true }
-  },
-  {
-    path: '/board',
-    name: 'board',
-    component: BoardMainView,
-    meta: { requiresAuth: true }
-  },
-  {
-    path: '/company/recruit',
-    name: 'company/recruit',
-    component: CompanyRecruitView,
-    meta: { requiresAuth: true }
   }
 ];
 
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes
+  routes: [
+    ...globalRoutes,
+    ...normalRoutes,
+    ...companyRoutes,
+    ...adminRoutes
+  ]
 });
 
 router.beforeEach(async (to, from, next) => {
