@@ -180,7 +180,7 @@ export default {
   watch: {
     'registerInfoParam.memberId': {
       handler(val) {
-        this.$store.dispatch('member/getMemberById', val);
+        this.$store.dispatch('member/checkExistMember', val);
       }
     }
   },
