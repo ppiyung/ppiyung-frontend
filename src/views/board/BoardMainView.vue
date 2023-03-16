@@ -1,7 +1,7 @@
 <template>
   <basic-layout>
     <div>
-      커뮤니티 페이지 영역
+      <!-- 게시판 메이페이지 -->
     </div>
     <board-container/>
   </basic-layout>
@@ -18,5 +18,5 @@ export default {
     BasicLayout,
     BoardContainer
   }
-};
+}
 </script>

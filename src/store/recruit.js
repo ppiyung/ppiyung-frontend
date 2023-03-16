@@ -78,7 +78,7 @@ export default {
     },
     requestRecruitListByWorkArea({ commit, getters, rootGetters }) { // 직무분야별 채용공고 조회
       axios.get(
-        `${apiUri.recruit}/workarea/${getters.selectedWorkArea}`,
+        `${apiUri.recruit}/${getters.selectedWorkArea}`,
         {
           withCredentials: true,
           headers: {

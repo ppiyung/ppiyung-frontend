@@ -1,5 +1,6 @@
 <template>
 <basic-layout>
+  <div> 게시물 세부내용 </div>
 <b-row>
     <b-col cols="12" md="auto">{{boardDetail.articleTitle}}</b-col>
     <b-col>{{boardDetail.articleCreatedAt}}</b-col>

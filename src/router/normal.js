@@ -3,6 +3,8 @@ import BoardMainView from '../views/board/BoardMainView.vue';
 import RecruitDetailView from '../views/recruit/RecruitDetailView.vue';
 import CompanyProfile from '../views/recruit/CompanyProfile.vue';
 import BoardDetailView from '../views/board/BoardDetailView.vue';
+import MyPageView from '../views/member/MyPageView.vue';
+import BoardInsertView from '../views/board/BoardInsertView';
 export default [
     {
         path: '/recruit',
@@ -29,9 +31,21 @@ export default [
         meta: { requiresAuth: true }
       },
       {
+        path: '/board/article',
+        name: 'boardInsert',
+        component: BoardInsertView,
+        meta: { requiresAuth: true }
+      },
+      {
         path: '/board/aticle/:id',
         name: 'boardDetail',
         component : BoardDetailView,
         meta : {requiresAuth: true }
+      },
+      {
+        path: '/member/:id',
+        name: 'myPage',
+        component: MyPageView,
+        meta: { requiresAuth: true }
       }
 ]
