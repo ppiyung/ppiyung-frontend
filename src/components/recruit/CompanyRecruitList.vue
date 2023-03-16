@@ -37,8 +37,6 @@ export default {
     loginMemberInfo() {
       return this.$store.getters['auth/memberInfo'];
     }
-
-
    },
    watch: {
     workArea() {

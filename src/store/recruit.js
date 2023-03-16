@@ -81,7 +81,7 @@ export default {
     // 기업별+직무분야별 채용공고 조회
     requestRecruitListByCompanyId({commit, getters, rootGetters}, {memberId}) { 
       axios.get(
-        `${apiUri.recruit}`,
+        apiUri.recruit,
         {
           withCredentials: true,
           params: {
