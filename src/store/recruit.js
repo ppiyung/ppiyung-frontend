@@ -6,7 +6,8 @@ export default {
   state: {
     selectedWorkArea: 1,
     recruitList: [],
-    recruitDetail: { }
+    recruitDetail: { },
+    openedResumeList: []
   },
   getters: {
     recruitList(state) {
@@ -18,6 +19,9 @@ export default {
     recruitDetail(state) {
       return state.recruitDetail;
     },
+    openedResumeList(state){
+      return state.openedResumeList;
+    }
   },
   mutations: {
     setRecruitList(state, recruitList) {
@@ -28,6 +32,9 @@ export default {
     },
     setRecruitDetail(state, recruitDetail) {
       state.recruitDetail = recruitDetail;
+    },
+    setOpenedResumeList(state, resumeList) {
+      state.openedResumeList = resumeList;
     }
   },
   actions: {
@@ -128,6 +135,89 @@ export default {
         .catch(() => {
           console.error('공고 지원 실패');
           resultRef.success = false;
+        });
+    },
+
+    //입사제안 보내기
+    sendJobOffer({rootGetters}, {memberId, resultRef}){
+       axios.post(
+         `${apiUri.recruit}/suggest/${memberId}`,
+         {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${rootGetters['auth/accessToken']}`
+          }
+         }
+
+       )
+       .then(() => {
+        console.log('입사 제안 보내기 성공');
+        resultRef.success = true;
+      })
+      .catch(() => {
+        console.error('입사 제안 보내기 실패');
+        resultRef.success = false;
+      });
+    },
+
+    //공개 이력서 다운로드
+    downloadResume({rootGetters}, {memberId, resultRef}){
+        axios.get(
+          `${apiUri.member}/${memberId}/resume`,
+           {
+            withCredentials: true,
+            headers: {
+              Authorization: `Bearer ${rootGetters['auth/accessToken']}`
+            }
+          }
+        )
+        .then((response) => {
+          const blob = new Blob([response.data]);
+          const fileObjectUrl = window.URL.createObjectURL(blob);
+  
+          const link = document.createElement("a");
+          link.href = fileObjectUrl;
+          link.style.display = 'none';
+  
+          const disposition = response.headers["content-disposition"];
+          console.log(response.headers);
+          link.download = decodeURI(
+                          disposition
+                            .match(/fileName[^;=\n]*=((['"]).*?\2|[^;\n]*)/)[1]
+                            .replace(/['"]/g, ""));
+          
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+          window.URL.revokeObjectURL(fileObjectUrl);
+
+          console.log('이력서 다운로드 성공');
+          resultRef.success = true;
+        }
+        )
+        .catch(() => {
+          console.error('이력서 다운로드 실패');
+          resultRef.success = false; 
+        }
+        );
+    },
+    openedResumeListByWorkArea({ commit, getters, rootGetters }) { // 직무분야별 채용공고 조회
+      axios.get(
+        `${apiUri.member}/resume/${getters.selectedWorkArea}`,
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${rootGetters['auth/accessToken']}`
+          }
+        }
+      )
+        .then((result) => {
+          commit('setOpenedResumeList', result.data.payload);
+          commit('common/setSuccess', true, { root: true });
+        })
+        .catch((error) => {
+          console.error(error);
+          commit('common/setSuccess', false, { root: true });
         });
     },
   }

@@ -48,7 +48,11 @@
                             variant="primary"
                             right>
                             <b-dropdown-item @click="onLogout">로그아웃</b-dropdown-item>
-                            <b-dropdown-item>마이페이지</b-dropdown-item>
+                            <b-dropdown-item> 
+                                <router-link :to="{ name: 'mypage' }">
+                                       마이페이지
+                              </router-link>
+                            </b-dropdown-item>
                         </b-nav-item-dropdown>
                     </b-navbar-nav>
                 </b-collapse>
@@ -71,6 +75,8 @@ export default {
         return 'recruit';
       } if (name === 'board') {
         return 'board';
+      } if (name === 'myPage'){
+        return 'myPage';
       }
       return '';
     },
