@@ -6,6 +6,7 @@ import LogoutView from '../views/member/LogoutView.vue';
 import RegisterView from '../views/member/RegisterView.vue';
 import MyPageView from '../views/member/MyPageView.vue';
 
+
 import adminRoutes from './admin';
 import companyRoutes from './company';
 import normalRoutes from './normal';
@@ -41,6 +42,7 @@ const globalRoutes = [
     component: MyPageView,
     meta: { requiresAuth: true }
   }
+
 ];
 
 const router = new VueRouter({

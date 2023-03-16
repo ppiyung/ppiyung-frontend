@@ -1,5 +1,6 @@
 import CompanyRecruitView from '../views/companyrecruit/CompanyRecruitMainView.vue';
 import RecruitJobOfferView from '../views/recruit/RecruitJobOfferView.vue';
+import NotifySuggestView from '../views/notify/NotifySuggestView.vue';
 
 export default [
     {
@@ -13,5 +14,11 @@ export default [
         name: 'company/suggest',
         component: RecruitJobOfferView,
         mata : { requiresAuth: true }
+    },
+    {
+        path: '/company/notify',
+        name: 'company/notify',
+        component: NotifySuggestView,
+        meta: { requiresAuth: true } 
     }
 ]

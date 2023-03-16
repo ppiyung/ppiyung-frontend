@@ -2,6 +2,7 @@ import RecruitMainView from '../views/recruit/RecruitMainView.vue';
 import BoardMainView from '../views/board/BoardMainView.vue';
 import RecruitDetailView from '../views/recruit/RecruitDetailView.vue';
 import CompanyProfile from '../views/recruit/CompanyProfile.vue';
+import NotifyApplyView from '../views/notify/NotifyApplyView.vue';
 
 export default [
     {
@@ -27,5 +28,12 @@ export default [
         name: 'board',
         component: BoardMainView,
         meta: { requiresAuth: true }
+      },
+      {
+        path: '/notify/apply',
+        name: 'notify/apply',
+        component: NotifyApplyView,
+        meta: { requiresAuth: true }
       }
+
 ]
