@@ -5,14 +5,10 @@
       <b-card no-body>
         <b-tabs pills card vertical>
           <profile-tab />
-  
           <resume-tab/>
           <update-tab/>
-   
-          <b-tab title="지원 현황">
-             <h3>지원 현황</h3> <br>
-            <b-card-text>지원 현황</b-card-text>
-            </b-tab>
+          <apply-tab/>
+      
           <b-tab title="입사 제안">
              <h3>입사 제안</h3> <br>
             <b-card-text>입사 제안</b-card-text>
@@ -33,12 +29,13 @@ import UpdateTab from '@/components/member/MyPageUpdateTab.vue';
 import BasicLayout from '@/components/common/BaseLayout.vue';
 import ProfileTab from '@/components/member/MyPageProfileTab.vue';
 import ResumeTab from '@/components/member/MyPageResumeTab.vue';
+import ApplyTab from '@/components/member/MyPageApplyTab.vue';
 
 
 export default {
   name: 'MyPageView',
   components:{
-   BasicLayout, ProfileTab,ResumeTab ,UpdateTab
+   BasicLayout, ProfileTab,ResumeTab ,UpdateTab ,ApplyTab
   },
   computed: {
     loginMemberInfo() {
