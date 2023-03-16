@@ -1,17 +1,20 @@
 <template>
     <div class="dashboard-container">
-        <current-recruit-dashboard />
-        <current-applying-dashboard />
+        <ul>
+            <li>현재 진행중인 채용: {{statistics.ongoingRecruits}}건</li>
+            <li>현재 채용 지원자: {{statistics.applyMembers}}명</li>
+        </ul>
     </div>
 </template>
 
 <script>
-import CurrentApplyingDashboard from './CurrentApplyingDashboard.vue'
-import CurrentRecruitDashboard from './CurrentRecruitDashboard.vue'
-
 export default {
     components: {
-        CurrentApplyingDashboard, CurrentRecruitDashboard
+    },
+    computed: {
+        statistics() {
+            return this.$store.getters['admin/recruitStatistics']
+        }
     },
     created() {
         this.$store.dispatch('admin/requestRecruitStatistics', {
