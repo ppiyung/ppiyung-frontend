@@ -1,8 +1,7 @@
 import axios from 'axios';
 import apiUri from '@/apiUri.js';
 
-export default {
-  namespaced: true,
+export default {  namespaced: true,
   state: {
     registerInfo: {
       currentStep: 1,
