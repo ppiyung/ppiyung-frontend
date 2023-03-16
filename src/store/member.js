@@ -1,5 +1,6 @@
 import axios from 'axios';
 import apiUri from '@/apiUri.js';
+import router from '@/router';
 
 export default {  namespaced: true,
   state: {
@@ -49,6 +50,28 @@ export default {  namespaced: true,
       )
         .then(() => {
           commit('common/setSuccess', true, { root: true });
+        })
+        .catch((error) => {
+          console.error(error);
+          commit('common/setSuccess', false, { root: true });
+        });
+    },
+    editMemberInfo({ commit, rootGetters }, memberInfo) { // 회원가입 요청
+      console.log('회원정보 수정 요청 시작');
+      axios.put(
+        `${apiUri.member}/${memberInfo.memberId}`,
+        memberInfo,
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${rootGetters['auth/accessToken']}`
+          }
+        }
+      )
+        .then(() => {
+          commit('common/setSuccess', true, { root: true });
+          alert('회원정보 수정에 성공했습니다.\n다시 로그인해주세요.');
+          router.push({ name: 'logout' });
         })
         .catch((error) => {
           console.error(error);
