@@ -7,6 +7,7 @@
           <profile-tab />
   
             <resume-tab/>
+             <update-tab/>
    
           <b-tab title="지원 현황">
              <h3>지원 현황</h3> <br>
@@ -20,11 +21,7 @@
              <h3>내가 작성한 게시글</h3> <br>
             <b-card-text>내가 작성한 게시글</b-card-text>
             </b-tab>
-          <b-tab title="회원 정보 수정">
-             <h3>회원 정보 수정</h3> <br>
-              <b-card-text>회원 정보 수정</b-card-text>
-            <b-card-text>회원 정보 수정</b-card-text>
-            </b-tab>
+
         </b-tabs>
       </b-card>
     </div>
@@ -32,13 +29,16 @@
 </template>
 
 <script>
+import UpdateTab from '@/components/member/MyPageUpdateTab.vue';
 import BasicLayout from '@/components/common/BaseLayout.vue';
 import ProfileTab from '@/components/member/MyPageProfileTab.vue';
 import ResumeTab from '@/components/member/MyPageResumeTab.vue';
+
+
 export default {
   name: 'MyPageView',
   components:{
-   BasicLayout, ProfileTab,ResumeTab
+   BasicLayout, ProfileTab,ResumeTab ,UpdateTab
   },
   computed: {
     loginMemberInfo() {

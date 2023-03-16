@@ -1,7 +1,6 @@
 <template>
     <b-tab title="나의 프로필" active>
-        <h3>나의 프로필</h3> <br>
-         <b-card-text>안녕하세요님 {{this.memberDetail}}</b-card-text> 
+        <h5> {{this.memberDetail.memberName}} 님의 프로필</h5><br>
         <b-card-text>내 아이디: {{this.memberDetail.memberId}} </b-card-text>
         <b-card-text>내 이름: {{this.memberDetail.memberName}}</b-card-text>
         <b-card-text>내 생일: {{this.memberDetail.memberBirth}}</b-card-text>
