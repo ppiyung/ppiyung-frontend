@@ -1,7 +1,8 @@
 <template>
   <div>
-    <nav-bar v-if="!isCompany" />
-    <nav-bar-company v-if="isCompany" />
+    <nav-bar v-if="type === 'ROLE_NORMAL' || type === undefined"/>
+    <nav-bar-company v-if="type === 'ROLE_COMPANY'" />
+    <nav-bar-admin v-if="type === 'ROLE_ADMIN'" />
     <b-container class="main-container">
       <slot>
       </slot>
@@ -17,17 +18,19 @@
 
 <script>
 import NavBar from './NavBar.vue';
+import NavBarAdmin from './NavBarAdmin.vue';
 import NavBarCompany from './NavBarCompany.vue';
 
 export default {
   computed: {
-    isCompany() {
-      return this.$store.getters['auth/memberInfo'].memberType === 'C';
+    type() {
+      return this.$store.getters['auth/memberInfo'].role;
     }
   },
   components: {
     NavBar,
-    NavBarCompany
+    NavBarCompany,
+    NavBarAdmin
   }
 };
 </script>
