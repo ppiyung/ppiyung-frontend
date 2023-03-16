@@ -8,5 +8,6 @@ export default {
   signin: `${baseUri}/member/signin`,
   recruit: `${baseUri}/recruit`,
   resources: `${baseUri}/resources`,
+  notify: `${baseUri}/notify`,
   kakaoLocationByKeyword: 'https://dapi.kakao.com/v2/local/search/keyword.json'
 };

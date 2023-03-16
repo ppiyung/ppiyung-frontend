@@ -71,8 +71,8 @@ export default {
         return 'recruit';
       } if (name === 'company/suggest') {
         return 'suggest';
-      } if (name === 'notify/suggest') {
-        return 'notify/suggest'
+      } if (name === 'notify') {
+        return 'notify'
       }
       
       return '';

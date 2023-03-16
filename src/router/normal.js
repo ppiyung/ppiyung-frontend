@@ -3,6 +3,7 @@ import BoardMainView from '../views/board/BoardMainView.vue';
 import RecruitDetailView from '../views/recruit/RecruitDetailView.vue';
 import CompanyProfile from '../views/recruit/CompanyProfile.vue';
 import NotifyApplyView from '../views/notify/NotifyApplyView.vue';
+import MyPageView from '../views/member/MyPageView.vue';
 
 export default [
     {
@@ -33,6 +34,12 @@ export default [
         path: '/notify/apply',
         name: 'notify/apply',
         component: NotifyApplyView,
+        meta: { requiresAuth: true }
+      },
+      {
+        path: '/member/:id',
+        name: 'myPage',
+        component: MyPageView,
         meta: { requiresAuth: true }
       }
 

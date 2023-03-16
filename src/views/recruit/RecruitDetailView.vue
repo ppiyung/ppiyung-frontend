@@ -41,7 +41,6 @@
 
 <script>
 import BasicLayout from '@/components/common/BaseLayout.vue';
-
 export default {
   name: 'RecruitDetailView',
   data() {

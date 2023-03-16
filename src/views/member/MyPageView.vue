@@ -1,62 +1,68 @@
 <template>
-  <basic-layout>
-    마이페이지
-    <b-form-file
-      v-model="file"
-      :state="Boolean(file)"
-      placeholder="업로드할 이미지를 선택해주세요."
-      drop-placeholder="이곳에 이미지 드래그"
-    ></b-form-file>
-    <b-button @click="uploadImg">업로드</b-button>
-    <img :src="imgUrl">
-  </basic-layout>
+   <basic-layout>
+   <h5>님의 마이 페이지</h5><br>
+    <div>
+      <b-card no-body>
+        <b-tabs pills card vertical>
+          <profile-tab />
+  
+            <resume-tab/>
+             <update-tab/>
+   
+          <b-tab title="지원 현황">
+             <h3>지원 현황</h3> <br>
+            <b-card-text>지원 현황</b-card-text>
+            </b-tab>
+          <b-tab title="입사 제안">
+             <h3>입사 제안</h3> <br>
+            <b-card-text>입사 제안</b-card-text>
+            </b-tab>
+          <b-tab title="내가 작성한 게시글">
+             <h3>내가 작성한 게시글</h3> <br>
+            <b-card-text>내가 작성한 게시글</b-card-text>
+            </b-tab>
+
+        </b-tabs>
+      </b-card>
+    </div>
+ </basic-layout>
 </template>
 
 <script>
+import UpdateTab from '@/components/member/MyPageUpdateTab.vue';
 import BasicLayout from '@/components/common/BaseLayout.vue';
+import ProfileTab from '@/components/member/MyPageProfileTab.vue';
+import ResumeTab from '@/components/member/MyPageResumeTab.vue';
+
 
 export default {
-  data() {
-    return {
-      file: null,
-      imgUrl: ''
-    };
+  name: 'MyPageView',
+  components:{
+   BasicLayout, ProfileTab,ResumeTab ,UpdateTab
   },
   computed: {
-    memberInfo() {
+    loginMemberInfo() {
       return this.$store.getters['auth/memberInfo'];
     }
   },
-  methods: {
-    uploadImg() {
-      this.$axios.postForm(
-        // `${this.$apiUri.member}/img/${this.memberInfo.memberId}`,
-        `${this.$apiUri.member}/img`,
-        {
-          file: this.file
-        },
-        {
-          withCredentials: true,
-          headers: {
-            Authorization: `Bearer ${this.$store.getters['auth/accessToken']}`
-          }
-        }
-      )
-        .then((result) => {
-          console.log(result);
-          this.imgUrl = `${this.$apiUri.resources}/images/${result.data.payload.imgLocation}`;
-        })
-        .catch((result) => {
-          console.error(result);
-        });
-    }
-  },
-  components: {
-    BasicLayout
+  created() {
+    this.$store.dispatch('auth/authRequest', {
+      requestCallback: () => {
+        this.$store.dispatch('member/getMemberById', this.loginMemberInfo.memberId);
+      },
+      failedCallback: (error) => {
+        console.error('실패');
+        console.error(error);
+        this.$store.commit('common/setSuccess', false);
+      }
+    });
   }
 };
 </script>
 
 <style>
-
+.card{
+  width: 1200px;
+  height: fit-content;
+}
 </style>

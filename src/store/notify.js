@@ -3,10 +3,12 @@ import apiUri from '@/apiUri';
 
 export default {
   namespaced: true,
+  // 전역 상태 변수
   state: {
-    notifyList: [],
-    notifyDetail: { }
+    notifyList: [], //알림 목록
+    notifyDetail: { } // 알림 세부내용
   },
+  // 변수를 반환함
   getters: {
     notifyList(state) {
       return state.notifyList;
@@ -15,6 +17,7 @@ export default {
       return state.notifyDetail;
     },
   },
+  // setter 변수를 설정함
   mutations: {
     setNotifyList(state, notifyList) {
       state.notifyList = notifyList;
@@ -23,12 +26,17 @@ export default {
       state.notifyDetail = notifyDetail;
     }
   },
+  //비동기 함수 메서드
   actions: {
-    requestNotifyList({ commit, rootGetters }) { // 전체 알림 조회
+    requestNotifyList({ commit, rootGetters }, memberId) { // 개별 알림 조회
       axios.get(
-        `${apiUri.Notify}/apply/requestNotifyList`,
+        `${apiUri.notify}/${memberId}`,
         {
           withCredentials: true,
+          params: {
+            page: 3,
+            size: 10
+          },
           headers: {
             Authorization: `Bearer ${rootGetters['auth/accessToken']}`
           }
@@ -43,10 +51,10 @@ export default {
           commit('common/setSuccess', false, { root: true });
         });
     },
-  
+
     requestDeleteNotify({ commit, rootGetters }, { notificationId }) { // 알림 삭제
       axios.delete(
-        `${apiUri.Notify}/${notificationId}`,
+        `${apiUri.Notify}/.//${notificationId}`,
         {
           withCredentials: true,
           headers: {

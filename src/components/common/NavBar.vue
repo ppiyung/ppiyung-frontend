@@ -29,7 +29,7 @@
                             <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
                         </b-nav-item>
                         <b-nav-item>
-                            <router-link :to="{ name: 'notify/apply'}" :class="{'selected': this.currentMenu === 'notify/apply'}">
+                            <router-link :to="{ name: 'notify/apply'}" :class="{'selected': this.currentMenu === 'notify'}">
                                 <font-awesome-icon icon="fa-solid fa-bell" />
                             </router-link>
                         </b-nav-item>
@@ -50,7 +50,11 @@
                             variant="primary"
                             right>
                             <b-dropdown-item @click="onLogout">로그아웃</b-dropdown-item>
-                            <b-dropdown-item>마이페이지</b-dropdown-item>
+                            <b-dropdown-item> 
+                                <router-link :to="{ name: 'mypage' }">
+                                       마이페이지
+                              </router-link>
+                            </b-dropdown-item>
                         </b-nav-item-dropdown>
                     </b-navbar-nav>
                 </b-collapse>
@@ -73,8 +77,12 @@ export default {
         return 'recruit';
       } if (name === 'board') {
         return 'board';
-     } if (name === 'notify/apply') {
-        return 'member/notify';
+
+     } if (name === 'notify') {
+        return 'notify';
+
+      } if (name === 'myPage'){
+        return 'myPage';
       }
       return '';
     },
