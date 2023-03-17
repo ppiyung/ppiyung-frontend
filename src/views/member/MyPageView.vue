@@ -6,8 +6,8 @@
         <b-tabs pills card vertical>
           <profile-tab />
   
-            <resume-tab/>
-             <update-tab/>
+          <resume-tab/>
+          <update-tab/>
    
           <b-tab title="지원 현황">
              <h3>지원 현황</h3> <br>
