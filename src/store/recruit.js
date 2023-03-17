@@ -5,6 +5,10 @@ export default {
   namespaced: true,
   state: {
     selectedWorkArea: 1,
+    pageOption: {
+      page: 1,
+      size: 8
+    },
     recruitList: [],
     recruitDetail: { },
     openedResumeList: [],
@@ -17,6 +21,9 @@ export default {
     },
     selectedWorkArea(state) {
       return state.selectedWorkArea;
+    },
+    pageOption(state) {
+      return state.pageOption;
     },
     recruitDetail(state) {
       return state.recruitDetail;
@@ -111,33 +118,6 @@ export default {
       
     // 기업별+직무분야별 채용공고 조회
     requestRecruitListByCompanyId({commit, getters, rootGetters}, {memberId}) { 
-
-      axios.get(
-        apiUri.recruit,
-        {
-          withCredentials: true,
-          params: {
-             workArea: `${getters.selectedWorkArea}` ,
-             company: memberId
-          },
-          headers: {
-            Authorization: `Bearer ${rootGetters['auth/accessToken']}`
-          }
-        }
-      
-      )
-        .then((result) => {
-          commit('setRecruitList', result.data.payload);
-          commit('common/setSuccess', true, { root: true });
-        })
-        .catch((error) => {
-          console.error(error);
-          commit('common/setSuccess', false, { root: true });
-        });
-    },
-    
-    // 기업별+직무분야별 채용공고 조회
-    requestRecruitListByCompanyId({commit, getters, rootGetters}, {memberId}) { 
       axios.get(
         apiUri.recruit,
         {
@@ -163,17 +143,22 @@ export default {
     },
 
     requestRecruitListByWorkArea({ commit, getters, rootGetters }) { // 직무분야별 채용공고 조회
+      console.log(getters.pageOption);
       axios.get(
-        `${apiUri.recruit}/workarea/${getters.selectedWorkArea}`,
+        apiUri.recruit,
         {
           withCredentials: true,
+          params: {
+            workArea: getters.selectedWorkArea,
+            ...getters.pageOption
+         },
           headers: {
             Authorization: `Bearer ${rootGetters['auth/accessToken']}`
           }
         }
       )
         .then((result) => {
-          commit('setRecruitList', result.data.payload);
+          commit('setRecruitList', result.data.payload.list);
           commit('common/setSuccess', true, { root: true });
         })
         .catch((error) => {
