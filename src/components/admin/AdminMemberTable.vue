@@ -1,12 +1,6 @@
 <template>
     <div>
         <b-table :items="memberList" :fields="fields" striped responsive="sm">
-            <!-- <template #cell(resumeLocation)="row">
-                <b-button size="sm"  class="mr-2" @click="downloadResume(row.item.memberId)">
-                다운로드
-                </b-button>
-            </template> -->
-
             <template #cell(show_details)="row">
                 <b-button size="sm" @click="row.toggleDetails" class="mr-2">
                 상세정보 {{ row.detailsShowing ? '닫기' : '보기'}}
@@ -15,20 +9,96 @@
 
             <template #row-details="row"> 
                 <b-card>
-                    <b-row class="mb-2">
-                        <b-col sm="3" class="text-sm-right"><b>지원자 거주지 :</b></b-col>
+                    <b-row>
+                        <b-col sm="3" class="text-sm-right"><b>회원 유형: </b></b-col>
+                        <b-col>{{ row.item.role}}</b-col>
+                    </b-row>
+
+                    <b-row>
+                        <b-col sm="3" class="text-sm-right"><b>아이디: </b></b-col>
+                        <b-col>{{ row.item.memberId }}</b-col>
+                    </b-row>
+
+                    <b-row>
+                        <b-col sm="3" class="text-sm-right"><b>이름: </b></b-col>
+                        <b-col>{{ row.item.memberName}}</b-col>
+                    </b-row>
+
+                    <b-row>
+                        <b-col sm="3" class="text-sm-right"><b>별명: </b></b-col>
+                        <b-col>{{ row.item.memberNickname}}</b-col>
+                    </b-row>
+
+                    <b-row>
+                        <b-col sm="3" class="text-sm-right"><b>전화번호: </b></b-col>
+                        <b-col>{{ row.item.memberPhone }}</b-col>
+                    </b-row>
+
+                    <b-row>
+                        <b-col sm="3" class="text-sm-right"><b>이메일: </b></b-col>
+                        <b-col>{{ row.item.memberEmail }}</b-col>
+                    </b-row>
+
+                    <b-row>
+                        <b-col sm="3" class="text-sm-right"><b>성별: </b></b-col>
+                        <b-col>{{ row.item.memberGender }}</b-col>
+                    </b-row>
+
+                    <b-row>
+                        <b-col sm="3" class="text-sm-right"><b>기업소개: </b></b-col>
+                        <b-col>{{ row.item.memberInfo}}</b-col>
+                    </b-row>
+
+                    <b-row>
+                        <b-col sm="3" class="text-sm-right"><b>생년월일/창립일: </b></b-col>
+                        <b-col>{{ row.item.memberBirth}}</b-col>
+                    </b-row>
+
+                    <b-row>
+                        <b-col sm="3" class="text-sm-right"><b>주소: </b></b-col>
                         <b-col>{{ row.item.memberAddr }}</b-col>
                     </b-row>
 
-                    <b-row class="mb-2">
-                        <b-col sm="3" class="text-sm-right"><b>지원자 연락처 :</b></b-col>
-                        <b-col>{{ row.item.memberPhone}}</b-col>
+                    <b-row>
+                        <b-col sm="3" class="text-sm-right"><b>경도: </b></b-col>
+                        <b-col>{{ row.item.memberCoordX }}</b-col>
                     </b-row>
 
-                    <b-row class="mb-2">
-                        <b-col sm="3" class="text-sm-right"><b>지원자 이메일 :</b></b-col>
-                        <b-col>{{ row.item.memberEmail}}</b-col>
+                    <b-row>
+                        <b-col sm="3" class="text-sm-right"><b>위도: </b></b-col>
+                        <b-col>{{ row.item.memberCoordY}}</b-col>
                     </b-row>
+
+                    <b-row>
+                        <b-col sm="3" class="text-sm-right"><b>사업자번호: </b></b-col>
+                        <b-col>{{ row.item.memberRegNum}}</b-col>
+                    </b-row>
+
+                    <b-row>
+                        <b-col sm="3" class="text-sm-right"><b>회원 승인 여부: </b></b-col>
+                        <b-col>{{ row.item.memberVerified }}</b-col>
+                    </b-row>
+
+                    <b-row>
+                        <b-col sm="3" class="text-sm-right"><b>구직/채용 분야: </b></b-col>
+                        <b-col>{{ row.item.workAreaId }}</b-col>
+                    </b-row>
+
+                    <b-row>
+                        <b-col sm="3" class="text-sm-right"><b>작업: </b></b-col>
+                        <b-col>
+                            <b-button @click="deleteMember(row.item.memberId)">
+                                회원 탈퇴
+                            </b-button>&nbsp;
+                            <b-button
+                                v-if="row.item.role === 'ROLE_COMPANY'"
+                                :disabled="row.item.memberVerified"
+                                @click="verifyMember(row.item.memberId)">
+                                회원 승인
+                            </b-button>
+                        </b-col>
+                    </b-row>
+
                 </b-card>
             </template>
         </b-table>
@@ -59,9 +129,17 @@
     </div>
 </template>
 <script>
+import dayjs from 'dayjs';
+
 export default {
     data() {
         return {
+            verifyMemberResult: {
+                success: null
+            },
+            deleteMemberResult: {
+                success: null
+            },
             fields: [
                 {
                     key: 'memberId',
@@ -111,10 +189,20 @@ export default {
         }
     },
     computed: {
+        memberListRaw() {
+            return this.$store.getters['admin/memberManage'].memberList;
+        },
         memberList() {
             return this.$store.getters['admin/memberManage'].memberList
                 .map(item => {
-                    return {...item, _showDetails: false};
+                    return {
+                        ...item,
+                        _showDetails: false,
+                        memberBirth: dayjs.unix(item.memberBirth / 1000).format("YYYY년 MM월 DD일"),
+                        memberVerified: item.role === 'ROLE_COMPANY' ? item.memberVerified : '-',
+                        memberGender: item.memberGender === 'F' ? '여성' : item.memberGender === 'M' ? '남성' : '-',
+                        memberType: item.memberType === 'N' ? '구직' : item.memberType === 'C' ? '기업' :  '관리'
+                    };
                 });
         },
         total() {
@@ -165,10 +253,39 @@ export default {
             if (page > 0 && page <= pageCount) {
                 this.$store.commit('admin/setMemberOption', { ...this.queryOption, page })
             }
-        }
-    },
-    watch: {
-        queryOption() {
+        },
+        verifyMember(memberId) {
+            const memberInfo = this.memberListRaw.find((item) => {
+                return item.memberId === memberId;
+            })
+            memberInfo.memberVerified = true;
+
+            this.$store.dispatch('auth/authRequest', {
+            requestCallback: () => {
+                this.$store.dispatch('admin/requestEditMember', { memberInfo, resultRef: this.verifyMemberResult });
+            },
+            failedCallback: (error) => {
+                console.error('실패');
+                console.error(error);
+            }
+            });
+        },
+        deleteMember(memberId) {
+            if (!confirm("정말로 회원 정보를 삭제하시겠습니까? 이 작업은 돌이킬 수 없습니다.")) {
+                return;
+            }
+
+            this.$store.dispatch('auth/authRequest', {
+            requestCallback: () => {
+                this.$store.dispatch('admin/requestDeleteMember', { memberId, resultRef: this.deleteMemberResult });
+            },
+            failedCallback: (error) => {
+                console.error('실패');
+                console.error(error);
+            }
+            });
+        },
+        loadMemberList() {
             this.$store.dispatch('auth/authRequest', {
             requestCallback: () => {
                 this.$store.dispatch('admin/requestMemberList');
@@ -181,18 +298,23 @@ export default {
             });
         }
     },
-   created() {
-    this.$store.dispatch('auth/authRequest', {
-      requestCallback: () => {
-        this.$store.dispatch('admin/requestMemberList');
-      },
-      failedCallback: (error) => {
-        console.error('실패');
-        console.error(error);
-        this.$store.commit('common/setSuccess', false);
-      }
-    });
-   } 
+    watch: {
+        queryOption() {
+            this.loadMemberList();
+        },
+        'verifyMemberResult.success': {
+            handler(val) {
+                if (val === true) {
+                    this.loadMemberList();
+                } else if (val === false) {
+                    alert('회원 승인에 실패했습니다.')
+                }
+            }
+        }
+    },
+    created() {
+        this.loadMemberList();
+    } 
 }
 </script>
 <style scoped>

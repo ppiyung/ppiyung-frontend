@@ -77,5 +77,44 @@ export default {
                 commit('common/setSuccess', false, { root: true });
             });
         },
+        requestEditMember({ rootGetters }, { memberInfo, resultRef}) { // 회원정보 수정 요청
+            console.log('관리자/회원정보 수정 요청 시작');
+            axios.put(
+            `${apiUri.member}/${memberInfo.memberId}`,
+            memberInfo,
+            {
+                withCredentials: true,
+                headers: {
+                Authorization: `Bearer ${rootGetters['auth/accessToken']}`
+                }
+            }
+            )
+            .then(() => {
+                resultRef.success = true;
+            })
+            .catch((error) => {
+                console.error(error);
+                resultRef.success = false;
+            });
+        },
+        requestDeleteMember({ rootGetters }, { memberId, resultRef}) { // 회원 삭제 요청
+            console.log('관리자/회원정보 수정 요청 시작');
+            axios.delete(
+            `${apiUri.member}/${memberId}`,
+            {
+                withCredentials: true,
+                headers: {
+                Authorization: `Bearer ${rootGetters['auth/accessToken']}`
+                }
+            }
+            )
+            .then(() => {
+                resultRef.success = true;
+            })
+            .catch((error) => {
+                console.error(error);
+                resultRef.success = false;
+            });
+        },
     }
 };
