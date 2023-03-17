@@ -1,6 +1,6 @@
 <template>
    <basic-layout>
-   <h5>님의 마이 페이지</h5><br>
+   <h5>{{ this.loginMemberInfo.memberNickname }}님의 마이 페이지</h5><br>
     <div>
       <b-card no-body>
         <b-tabs pills card vertical>
@@ -16,6 +16,11 @@
           <b-tab title="내가 작성한 게시글">
              <h3>내가 작성한 게시글</h3> <br>
             <b-card-text>내가 작성한 게시글</b-card-text>
+            </b-tab>
+
+             <b-tab title="관심 채용 정보">
+             <h3>관심 채용 정보</h3> <br>
+            <b-card-text>관심 채용 정보</b-card-text>
             </b-tab>
 
         </b-tabs>
