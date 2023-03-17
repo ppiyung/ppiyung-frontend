@@ -1,18 +1,14 @@
 <template>
    <basic-layout>
-   <h5>님의 마이 페이지</h5><br>
+   <h5>{{ this.loginMemberInfo.memberNickname }}님의 마이 페이지</h5><br>
     <div>
       <b-card no-body>
         <b-tabs pills card vertical>
           <profile-tab />
-  
           <resume-tab/>
           <update-tab/>
-   
-          <b-tab title="지원 현황">
-             <h3>지원 현황</h3> <br>
-            <b-card-text>지원 현황</b-card-text>
-            </b-tab>
+          <apply-tab/>
+      
           <b-tab title="입사 제안">
              <h3>입사 제안</h3> <br>
             <b-card-text>입사 제안</b-card-text>
@@ -20,6 +16,11 @@
           <b-tab title="내가 작성한 게시글">
              <h3>내가 작성한 게시글</h3> <br>
             <b-card-text>내가 작성한 게시글</b-card-text>
+            </b-tab>
+
+             <b-tab title="관심 채용 정보">
+             <h3>관심 채용 정보</h3> <br>
+            <b-card-text>관심 채용 정보</b-card-text>
             </b-tab>
 
         </b-tabs>
@@ -33,12 +34,13 @@ import UpdateTab from '@/components/member/MyPageUpdateTab.vue';
 import BasicLayout from '@/components/common/BaseLayout.vue';
 import ProfileTab from '@/components/member/MyPageProfileTab.vue';
 import ResumeTab from '@/components/member/MyPageResumeTab.vue';
+import ApplyTab from '@/components/member/MyPageApplyTab.vue';
 
 
 export default {
   name: 'MyPageView',
   components:{
-   BasicLayout, ProfileTab,ResumeTab ,UpdateTab
+   BasicLayout, ProfileTab,ResumeTab ,UpdateTab ,ApplyTab
   },
   computed: {
     loginMemberInfo() {
