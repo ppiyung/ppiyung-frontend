@@ -1,21 +1,21 @@
 <template>
   <base-layout>
-    메인 영역
-    {{ userInfo }}
+    <admin-main-container v-if="memberType === 'ROLE_ADMIN'" />
   </base-layout>
 </template>
 
 <script>
 import BaseLayout from '@/components/common/BaseLayout.vue';
+import AdminMainContainer from '@/components/admin/AdminMainContainer.vue';
 
 export default {
   name: 'HomeView',
   components: {
-    BaseLayout
+    BaseLayout, AdminMainContainer
   },
   computed: {
-    userInfo() {
-      return this.$store.getters.getMemberInfo;
+    memberType() {
+      return this.$store.getters['auth/memberInfo'].role;
     }
   }
 };

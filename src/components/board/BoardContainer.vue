@@ -1,3 +1,4 @@
+
 <template>
  <b-list-group>
   <div><b-button variant="primary" @click="moveInsertPage()">글쓰기</b-button></div>
@@ -75,12 +76,6 @@ export default {
     //  console.log(page);
     return page;
     },
-
-    // paginatedData () {
-    //   const start = this.pageNum * this.pageSize,
-    //         end = start + this.pageSize;
-    //   return this.listArray.slice(start, end);
-    // }
   },
   methods: {
     // 커뮤니티 게시글 이동하는 메서드 작성

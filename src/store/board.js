@@ -87,7 +87,30 @@ export default {
             }).catch((error) => {
                 console.error(error);
             });
-        }   
+        },
+
+        // 게시물 전송기능 
+        setInsertBoard({commit, rootGetters},{ memberId,articleCreatedAt,articleTitle,articleContent}){
+            axios.post(
+                `${apiUri.board}/article`,
+                { 
+                    memberId,articleTitle,articleCreatedAt,articleContent}
+                ,
+                {
+                    withCredentials : true,
+                    headers: {
+                        Authorization: `Bearer ${rootGetters['auth/accessToken']}`
+                    
+                    }
+                }
+
+            ).then(() => {
+                commit('common/setSuccess', true, { root: true });
+            }).catch((error) => {
+                console.error(error);
+                commit('common/setSuccess',false,{root: true});
+            });
+        }
     }
 
 };
