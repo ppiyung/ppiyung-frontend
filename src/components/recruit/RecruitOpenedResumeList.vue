@@ -7,9 +7,9 @@
         </b-button>
       </template>
 
-      <template #cell(resumeLocation)>
-        <b-button size="sm"  class="mr-2">
-           다운로드
+      <template #cell(resumeLocation)="row">
+        <b-button size="sm"  class="mr-2" @click="downloadResume(row.item.memberId)">
+          다운로드
         </b-button>
       </template>
 
@@ -19,7 +19,7 @@
         </b-button>
       </template>
 
-      <template #row-details="row">
+      <template #row-details="row"> 
         <b-card>
           <b-row class="mb-2">
             <b-col sm="3" class="text-sm-right"><b>지원자 거주지 :</b></b-col>
@@ -43,14 +43,17 @@
 </template>
 
 <script>
+import dayjs from 'dayjs';
 
-export default {
-     
+export default {    
       computed: {
         suggestList() {
           return this.$store.getters['recruit/openedResumeList']
                 .map((item) => {
-                  return {...item, _showDetails: false};
+                  return {...item, 
+                  memberBirth: dayjs(item.memberBirth).format('YY-MM-DD'), 
+                  lastSuggested: dayjs(item.lastSuggested).format("YYYY/MM/DD"),
+                  _showDetails: false } ;
                 });
         },
         selectedWorkArea() {
@@ -58,32 +61,43 @@ export default {
         },
         memberInfo() {
           return this.$store.getters['auth/memberInfo'];
-    },
+        }
       },
       watch: {
         selectedWorkArea() {
-        this.$store.dispatch('auth/authRequest', {
-          requestCallback: () => {
-            this.$store.dispatch('recruit/openedResumeListByWorkArea');
-          },
-          failedCallback: (error) => {
-            console.error('실패');
-            console.error(error);
-            this.$store.commit('common/setSuccess', false);
-          },
-          'suggestResult.success': {
-              handler(val) {
-                if (val) {
-                  alert('입사 제안 보내기 성공했습니다.');
-                } else {
-                  alert('입사 제안 보내기 실패했습니다.');
-                }
+            this.$store.dispatch('auth/authRequest', {
+              requestCallback: () => {
+                this.$store.dispatch('recruit/openedResumeListByWorkArea');
+              },
+              failedCallback: (error) => {
+                console.error('실패');
+                console.error(error);
+                this.$store.commit('common/setSuccess', false);
               }
-          }
-        });
+            });
         },
         suggestList(val) {
           console.log(val);
+        },
+        'suggestResult.success': {
+          handler(val) {
+            if (val === true) {
+              alert('입사 제안 보내기 성공했습니다.');
+              this.suggestResult.success = null;
+            } else if (val === false) {
+              alert('입사 제안 보내기 실패했습니다.');
+              this.suggestResult.success = null;
+            }
+          }
+        },
+        'downloadResult.success': {
+          handler(val) {
+            if (val) {
+              alert('이력서 다운로드 성공했습니다.');
+            } else {
+              alert('이력서 다운로드 실패했습니다.');
+            }
+          }
         }
       },
       data() {
@@ -110,23 +124,29 @@ export default {
             },
             {
               key : 'resumeLocation',
-              label :'이력서'
+              label :'이력서 열람'
+            },
+            { 
+              key : 'lastSuggested',
+              label : '입사제안 이력'
             },
             { 
               key : 'sendJobOffer',
-              label : '입사제안'
+              label : '입사제안 보내기'
             }
            
           ],
           suggestResult:{
             success : null
-           }
+           },
+          downloadResult:{
+            success : null
+          },
       };
 
       },
       methods: {
         sendJobOffer(memberId){
-          console.log(memberId);
           this.$store.dispatch('auth/authRequest',{
             requestCallback: () => {
               this.$store.dispatch(
@@ -140,7 +160,24 @@ export default {
                 this.suggestResult.success = false;
             }
           }
-        
+          );
+        },
+        downloadResume(memberId){
+          console.log(memberId);
+          this.$store.dispatch('auth/authRequest', {
+            requestCallback: () => {
+              this.$store.dispatch(
+                'recruit/downloadResume',
+                {memberId: memberId, resultRef: this.downloadResult}
+              )
+            },
+            failedCallback: (error) => {
+              console.error('실패');
+              console.error(error);
+              this.downloadResult.success = false;
+            }
+          }
+
           );
         }
       },
@@ -156,7 +193,6 @@ export default {
             this.$store.commit('common/setSuccess', false);
           }
         });
-      },
-
+}
 }
 </script>

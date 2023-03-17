@@ -111,6 +111,33 @@ export default {
       
     // 기업별+직무분야별 채용공고 조회
     requestRecruitListByCompanyId({commit, getters, rootGetters}, {memberId}) { 
+
+      axios.get(
+        apiUri.recruit,
+        {
+          withCredentials: true,
+          params: {
+             workArea: `${getters.selectedWorkArea}` ,
+             company: memberId
+          },
+          headers: {
+            Authorization: `Bearer ${rootGetters['auth/accessToken']}`
+          }
+        }
+      
+      )
+        .then((result) => {
+          commit('setRecruitList', result.data.payload);
+          commit('common/setSuccess', true, { root: true });
+        })
+        .catch((error) => {
+          console.error(error);
+          commit('common/setSuccess', false, { root: true });
+        });
+    },
+    
+    // 기업별+직무분야별 채용공고 조회
+    requestRecruitListByCompanyId({commit, getters, rootGetters}, {memberId}) { 
       axios.get(
         apiUri.recruit,
         {

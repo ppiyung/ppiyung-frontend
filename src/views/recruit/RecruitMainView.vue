@@ -2,7 +2,7 @@
   <basic-layout>
     <h1>채용</h1>
     <recruit-work-area-control />
-     <recruit-grid />
+    <recruit-grid />
   </basic-layout>
 </template>
 
