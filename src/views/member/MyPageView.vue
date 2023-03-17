@@ -60,7 +60,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .card{
   width: 1200px;
   height: fit-content;

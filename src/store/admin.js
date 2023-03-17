@@ -12,6 +12,24 @@ export default {
              },
              total: 0,
             memberList: [ ]
+        },
+        recruitManage: {
+            queryOption: {
+                page: 1,
+                size: 10,
+                workArea: 1,
+                closed: false
+             },
+            total: 0,
+            recruitList: [ ]
+        },
+        boardManage: {
+            queryOption: {
+                page: 1,
+                size: 10
+             },
+            total: 0,
+            boardList: [ ]
         }
     },
     getters: {
@@ -20,6 +38,12 @@ export default {
         },
         memberManage(state) {
             return state.memberManage;
+        },
+        recruitManage(state) {
+            return state.recruitManage;
+        },
+        boardManage(state) {
+            return state.boardManage;
         }
     },
     mutations: {
@@ -34,6 +58,24 @@ export default {
         },
         setMemberTotal(state, total) {
             state.memberManage.total = total;
+        },
+        setRecruitList(state, data) {
+            state.recruitManage.recruitList = data;
+        },
+        setRecruitOption(state, option) {
+            state.recruitManage.queryOption = option;
+        },
+        setRecruitTotal(state, total) {
+            state.recruitManage.total = total;
+        },
+        setBoardList(state, data) {
+            state.boardManage.boardList = data;
+        },
+        setBoardOption(state, option) {
+            state.boardManage.queryOption = option;
+        },
+        setBoardTotal(state, total) {
+            state.boardManage.total = total;
         }
     },
     actions: {
@@ -116,5 +158,86 @@ export default {
                 resultRef.success = false;
             });
         },
+        requestEditRecruit({ rootGetters }, { recruitInfo, resultRef}) { // 회원정보 수정 요청
+            console.log('채용공고 수정 요청 시작');
+            axios.put(
+                `${apiUri.recruit}/${recruitInfo.recruitId}`,
+                recruitInfo,
+                {
+                    withCredentials: true,
+                    headers: {
+                    Authorization: `Bearer ${rootGetters['auth/accessToken']}`
+                    }
+                }
+            )
+            .then(() => {
+                resultRef.success = true;
+            })
+            .catch((error) => {
+                console.error(error);
+                resultRef.success = false;
+            });
+        },
+        requestRecruitList({ commit, rootGetters, getters }) {
+            axios.get(
+                apiUri.recruit,
+                {
+                  withCredentials: true,
+                  headers: {
+                    Authorization: `Bearer ${rootGetters['auth/accessToken']}`
+                  },
+                  params: getters.recruitManage.queryOption
+                }
+              )
+            .then((response) => {
+                commit('setRecruitList', response.data.payload.list);
+                commit('setRecruitTotal', response.data.payload.total);
+                commit('common/setSuccess', true, { root: true });
+            })
+            .catch((response) => {
+                console.error(response);
+                commit('common/setSuccess', false, { root: true });
+            });
+        },
+        requestBoardList({ getters, commit, rootGetters }) {
+            axios.get(
+                `${apiUri.board}/article`,
+                {
+                    withCredentials: true,
+                    headers: {
+                        Authorization: `Bearer ${rootGetters['auth/accessToken']}`
+                    },
+                    params: getters.boardManage.queryOption
+                }
+            )
+            .then((response) => {
+                commit('setBoardList', response.data.payload.list);
+                commit('setBoardTotal', response.data.payload.total);
+                commit('common/setSuccess', true, { root: true });
+            })
+            .catch((response) => {
+                console.error(response);
+                commit('common/setSuccess', false, { root: true });
+            });
+        },
+        requestDeleteArticle({ rootGetters }, { articleId, resultRef }) { // 게시글 삭제 요청
+            console.log('게시글 요청 시작');
+            axios.delete(
+            `${apiUri.board}/article/${articleId}`,
+            {
+                withCredentials: true,
+                headers: {
+                Authorization: `Bearer ${rootGetters['auth/accessToken']}`
+                }
+            }
+            )
+            .then(() => {
+                resultRef.success = true;
+            })
+            .catch((error) => {
+                console.error(error);
+                resultRef.success = false;
+            });
+        }
     }
 };
