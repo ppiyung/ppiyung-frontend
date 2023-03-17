@@ -90,7 +90,16 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch('recruit/requestRecruitById', this.recruitId);
+    this.$store.dispatch('auth/authRequest', {
+      requestCallback: () => {
+        this.$store.dispatch('recruit/requestRecruitById', this.recruitId);
+      },
+      failedCallback: (error) => {
+        console.error('실패');
+        console.error(error);
+        this.$store.commit('common/setSuccess', false);
+      }
+    });
   },
   methods: {
     requestApply() {

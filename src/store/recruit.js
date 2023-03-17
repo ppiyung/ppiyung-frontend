@@ -64,7 +64,7 @@ export default {
     // 개별 채용공고 조회
     requestRecruitById({ commit, rootGetters }, id) { 
       axios.get(
-        `${apiUri.recruit}/recruitDetail/${id}`,
+        `${apiUri.recruit}/${id}`,
         {
           withCredentials: true,
           headers: {
