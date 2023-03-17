@@ -49,6 +49,7 @@ export default {  namespaced: true,
         getters.registerInfo
       )
         .then(() => {
+          commit('common/setRegisterInfo', { currentStep: 1, memberActive: true }, { root: true });
           commit('common/setSuccess', true, { root: true });
         })
         .catch((error) => {
@@ -89,11 +90,9 @@ export default {  namespaced: true,
           } else { // 중복일때
             commit('setMemberDetail', { });
           }
-          commit('common/setSuccess', true, { root: true });
         })
         .catch((error) => {
           console.error(error);
-          commit('common/setSuccess', false, { root: true });
         });
     },
     getMemberById({ commit, rootGetters }, memberId) { // ID 회원 조회

@@ -2,19 +2,19 @@
   <basic-layout>
     <div>
       <h1>회원 관리</h1>
-      <admin-member-table /> 
+      <admin-member-container /> 
     </div>
   </basic-layout>
 </template>
 
 <script>
 import BasicLayout from '@/components/common/BaseLayout.vue';
-import AdminMemberTable from '@/components/admin/AdminMemberTable.vue';
+import AdminMemberContainer from '@/components/admin/AdminMemberContainer.vue';
 
 export default {
   name: 'AdminMemberView',
   components: {
-    BasicLayout, AdminMemberTable
+    BasicLayout, AdminMemberContainer
   }
 };
 </script>
