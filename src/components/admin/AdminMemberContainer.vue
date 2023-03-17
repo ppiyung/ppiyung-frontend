@@ -306,6 +306,7 @@ export default {
             handler(val) {
                 if (val === true) {
                     this.loadMemberList();
+                    this.verifyMemberResult.success = null;
                 } else if (val === false) {
                     alert('회원 승인에 실패했습니다.')
                 }
