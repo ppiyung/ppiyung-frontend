@@ -7,7 +7,9 @@ export default {
     selectedWorkArea: 1,
     recruitList: [],
     recruitDetail: { },
-    openedResumeList: []
+    openedResumeList: [],
+    applyListById: []
+
   },
   getters: {
     recruitList(state) {
@@ -21,6 +23,9 @@ export default {
     },
     openedResumeList(state){
       return state.openedResumeList;
+    },
+    applyListById(state){
+      return state.applyListById;
     }
   },
   mutations: {
@@ -35,7 +40,11 @@ export default {
     },
     setOpenedResumeList(state, resumeList) {
       state.openedResumeList = resumeList;
+    },
+    setApplyListById(state, applyList){
+      state.applyListById = applyList;
     }
+
   },
   actions: {
     // 개별 채용공고 조회
@@ -78,6 +87,55 @@ export default {
           commit('common/setSuccess', false, { root: true });
         });
     },
+      //아이디별 지원 현황 -마이페이지
+      applyListById({ commit, rootGetters },id) { // 직무분야별 채용공고 조회
+        axios.get(
+          `${apiUri.recruit}/apply/member/${id}`,
+          {
+            withCredentials: true,
+            headers: {
+              Authorization: `Bearer ${rootGetters['auth/accessToken']}`
+            }
+          }
+        )
+          .then((result) => {
+            console.log(result.data);
+            commit('setApplyListById', result.data.payload);
+            commit('common/setSuccess', true, { root: true });
+          })
+          .catch((error) => {
+            console.error(error);
+            commit('common/setSuccess', false, { root: true });
+          });
+      },
+      
+    // 기업별+직무분야별 채용공고 조회
+    requestRecruitListByCompanyId({commit, getters, rootGetters}, {memberId}) { 
+
+      axios.get(
+        apiUri.recruit,
+        {
+          withCredentials: true,
+          params: {
+             workArea: `${getters.selectedWorkArea}` ,
+             company: memberId
+          },
+          headers: {
+            Authorization: `Bearer ${rootGetters['auth/accessToken']}`
+          }
+        }
+      
+      )
+        .then((result) => {
+          commit('setRecruitList', result.data.payload);
+          commit('common/setSuccess', true, { root: true });
+        })
+        .catch((error) => {
+          console.error(error);
+          commit('common/setSuccess', false, { root: true });
+        });
+    },
+    
     // 기업별+직무분야별 채용공고 조회
     requestRecruitListByCompanyId({commit, getters, rootGetters}, {memberId}) { 
       axios.get(
