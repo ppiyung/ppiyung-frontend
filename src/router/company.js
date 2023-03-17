@@ -1,5 +1,6 @@
-import CompanyRecruitView from '../views/companyrecruit/CompanyRecruitMainView.vue';
+import CompanyRecruitView from '../views/company/CompanyRecruitMainView.vue';
 import RecruitJobOfferView from '../views/recruit/RecruitJobOfferView.vue';
+
 
 export default [
     {
