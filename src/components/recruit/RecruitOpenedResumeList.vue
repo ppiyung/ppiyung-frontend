@@ -45,13 +45,15 @@
 <script>
 import dayjs from 'dayjs';
 
-export default {
-     
+export default {    
       computed: {
         suggestList() {
           return this.$store.getters['recruit/openedResumeList']
                 .map((item) => {
-                  return {...item, memberBirth: dayjs(item.memberBirth).format('YY-MM-DD'), lastSuggested: dayjs(item.lastSuggested).format("YYYY/MM/DD"), _showDetails: false};
+                  return {...item, 
+                  memberBirth: dayjs(item.memberBirth).format('YY-MM-DD'), 
+                  lastSuggested: dayjs(item.lastSuggested).format("YYYY/MM/DD"),
+                  _showDetails: false } ;
                 });
         },
         selectedWorkArea() {
@@ -79,7 +81,6 @@ export default {
         },
         'suggestResult.success': {
           handler(val) {
-            console.log('asdfasdf')
             if (val === true) {
               alert('입사 제안 보내기 성공했습니다.');
               this.suggestResult.success = null;
@@ -87,8 +88,7 @@ export default {
               alert('입사 제안 보내기 실패했습니다.');
               this.suggestResult.success = null;
             }
-          },
-          deep: true
+          }
         },
         'downloadResult.success': {
           handler(val) {
@@ -147,7 +147,6 @@ export default {
       },
       methods: {
         sendJobOffer(memberId){
-          console.log(memberId);
           this.$store.dispatch('auth/authRequest',{
             requestCallback: () => {
               this.$store.dispatch(
@@ -161,7 +160,6 @@ export default {
                 this.suggestResult.success = false;
             }
           }
-        
           );
         },
         downloadResume(memberId){

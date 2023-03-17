@@ -38,7 +38,8 @@ export default {
     }
   },
   actions: {
-    requestRecruitById({ commit, rootGetters }, id) { // 개별 채용공고 조회
+    // 개별 채용공고 조회
+    requestRecruitById({ commit, rootGetters }, id) { 
       axios.get(
         `${apiUri.recruit}/recruitDetail/${id}`,
         {
@@ -57,7 +58,8 @@ export default {
           commit('common/setSuccess', false, { root: true });
         });
     },
-    requestRecruitList({ commit, rootGetters }) { // 전체 채용공고 조회
+    // 전체 채용공고 조회
+    requestRecruitList({ commit, rootGetters }) { 
       axios.get(
         apiUri.recruit,
         {
@@ -76,6 +78,32 @@ export default {
           commit('common/setSuccess', false, { root: true });
         });
     },
+    // 기업별+직무분야별 채용공고 조회
+    requestRecruitListByCompanyId({commit, getters, rootGetters}, {memberId}) { 
+      axios.get(
+        apiUri.recruit,
+        {
+          withCredentials: true,
+          params: {
+             workArea: `${getters.selectedWorkArea}` ,
+             company: memberId
+          },
+          headers: {
+            Authorization: `Bearer ${rootGetters['auth/accessToken']}`
+          }
+        }
+      
+      )
+        .then((result) => {
+          commit('setRecruitList', result.data.payload);
+          commit('common/setSuccess', true, { root: true });
+        })
+        .catch((error) => {
+          console.error(error);
+          commit('common/setSuccess', false, { root: true });
+        });
+    },
+
     requestRecruitListByWorkArea({ commit, getters, rootGetters }) { // 직무분야별 채용공고 조회
       axios.get(
         `${apiUri.recruit}/workarea/${getters.selectedWorkArea}`,
@@ -142,6 +170,7 @@ export default {
     sendJobOffer({rootGetters}, {memberId, resultRef}){
        axios.post(
          `${apiUri.recruit}/suggest/${memberId}`,
+         {},
          {
           withCredentials: true,
           headers: {
