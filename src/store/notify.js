@@ -1,5 +1,6 @@
 import axios from 'axios';
 import apiUri from '@/apiUri';
+import router from '@/router';
 
 export default {
   namespaced: true,
@@ -28,7 +29,9 @@ export default {
   },
   //비동기 함수 메서드
   actions: {
-    requestNotifyList({ commit, rootGetters }, memberId) { // 개별 알림 조회
+
+    // memberId에 따른 알림 목록 조회
+    requestNotifyList({ commit, rootGetters }, memberId) { 
       axios.get(
         `${apiUri.notify}/${memberId}`,
         {
@@ -52,9 +55,11 @@ export default {
         });
     },
 
-    requestDeleteNotify({ commit, rootGetters }, { notificationId }) { // 알림 삭제
+    // 알림 목록에서 해당 알림 삭제
+    requestDeleteNotify({ commit, rootGetters }, notificationId) { 
+      console.log('알림 삭제 시작');
       axios.delete(
-        `${apiUri.Notify}/.//${notificationId}`,
+        `${apiUri.notify}/${notificationId}`,
         {
           withCredentials: true,
           headers: {
@@ -65,12 +70,19 @@ export default {
           }
         }
       )
-        .then(() => {
-          commit('common/setSuccess', true, { root: true });
+      .then(() => {
+    
+        commit('common/setSuccess', true, { root: true });
+        alert('알림이 삭제되었습니다.');
+          //  페이지 새로고침을 위해 router.push 대신 window.location.reload() 사용
+          if (router.currentRoute.name !== '/notify/apply') {
+            window.location.reload();
+        }
         })
         .catch(() => {
           commit('common/setSuccess', false, { root: true });
+          alert('알림 삭제가 실패했습니다.');
         });
-    }
+    },
   }
 };

@@ -6,7 +6,11 @@ import auth from './auth';
 import recruit from './recruit';
 import member from './member';
 import common from './common';
+
 import notify from './notify';
+
+import admin from './admin';
+
 
 Vue.use(Vuex);
 
@@ -30,7 +34,9 @@ export default new Vuex.Store({
   },
   // Vuex 모듈을 등록, 상위 함수들을 갖는 Vuex 스토어의 하위 하위 모듈로써 동작함. 
   modules: {
-    auth, recruit, member, common, notify
+
+    auth, recruit, member, common, notify, admin
+
   },
   // auth 모듈 영구히 저장
   plugins: [vuexLocal.plugin]

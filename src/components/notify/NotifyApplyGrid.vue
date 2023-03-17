@@ -1,3 +1,4 @@
+
 <template>
 
   <div class="NotifyApply-container">
@@ -12,8 +13,6 @@
       :recruitId="notify.recruitId"
       :recruitTitle="notify.recruitTitle"
       :notificationCreateAt="new Date(notify.notificationCreatedAt).toISOString()"/>
-
-      <h1>(Grid.Vue)..card는 왜 안나올까</h1>
   </div>
   
 </template>
@@ -24,6 +23,7 @@ import NotifyApplyCard from './NotifyApplyCard.vue';
 export default {
   components: {
      NotifyApplyCard
+
   },
   computed: {
     notifyList() {
@@ -33,6 +33,7 @@ export default {
       return this.$store.getters['auth/memberInfo'];
     }
   },
+
   // 반응성 생성
   watch: {
     workArea() {
@@ -60,5 +61,7 @@ export default {
       }
     });
   }
+
+
 };
 </script>

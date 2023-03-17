@@ -1,53 +1,89 @@
 <template>
   <div>
-    <b-card
-      :title="'입사지원 알림메세지 - 채용공고명: ' + this.recruitTitle"
+    <b-card id="notify-appply"
+     v-if="applyId != 0"
+     
+      :title="'지원결과 알림메세지 - 채용공고명: ' + this.recruitTitle"
       class="mb-2">
-        <b-card-text>
-          지원자 {{ this.memberId }} 님, 채용기업 {{ this.memberId }}에서 이력서를 열람했습니다. <br>
-          진행상황은 마이페이지를 확인해주세요.
-          <b-button @click="moveToMyPage(this.memberId)" variant="primary">마이페이지</b-button>
-        </b-card-text>
-
-    </b-card>
-    <h1>(card)......</h1>
-
-    <b-card
-      :title="'입사지원 알림메세지 - 채용공고명: ' + this.recruitTitle"
-      class="mb-2">
-            <b-card-text>
-             지원자 {{ this.memberId }} 님, 채용기업 {{ this.memberId }}의 채용공고 지원결과가 반영되었습니다. <br>
+            <b-card-text v-model="notifyInfoParam">
+             지원자 {{ this.member }} 님, 채용기업 {{ this.memberId }}의 지원결과가 반영되었습니다. <br>
              진행상황은 마이페이지를 확인해주세요.
-             <b-button @click="moveToMyPage(this.memberId)" variant="primary">마이페이지</b-button>
+             <br>
+             알림시간: {{ this.notificationCreatedAt }}
+             <br>
+             <b-button variant="primary" class="mr-2">
+                <router-link class="text-white" :to="{ name: 'mypage' }">
+                  MyPage
+                </router-link>
+             </b-button>
+             
+            <b-button @click="deleteSubmit">
+              Delete
+            </b-button>
             </b-card-text>
     </b-card>
 
-    <h1>(card)?.....</h1>
+    <b-card id="notify-suggest"
+     v-if="suggestId != 0"
+      :title="'입사제안 알림메세지 - 채용공고명: ' + this.recruitTitle"
+      class="mb-2">
+            <b-card-text v-model="notifyInfoParam">
+             지원자 {{ this.memberId }} 님, 채용기업 {{ this.memberId }}에서 입사제안을 요청했습니다. <br>
+             진행상황은 마이페이지를 확인해주세요.
+             <br>
+             알림시간: {{ notificationCreatedAt }}
+             <br>
+             <b-button variant="primary" class="mr-2">
+                <router-link class="text-white" :to="{ name: 'mypage' }">
+                  MyPage
+                </router-link>
+            </b-button>
+            <b-button @click="deleteSubmit">
+              Delete
+            </b-button>
+            </b-card-text>
+    </b-card>
   </div>
 </template>
 
 <script>
+import dayjs from 'dayjs';
+
 export default {
+  component: { dayjs },
+
   props: [
     'notificationId', 'memberId', 'applyId', 'notificationCreatedAt', 
-    'applyResult', 'recruitId', 'recruitTitle'
+    'applyResult', 'recruitId', 'recruitTitle', 'suggestId'
   ],
   data() {
+    // dayjs(); // 현재 날짜 및 시간 가져오기
+
     return {
       query: '',
-      searchResult: []
+      searchResult: [],
+      // notifyInfoParam: {notificationCreatedAt : dayjs().format("YYYY-MM-DDTHH:mm:ss.SSSZ"), memberId : this.$store.getters['auth/memberInfo'].memberId }
+      notifyInfoParam: {
+        notificationCreatedAt: dayjs().format("YYYY-MM-DDTHH:mm:ss.SSSZ"),
+         memberId: this.$store.getters['auth/memberInfo'].memberId
+      }
     };
   },
-  methods: {
-    moveToDetailPage(id) {
-       console.log(id);
-       this.$router.push({
-         name: "notifyDetail",
-         params: { id }
-       });
 
-  }
-},
+  methods: {
+    deleteSubmit() {
+      this.$store.dispatch('auth/authRequest', {
+      requestCallback: () => {
+        this.$store.dispatch('notify/requestDeleteNotify', this.notificationId);
+      },
+      failedCallback: (error) => {
+        console.error('실패');
+        console.error(error);
+        this.$store.commit('common/setSuccess', false);
+      }
+    });
+    }
+  },
 
 };
 </script>
