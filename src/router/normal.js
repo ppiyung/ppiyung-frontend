@@ -4,7 +4,9 @@ import RecruitDetailView from '../views/recruit/RecruitDetailView.vue';
 import CompanyProfile from '../views/recruit/CompanyProfile.vue';
 import BoardDetailView from '../views/board/BoardDetailView.vue';
 import MyPageView from '../views/member/MyPageView.vue';
-import BoardInsertView from '../views/board/BoardInsertView';
+import BoardInsertView from '../views/board/BoardInsertView.vue';
+import BoardModfiyView from  '../views/board/BoardModifyView.vue';
+
 export default [
     {
         path: '/recruit',
@@ -37,7 +39,7 @@ export default [
         meta: { requiresAuth: true }
       },
       {
-        path: '/board/aticle/:id',
+        path: '/board/article/:id',
         name: 'boardDetail',
         component : BoardDetailView,
         meta : {requiresAuth: true }
@@ -47,5 +49,12 @@ export default [
         name: 'myPage',
         component: MyPageView,
         meta: { requiresAuth: true }
+      },
+
+      {
+        path: '/board/article/:id',
+        name: 'BoardModify',
+        component: BoardModfiyView,
+        meta: {requiresAuth: true}
       }
 ]

@@ -8,7 +8,7 @@
         </b-form-group>
         <b-form-group id="input-group-3">
         <label class="font-weight-500" for="input-3">내용 <span style="color: red;">*</span></label>
-        <b-form-textarea id="textarea" name="comment" v-model="coummityPostInfoParam.articleContent" placeholder="내용을 작성해주세요" rows="5" max-rows="6">
+        <b-form-textarea id="textarea" v-model="coummityPostInfoParam.articleContent" placeholder="내용을 작성해주세요" rows="5" max-rows="6">
         </b-form-textarea>
         <div class="text-right"><b-button class="mt-5" pill variant="outline-secondary" type="submit" @click="Insert" >작성</b-button></div>
     </b-form-group>.
@@ -21,8 +21,6 @@ import dayjs from 'dayjs';
 export default {
     name: 'BoardInsertView',
     component: { dayjs },
-    computed :{
-    },
     data(){
         dayjs(); // 현재 날짜 및 시간 가져오기
 
@@ -33,7 +31,12 @@ export default {
     components :{
         BasicLayout
     },
-
+    computed :{
+        articleId(){
+            return this.$route.params.id;
+        }
+    }
+    ,
     methods :{
     // 커뮤니티 게시글 등록.
     Insert() {

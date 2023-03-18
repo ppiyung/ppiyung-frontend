@@ -1,28 +1,29 @@
-
 <template>
- <b-list-group>
-  <div><b-button variant="primary" @click="moveInsertPage()">글쓰기</b-button></div>
-  <b-list-group-item
-    class="flex-column align-items-start"
-    @click="moveToDetailPage(article.articleId)"
-    v-for="article in boardList"
-    :key="article.articleId">
-   <!-- <b-list-group-item
-    class="flex-column align-items-start"
-    @click="moveToDetailPage(article.articleId)"
-    v-for="article in this.$store.getters['board/boardList']"
-    :key="article.articleId"> -->
-      <div class="d-flex w-100 justify-conent-between">
-        <h5 class="mb-1">{{article.articleTitle}}</h5>
-        <small align="right">{{article.articleCreatedAt}}</small>
+  <b-container>
+    <div class="d-flex justify-content-between mb-4">
+      <h2 class="mb-0">커뮤니티 게시글</h2>
+      <div>
+        <b-button variant="primary" @click="moveInsertPage()">새 글쓰기</b-button>
       </div>
-      <div >
-      <p class="mb-1"> {{article.articleContent}}</p>
-      <small> {{article.memberNickname}}</small>
-      <small> {{article.likeCnt}} {{article.commentCnt}}</small>
-      </div>
-    </b-list-group-item>
-    <div class="btn-cover" align="center" >
+    </div>
+    <b-list-group>
+      <b-list-group-item
+        v-for="article in boardList"
+        :key="article.articleId"
+        class="flex-column align-items-start"
+        @click="moveToDetailPage(article.articleId)"
+      >
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1">{{ article.articleTitle}}</h5>
+          <small>{{article.articleCreatedAt}}</small>
+        </div>
+        <p class="mb-1"> {{article.articleContent}}</p>
+        <small class="ml-auto">
+         {{article.memberNickname}} &bull;  {{article.likeCnt}} Likes &bull;{{article.commentCnt}}Comments
+        </small>
+      </b-list-group-item>
+    </b-list-group>
+    <div class="btn-cover" align="center" style = "margin: 15px 25px 15px 0px; padding: 10px;">
       <b-button variant="secondary" :disabled="pageNum === 1" @click="prevPage" class="page-btn">
         이전
       </b-button >
@@ -31,9 +32,8 @@
         다음
       </b-button>
     </div>
- </b-list-group>
+  </b-container>
 </template>
-
 <script>
 export default {
  
@@ -60,6 +60,7 @@ export default {
   },
   watch:{
      boardList() {
+      console.log('1');
       return this.$store.getters['board/boardList'];
     }
   },

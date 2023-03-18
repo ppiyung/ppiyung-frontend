@@ -27,7 +27,7 @@ export default new Vuex.Store({
   actions: {
   },
   modules: {
-    auth, recruit, member, common, board,admin
+    auth, recruit, member, common, board, admin
   },
   plugins: [vuexLocal.plugin]
 });

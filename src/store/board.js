@@ -1,6 +1,5 @@
 import axios from 'axios';
 import apiUri from '@/apiUri';
-
 export default {
     namespaced: true,
     // 변수의미 (공통으로 사용할 변수 정의)
@@ -89,7 +88,7 @@ export default {
             });
         },
 
-        // 게시물 전송기능 
+        // 게시물 등록
         setInsertBoard({commit, rootGetters},{ memberId,articleCreatedAt,articleTitle,articleContent}){
             axios.post(
                 `${apiUri.board}/article`,
@@ -110,7 +109,51 @@ export default {
                 console.error(error);
                 commit('common/setSuccess',false,{root: true});
             });
-        }
+        },
+        //게시물 수정
+        setModifyBoard({commit, rootGetters},{articleCreatedAt,articleTitle,articleContent,articleId}){
+            axios.put(
+                `${apiUri.board}/article/${articleId}`,
+                { 
+                    articleTitle,articleCreatedAt,articleContent,articleId}
+                ,
+                {
+                    withCredentials : true,
+                    headers: {
+                        Authorization: `Bearer ${rootGetters['auth/accessToken']}`
+                    
+                    }
+                }
+            ).then(() => {
+                commit('common/setSuccess', true, { root: true });
+            }).catch((error) => {
+                console.error(error);
+                commit('common/setSuccess',false,{root: true});
+            });
+        },
+
+        deleteBoard({ commit, rootGetters}, {articleId}) {
+            axios.delete(
+            `${apiUri.board}/article/${articleId}`,
+              {
+                withCredentials: true,
+                params:{
+                    articleId : this.articleId
+                },
+                headers: {
+                  Authorization: `Bearer ${rootGetters['auth/accessToken']}`
+                }
+              }
+            )
+              .then(() => {
+                commit(console.log('삭제완료'));
+                commit('common/setSuccess', true, { root: true });
+                commit(this.$router.push({name:'main'}).catch(()=>{}));
+              })
+              .catch(() => { 
+                commit('common/setSuccess', false, { root: true });
+              });
+          }
     }
 
 };

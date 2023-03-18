@@ -1,5 +1,6 @@
 <template>
   <b-tab title="나의 이력서 관리" active>
+    <!-- {{memberInfo}} -->
     <h5>{{memberInfo.memberNickname}} 님의 이력서 </h5> <br>
     {{memberInfo.memberNickname}} 님의 이력서 : {{memberDetail.memberResume.resumeFilename}}  <br>
     이력서 올린 날짜:{{memberDetail.memberResume.resumeUpdatedAt}}  <br>

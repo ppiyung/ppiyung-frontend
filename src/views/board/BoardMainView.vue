@@ -1,7 +1,7 @@
 <template>
   <basic-layout>
     <div>
-      <!-- 게시판 메이페이지 -->
+      <!-- 게시판 메인페이지 -->
     </div>
     <board-container/>
   </basic-layout>

@@ -55,10 +55,15 @@ export default {
   },
   watch: {
     isSuccess(val) {
-      if (val) {
-        alert('회원가입에 성공했습니다.');
-        this.$router.push({ name: 'login' });
-      } else {
+      if (val === true) {
+        if (this.registerType === 'A') {
+          alert('회원가입에 성공했습니다.');
+          this.$router.push({ name: 'login' });
+        } else {
+          alert('회원등록 요청이 성공했습니다. 관리자의 승인을 기다려주세요.');
+          this.$router.push({ name: 'main' });
+        }
+      } else if (val === false) {
         alert('회원가입에 실패했습니다.');
       }
     }

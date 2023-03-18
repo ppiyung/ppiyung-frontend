@@ -5,9 +5,16 @@ export default {
   namespaced: true,
   state: {
     selectedWorkArea: 1,
+    pageOption: {
+      total: 0,
+      page: 1,
+      size: 12
+    },
     recruitList: [],
     recruitDetail: { },
-    openedResumeList: []
+    openedResumeList: [],
+    applyListById: []
+
   },
   getters: {
     recruitList(state) {
@@ -16,11 +23,17 @@ export default {
     selectedWorkArea(state) {
       return state.selectedWorkArea;
     },
+    pageOption(state) {
+      return state.pageOption;
+    },
     recruitDetail(state) {
       return state.recruitDetail;
     },
     openedResumeList(state){
       return state.openedResumeList;
+    },
+    applyListById(state){
+      return state.applyListById;
     }
   },
   mutations: {
@@ -30,18 +43,28 @@ export default {
     setWorkArea(state, selectedWorkArea) {
       state.selectedWorkArea = selectedWorkArea;
     },
+    setPageOption(state, pageOption) {
+      state.pageOption = {
+        ...state.pageOption,
+        ...pageOption
+      };
+    },
     setRecruitDetail(state, recruitDetail) {
       state.recruitDetail = recruitDetail;
     },
     setOpenedResumeList(state, resumeList) {
       state.openedResumeList = resumeList;
+    },
+    setApplyListById(state, applyList){
+      state.applyListById = applyList;
     }
+
   },
   actions: {
     // 개별 채용공고 조회
     requestRecruitById({ commit, rootGetters }, id) { 
       axios.get(
-        `${apiUri.recruit}/recruitDetail/${id}`,
+        `${apiUri.recruit}/${id}`,
         {
           withCredentials: true,
           headers: {
@@ -78,6 +101,28 @@ export default {
           commit('common/setSuccess', false, { root: true });
         });
     },
+      //아이디별 지원 현황 -마이페이지
+      applyListById({ commit, rootGetters },id) { // 직무분야별 채용공고 조회
+        axios.get(
+          `${apiUri.recruit}/apply/member/${id}`,
+          {
+            withCredentials: true,
+            headers: {
+              Authorization: `Bearer ${rootGetters['auth/accessToken']}`
+            }
+          }
+        )
+          .then((result) => {
+            console.log(result.data);
+            commit('setApplyListById', result.data.payload);
+            commit('common/setSuccess', true, { root: true });
+          })
+          .catch((error) => {
+            console.error(error);
+            commit('common/setSuccess', false, { root: true });
+          });
+      },
+      
     // 기업별+직무분야별 채용공고 조회
     requestRecruitListByCompanyId({commit, getters, rootGetters}, {memberId}) { 
       axios.get(
@@ -105,17 +150,29 @@ export default {
     },
 
     requestRecruitListByWorkArea({ commit, getters, rootGetters }) { // 직무분야별 채용공고 조회
+      console.log(getters.pageOption);
       axios.get(
-        `${apiUri.recruit}/${getters.selectedWorkArea}`,
+        apiUri.recruit,
+
         {
           withCredentials: true,
+          params: {
+            workArea: getters.selectedWorkArea,
+            ...getters.pageOption
+         },
           headers: {
             Authorization: `Bearer ${rootGetters['auth/accessToken']}`
           }
         }
       )
         .then((result) => {
-          commit('setRecruitList', result.data.payload);
+          commit('setRecruitList', result.data.payload.list);
+          
+          const { total } = result.data.payload
+
+          commit('setPageOption', {
+            total
+          });
           commit('common/setSuccess', true, { root: true });
         })
         .catch((error) => {
@@ -123,6 +180,40 @@ export default {
           commit('common/setSuccess', false, { root: true });
         });
     },
+
+    requestRecruitListByWorkAreaAccumualtion({ commit, getters, rootGetters }) { // 직무분야별 채용공고 조회
+      axios.get(
+        apiUri.recruit,
+        {
+          withCredentials: true,
+          params: {
+            workArea: getters.selectedWorkArea,
+            ...getters.pageOption
+         },
+          headers: {
+            Authorization: `Bearer ${rootGetters['auth/accessToken']}`
+          }
+        }
+      )
+        .then((result) => {
+          commit('setRecruitList', [
+            ...getters.recruitList,
+            ...result.data.payload.list
+          ]);
+
+          const { total } = result.data.payload
+
+          commit('setPageOption', {
+            total
+          });
+          commit('common/setSuccess', true, { root: true });
+        })
+        .catch((error) => {
+          console.error(error);
+          commit('common/setSuccess', false, { root: true });
+        });
+    },
+
     requestAddBookmark({ commit, rootGetters }, { recruitId, memberId }) {
       axios.post(
         `${apiUri.recruit}/bookmark`,
