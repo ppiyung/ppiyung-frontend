@@ -60,7 +60,6 @@ export default {
   },
   watch:{
      boardList() {
-      console.log('1');
       return this.$store.getters['board/boardList'];
     }
   },
