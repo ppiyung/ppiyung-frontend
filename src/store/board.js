@@ -1,5 +1,6 @@
 import axios from 'axios';
 import apiUri from '@/apiUri';
+import router from '@/router';
 export default {
     namespaced: true,
     // 변수의미 (공통으로 사용할 변수 정의)
@@ -19,6 +20,7 @@ export default {
         boardTotal(state) {
             return state.boardTotal;
         }
+
     },
 
 
@@ -147,9 +149,11 @@ export default {
                     }
                 }
             ).then(() => {
-                    commit(console.log('삭제완료'));
+                    console.log('삭제완료');
                     commit('common/setSuccess', true, { root: true });
-                    commit(this.$router.push({ name: 'main' }).catch(() => { }));
+                    //router.push({ name: 'main' });
+                    router.push({ name: 'board' });
+                    console.log('삭제완료2');
                 })
                 .catch(() => {
                     commit('common/setSuccess', false, { root: true });

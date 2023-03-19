@@ -38,9 +38,17 @@
         {{ boardDetail.articleContent }}
       </b-card-body>
       <b-card-footer>
-        <b-button variant="secondary" :active="isLiked" @click="toggleLike()">
+        <div
+          v-if="memberId !== boardDetail.memberId"
+          :active="isLiked"
+          @click="toggleLike()"
+        >
+          <img src="@/assets/heart.png" id="LikeImg" v-if="!isLiked"/>
+          <img src="@/assets/disHeart.png" id="disLikeImg" v-if="isLiked" />
+        </div>
+        <!-- <b-button v-if="memberId !== boardDetail.memberId" variant="secondary" :active="isLiked" @click="toggleLike()">
           {{ isLiked ? "좋아요 취소" : "좋아요" }}
-        </b-button>
+        </b-button> -->
       </b-card-footer>
     </b-card>
   </div>
@@ -134,7 +142,7 @@ export default {
           requestCallback: () => {
             this.$store.dispatch("board/cencleLike", {
               articleId: this.articleId,
-              memberId: this.memberId
+              memberId: this.memberId,
             });
           },
           failedCallback: (error) => {
@@ -151,5 +159,13 @@ export default {
 <style scoped>
 #button {
   margin-bottom: 20px;
+}
+#LikeImg {
+  width: 50px;
+  height: 50px;
+}
+#disLikeImg {
+  width: 50px;
+  height: 50px;
 }
 </style>
