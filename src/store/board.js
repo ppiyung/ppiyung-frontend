@@ -7,10 +7,15 @@ export default {
     state: {
         boardList: [], // 게시글 목록
         boardDetail: {}, // 게시글 세부내용
-        boardTotal: ''
+        boardTotal: '',
+        likechecked: []
     },
     // 변수를 반환하는 getter로 이해.
     getters: {
+        likechecked(state){
+            return state.likechecked;
+        }
+        ,
         boardList(state) {
             return state.boardList;
         },
@@ -26,6 +31,10 @@ export default {
 
     // 변수를 설정하는 setter값으로 이해.
     mutations: {
+        setLikechecked(state,likechecked){
+            state.likechecked =likechecked;
+        }
+        ,
         setBoardList(state, boardList) {
             state.boardList = boardList;
         },
@@ -160,7 +169,7 @@ export default {
                 });
         },
         // 좋아요 추가
-        insertLike({ commit, rootGetters }, { memberId, likeCreatedAt, articleId }) {
+        insertLike({ commit, rootGetters }, { memberId, likeCreatedAt, articleId, reloadFuncRef }) {
             axios.post(
             `${apiUri.board}/like`,{memberId, likeCreatedAt, articleId},
                 {
@@ -172,13 +181,14 @@ export default {
                 }
             ).then(() => {
                 commit('common/setSuccess', true, { root: true });
+                reloadFuncRef();
             }).catch((error) => {
                 console.error(error);
                 commit('common/setSuccess', false, { root: true });
             });
         },
           // 좋아요 취소
-          cencleLike({ commit, rootGetters }, { articleId,memberId }) {
+        cencleLike({ commit, rootGetters }, { articleId,memberId, reloadFuncRef }) {
             axios.delete(
             `${apiUri.board}/like/${articleId}/${memberId}`,
                 {
@@ -192,11 +202,36 @@ export default {
                 }
             ).then(() => {
                 commit('common/setSuccess', true, { root: true });
+                reloadFuncRef();
             }).catch((error) => {
                 console.error(error);
                 commit('common/setSuccess', false, { root: true });
             });
-        }
+        },
+        // 좋아요 조회
+        checkedLike({commit,rootGetters},{articleId, memberId}){
+         axios.get(
+           `${apiUri.board}/like/${articleId}/${memberId}`,
+                {
+                    withCredentials: true,  
+                    params :{
+                        memberId,articleId
+                    },
+                    headers: {
+                        Authorization: `Bearer ${rootGetters['auth/accessToken']}`
+                    }
+                }
+            ).then((result) => {
+                if(result.data.payload[0] == null){
+                commit('setLikechecked', null);
+                }else {
+                commit('setLikechecked', result.data.payload[0]);
+                }
+            }).catch((error) => {
+                console.error(error);
+                commit('common/setSuccess', false, { root: true });
+         });
+       }
     }
 
 };

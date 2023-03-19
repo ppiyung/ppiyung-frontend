@@ -40,12 +40,21 @@
       <b-card-footer>
         <div
           v-if="memberId !== boardDetail.memberId"
+          :active="likechecked"
+          @click="toggleLike()"
+        >
+          <img src="@/assets/heart.png" id="LikeImg" v-if="!likechecked" />
+          <img src="@/assets/disHeart.png" id="disLikeImg" v-if="likechecked" />
+        </div>
+
+        <!-- <div
+          v-if="memberId !== boardDetail.memberId"
           :active="isLiked"
           @click="toggleLike()"
         >
-          <img src="@/assets/heart.png" id="LikeImg" v-if="!isLiked"/>
+          <img src="@/assets/heart.png" id="LikeImg" v-if="!isLiked" />
           <img src="@/assets/disHeart.png" id="disLikeImg" v-if="isLiked" />
-        </div>
+        </div> -->
         <!-- <b-button v-if="memberId !== boardDetail.memberId" variant="secondary" :active="isLiked" @click="toggleLike()">
           {{ isLiked ? "좋아요 취소" : "좋아요" }}
         </b-button> -->
@@ -60,7 +69,7 @@ export default {
 
   data() {
     return {
-      isLiked: false,
+      // isLiked: false,
     };
   },
   watch: {
@@ -69,6 +78,14 @@ export default {
     },
   },
   computed: {
+    likechecked: {
+      get() {
+        return this.$store.getters["board/likechecked"];
+      },
+      set(value) {
+        this.$store.commit("board/setLikechecked", value);
+      },
+    },
     memberId() {
       return this.$store.getters["auth/memberInfo"].memberId;
     },
@@ -80,9 +97,15 @@ export default {
     },
   },
   created() {
+    this.loadArticleDetail();
+
+    // 좋아요 여부 조회
     this.$store.dispatch("auth/authRequest", {
       requestCallback: () => {
-        this.$store.dispatch("board/requestBoardDetail", this.articleId);
+        this.$store.dispatch("board/checkedLike", {
+          memberId: this.memberId,
+          articleId: this.articleId,
+        });
       },
       failedCallback: (error) => {
         console.error("실패");
@@ -92,6 +115,18 @@ export default {
     });
   },
   methods: {
+    loadArticleDetail() {
+      this.$store.dispatch("auth/authRequest", {
+        requestCallback: () => {
+          this.$store.dispatch("board/requestBoardDetail", this.articleId);
+        },
+        failedCallback: (error) => {
+          console.error("실패");
+          console.error(error);
+          this.$store.commit("common/setSuccess", false);
+        },
+      });
+    },
     // 게시물 수정 페이지 전환
     moveToDetailPage(id) {
       console.log(id);
@@ -120,35 +155,36 @@ export default {
     //좋아요 버튼 클릭
     toggleLike() {
       // 버튼 상태가 '좋아요' 클릭이 가능하면.
-      if (this.isLiked === false) {
-        this.isLiked = !this.isLiked;
+      if (this.likechecked === null) {
+        this.likechecked = !this.likechecked;
         this.$store.dispatch("auth/authRequest", {
           requestCallback: () => {
             this.$store.dispatch("board/insertLike", {
               articleId: this.articleId,
               memberId: this.memberId,
               likeCreatedAt: dayjs().format("YYYY-MM-DDTHH:mm:ss.SSSZ"),
+              reloadFuncRef: this.loadArticleDetail
             });
           },
           failedCallback: (error) => {
             console.error("실패");
             console.error(error);
-            this.applyResult.success = false;
           },
-        }); //이미 좋아요 버튼을 클릭한 경우라면.
+        });
       } else {
-        this.isLiked = !this.isLiked;
+        //이미 좋아요 버튼을 클릭한 경우라면.
+        this.likechecked = !this.likechecked;
         this.$store.dispatch("auth/authRequest", {
           requestCallback: () => {
             this.$store.dispatch("board/cencleLike", {
               articleId: this.articleId,
               memberId: this.memberId,
+              reloadFuncRef: this.loadArticleDetail
             });
           },
           failedCallback: (error) => {
             console.error("실패");
             console.error(error);
-            this.applyResult.success = false;
           },
         });
       }
