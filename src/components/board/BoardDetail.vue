@@ -16,6 +16,7 @@
           class="d-inline-block"
           >삭제</b-button
         >
+   
       </div>
     </div>
     <b-card>
@@ -42,22 +43,12 @@
           v-if="memberId !== boardDetail.memberId"
           :active="likechecked"
           @click="toggleLike()"
-        >
-          <img src="@/assets/heart.png" id="LikeImg" v-if="!likechecked" />
-          <img src="@/assets/disHeart.png" id="disLikeImg" v-if="likechecked" />
+        > 
+          <font-awesome-icon style="color: red" icon="fa-solid fa-heart"  v-if="!likechecked"  />
+          <font-awesome-icon style="color: black" icon="fa-solid fa-heart"  v-if="likechecked"  />
+          <!-- <img src="@/assets/heart.png" id="LikeImg" v-if="!likechecked" /> 
+          <img src="@/assets/disHeart.png" id="disLikeImg" v-if="likechecked" /> -->
         </div>
-
-        <!-- <div
-          v-if="memberId !== boardDetail.memberId"
-          :active="isLiked"
-          @click="toggleLike()"
-        >
-          <img src="@/assets/heart.png" id="LikeImg" v-if="!isLiked" />
-          <img src="@/assets/disHeart.png" id="disLikeImg" v-if="isLiked" />
-        </div> -->
-        <!-- <b-button v-if="memberId !== boardDetail.memberId" variant="secondary" :active="isLiked" @click="toggleLike()">
-          {{ isLiked ? "좋아요 취소" : "좋아요" }}
-        </b-button> -->
       </b-card-footer>
     </b-card>
   </div>
@@ -147,7 +138,6 @@ export default {
         failedCallback: (error) => {
           console.error("실패");
           console.error(error);
-          this.applyResult.success = false;
         },
       });
     },
@@ -155,7 +145,7 @@ export default {
     //좋아요 버튼 클릭
     toggleLike() {
       // 버튼 상태가 '좋아요' 클릭이 가능하면.
-      if (this.likechecked === null) {
+      if (this.likechecked === null || this.likechecked === false) {
         this.likechecked = !this.likechecked;
         this.$store.dispatch("auth/authRequest", {
           requestCallback: () => {
