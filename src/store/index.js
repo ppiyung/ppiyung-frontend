@@ -6,7 +6,9 @@ import auth from './auth';
 import recruit from './recruit';
 import member from './member';
 import common from './common';
+import board from './board';
 import admin from './admin';
+
 
 Vue.use(Vuex);
 
@@ -25,7 +27,7 @@ export default new Vuex.Store({
   actions: {
   },
   modules: {
-    auth, recruit, member, common, admin
+    auth, recruit, member, common, board, admin
   },
   plugins: [vuexLocal.plugin]
 });

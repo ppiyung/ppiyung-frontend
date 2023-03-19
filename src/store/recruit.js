@@ -153,6 +153,7 @@ export default {
       console.log(getters.pageOption);
       axios.get(
         apiUri.recruit,
+
         {
           withCredentials: true,
           params: {
