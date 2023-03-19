@@ -6,8 +6,9 @@ export default {
   state: {
     selectedWorkArea: 1,
     pageOption: {
+      total: 0,
       page: 1,
-      size: 8
+      size: 12
     },
     recruitList: [],
     recruitDetail: { },
@@ -44,6 +45,12 @@ export default {
     },
     setWorkArea(state, selectedWorkArea) {
       state.selectedWorkArea = selectedWorkArea;
+    },
+    setPageOption(state, pageOption) {
+      state.pageOption = {
+        ...state.pageOption,
+        ...pageOption
+      };
     },
     setRecruitDetail(state, recruitDetail) {
       state.recruitDetail = recruitDetail;
@@ -85,7 +92,7 @@ export default {
     // 개별 채용공고 조회
     requestRecruitById({ commit, rootGetters }, id) { 
       axios.get(
-        `${apiUri.recruit}/recruitDetail/${id}`,
+        `${apiUri.recruit}/${id}`,
         {
           withCredentials: true,
           headers: {
@@ -174,6 +181,7 @@ export default {
       console.log(getters.pageOption);
       axios.get(
         apiUri.recruit,
+
         {
           withCredentials: true,
           params: {
@@ -187,6 +195,12 @@ export default {
       )
         .then((result) => {
           commit('setRecruitList', result.data.payload.list);
+          
+          const { total } = result.data.payload
+
+          commit('setPageOption', {
+            total
+          });
           commit('common/setSuccess', true, { root: true });
         })
         .catch((error) => {
@@ -194,6 +208,40 @@ export default {
           commit('common/setSuccess', false, { root: true });
         });
     },
+
+    requestRecruitListByWorkAreaAccumualtion({ commit, getters, rootGetters }) { // 직무분야별 채용공고 조회
+      axios.get(
+        apiUri.recruit,
+        {
+          withCredentials: true,
+          params: {
+            workArea: getters.selectedWorkArea,
+            ...getters.pageOption
+         },
+          headers: {
+            Authorization: `Bearer ${rootGetters['auth/accessToken']}`
+          }
+        }
+      )
+        .then((result) => {
+          commit('setRecruitList', [
+            ...getters.recruitList,
+            ...result.data.payload.list
+          ]);
+
+          const { total } = result.data.payload
+
+          commit('setPageOption', {
+            total
+          });
+          commit('common/setSuccess', true, { root: true });
+        })
+        .catch((error) => {
+          console.error(error);
+          commit('common/setSuccess', false, { root: true });
+        });
+    },
+
     requestAddBookmark({ commit, rootGetters }, { recruitId, memberId }) {
       axios.post(
         `${apiUri.recruit}/bookmark`,
