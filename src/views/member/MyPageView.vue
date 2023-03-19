@@ -8,11 +8,8 @@
           <resume-tab/>
           <update-tab/>
           <apply-tab/>
-      
-          <b-tab title="입사 제안">
-             <h3>입사 제안</h3> <br>
-            <b-card-text>입사 제안</b-card-text>
-            </b-tab>
+          <suggest-tab/>
+    
           <b-tab title="내가 작성한 게시글">
              <h3>내가 작성한 게시글</h3> <br>
             <b-card-text>내가 작성한 게시글</b-card-text>
@@ -35,12 +32,12 @@ import BasicLayout from '@/components/common/BaseLayout.vue';
 import ProfileTab from '@/components/member/MyPageProfileTab.vue';
 import ResumeTab from '@/components/member/MyPageResumeTab.vue';
 import ApplyTab from '@/components/member/MyPageApplyTab.vue';
-
+import SuggestTab from '@/components/member/MyPageSuggestTab.vue';
 
 export default {
   name: 'MyPageView',
   components:{
-   BasicLayout, ProfileTab,ResumeTab ,UpdateTab ,ApplyTab
+   BasicLayout, ProfileTab,ResumeTab ,UpdateTab ,ApplyTab,SuggestTab
   },
   computed: {
     loginMemberInfo() {

@@ -12,8 +12,8 @@ export default {
     recruitList: [],
     recruitDetail: { },
     openedResumeList: [],
-    applyListById: []
-
+    applyListById: [],
+    suggestList:[]
   },
   getters: {
     recruitList(state) {
@@ -33,6 +33,9 @@ export default {
     },
     applyListById(state){
       return state.applyListById;
+    },
+    suggestList(state){
+      return state.suggestList;
     }
   },
   mutations: {
@@ -50,10 +53,35 @@ export default {
     },
     setApplyListById(state, applyList){
       state.applyListById = applyList;
+    },
+    setSuggestList(state, suggestList){
+      state.suggestList = suggestList;
     }
 
   },
   actions: {
+    //마이페이지-입사제안 리스트 조회
+    suggestList({ commit, rootGetters }, id) {
+      console.log('asdf3');
+      axios.get(
+        `${apiUri.recruit}/suggest/member/${id}`,
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${rootGetters['auth/accessToken']}`
+          }
+        }
+      )
+        .then((result) => {
+          commit('setSuggestList', result.data.payload);
+          console.log('asdf4');
+          commit('common/setSuccess', true, { root: true });
+        })
+        .catch((error) => {
+          console.error(error);
+          commit('common/setSuccess', false, { root: true });
+        });
+    },
     // 개별 채용공고 조회
     requestRecruitById({ commit, rootGetters }, id) { 
       axios.get(
