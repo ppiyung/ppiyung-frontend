@@ -96,6 +96,7 @@ export default {
             editRecruitResult: {
                 success: null
             },
+            includeClosed: false,
             fields: [
                 {
                     key: 'recruitId',
@@ -259,6 +260,21 @@ export default {
                 } else if (val === false) {
                     alert('공고 즉시 마감에 실패했습니다.')
                 }
+            }
+        },
+        watch: {
+            inlcudeClosed(val) {
+                let valueByBool;
+                if (val === 'true') {
+                    valueByBool = true;
+                } else {
+                    valueByBool = false;
+                }
+
+                this.$store.commit('admin/setRecruitOption', {
+                    ...this.$store.getters['admin/recruitManage'].queryOption,
+                    closed: valueByBool
+                });
             }
         }
     },

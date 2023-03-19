@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="layout">
     <nav-bar v-if="type === 'ROLE_NORMAL' || type === undefined"/>
     <nav-bar-company v-if="type === 'ROLE_COMPANY'" />
     <nav-bar-admin v-if="type === 'ROLE_ADMIN'" />
@@ -36,9 +36,12 @@ export default {
 </script>
 
 <style scoped>
+.layout {
+  min-height: 100%;
+}
 .main-container {
   margin-top: 30px;
-  min-height: 800px;
+  min-height: 100vh;
 }
 footer {
   text-align: center;

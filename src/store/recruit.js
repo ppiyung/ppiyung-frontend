@@ -8,13 +8,13 @@ export default {
     pageOption: {
       total: 0,
       page: 1,
-      size: 12
+      size: 12,
+      closed: false
     },
     recruitList: [],
     recruitDetail: { },
     openedResumeList: [],
     applyListById: []
-
   },
   getters: {
     recruitList(state) {
@@ -122,16 +122,45 @@ export default {
             commit('common/setSuccess', false, { root: true });
           });
       },
+
+      applyListByCompany({ commit, rootGetters }, recruitId) { // 직무분야별 채용공고 조회
+        axios.get(
+          `${apiUri.recruit}/apply/company`,
+          {
+            withCredentials: true,
+            headers: {
+              Authorization: `Bearer ${rootGetters['auth/accessToken']}`
+            },
+            params: {
+              recruitId
+            }
+          }
+        )
+          .then((result) => {
+            console.log(result.data);
+            commit('setApplyListById', result.data.payload);
+            commit('common/setSuccess', true, { root: true });
+          })
+          .catch((error) => {
+            console.error(error);
+            commit('common/setSuccess', false, { root: true });
+          });
+      },
       
     // 기업별+직무분야별 채용공고 조회
     requestRecruitListByCompanyId({commit, getters, rootGetters}, {memberId}) { 
+      const { page, size, closed } = getters.pageOption;
+
       axios.get(
         apiUri.recruit,
         {
           withCredentials: true,
           params: {
              workArea: `${getters.selectedWorkArea}` ,
-             company: memberId
+             company: memberId,
+             page,
+             size,
+             closed
           },
           headers: {
             Authorization: `Bearer ${rootGetters['auth/accessToken']}`
@@ -140,7 +169,9 @@ export default {
       
       )
         .then((result) => {
-          commit('setRecruitList', result.data.payload);
+          const { list, total } = result.data.payload
+          commit('setRecruitList', list);
+          commit('setPageOption', { total });
           commit('common/setSuccess', true, { root: true });
         })
         .catch((error) => {
@@ -337,6 +368,52 @@ export default {
         .catch((error) => {
           console.error(error);
           commit('common/setSuccess', false, { root: true });
+        });
+    },
+
+    requestApplyListByRecruitId({ commit, rootGetters }, recruitId) {
+      axios.get(
+        `${apiUri.recruit}/apply/company`,
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${rootGetters['auth/accessToken']}`
+          },
+          params: {
+            recruitId
+          }
+        }
+      )
+      .then((result) => {
+        commit('setApplyListById', result.data.payload);
+        commit('common/setSuccess', true, { root: true });
+      })
+      .catch((error) => {
+        console.error(error);
+        commit('common/setSuccess', false, { root: true });
+      });
+    },
+
+    requestSetApplyResult({ rootGetters }, { applyId, applyResult, resultRef }) {
+      axios.put(
+        `${apiUri.recruit}/apply/${applyId}`,
+        {
+          applyResult
+        },
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${rootGetters['auth/accessToken']}`
+          }
+        }
+      )
+        .then(() => {
+          console.log('성공');
+          resultRef.success = true;
+        })
+        .catch(() => {
+          console.log('실패');
+          resultRef.success = false;
         });
     },
   }
