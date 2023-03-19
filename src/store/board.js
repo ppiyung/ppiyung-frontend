@@ -8,11 +8,17 @@ export default {
         boardList: [], // 게시글 목록
         boardDetail: {}, // 게시글 세부내용
         boardTotal: '',
-        likechecked: []
+        likechecked: [],
+        replyList: [],
+        articleId : ''
     },
     // 변수를 반환하는 getter로 이해.
     getters: {
-        likechecked(state){
+        replyList(state) {
+            return state.replyList;
+        }
+        ,
+        likechecked(state) {
             return state.likechecked;
         }
         ,
@@ -24,6 +30,9 @@ export default {
         },
         boardTotal(state) {
             return state.boardTotal;
+        },
+        articleId(state){
+            return state.articleId;
         }
 
     },
@@ -31,8 +40,12 @@ export default {
 
     // 변수를 설정하는 setter값으로 이해.
     mutations: {
-        setLikechecked(state,likechecked){
-            state.likechecked =likechecked;
+        setReplyList(state, replyList) {
+            state.replyList = replyList;
+        }
+        ,
+        setLikechecked(state, likechecked) {
+            state.likechecked = likechecked;
         }
         ,
         setBoardList(state, boardList) {
@@ -43,6 +56,9 @@ export default {
         },
         setBoardTotal(state, boardTotal) {
             state.boardTotal = boardTotal;
+        },
+        setArticleId(state,articleId){
+            state.articleId == articleId;
         }
     },
 
@@ -158,12 +174,12 @@ export default {
                     }
                 }
             ).then(() => {
-                    console.log('삭제완료');
-                    commit('common/setSuccess', true, { root: true });
-                    //router.push({ name: 'main' });
-                    router.push({ name: 'board' });
-                    console.log('삭제완료2');
-                })
+                console.log('삭제완료');
+                commit('common/setSuccess', true, { root: true });
+                //router.push({ name: 'main' });
+                router.push({ name: 'board' });
+                console.log('삭제완료2');
+            })
                 .catch(() => {
                     commit('common/setSuccess', false, { root: true });
                 });
@@ -171,10 +187,10 @@ export default {
         // 좋아요 추가
         insertLike({ commit, rootGetters }, { memberId, likeCreatedAt, articleId, reloadFuncRef }) {
             axios.post(
-            `${apiUri.board}/like`,{memberId, likeCreatedAt, articleId},
+                `${apiUri.board}/like`, { memberId, likeCreatedAt, articleId },
                 {
                     withCredentials: true,
-                 
+
                     headers: {
                         Authorization: `Bearer ${rootGetters['auth/accessToken']}`
                     }
@@ -187,14 +203,14 @@ export default {
                 commit('common/setSuccess', false, { root: true });
             });
         },
-          // 좋아요 취소
-        cencleLike({ commit, rootGetters }, { articleId,memberId, reloadFuncRef }) {
+        // 좋아요 취소
+        cencleLike({ commit, rootGetters }, { articleId, memberId, reloadFuncRef }) {
             axios.delete(
-            `${apiUri.board}/like/${articleId}/${memberId}`,
+                `${apiUri.board}/like/${articleId}/${memberId}`,
                 {
-                    withCredentials: true,  
-                    params :{
-                        memberId,articleId
+                    withCredentials: true,
+                    params: {
+                        memberId, articleId
                     },
                     headers: {
                         Authorization: `Bearer ${rootGetters['auth/accessToken']}`
@@ -209,29 +225,50 @@ export default {
             });
         },
         // 좋아요 조회
-        checkedLike({commit,rootGetters},{articleId, memberId}){
-         axios.get(
-           `${apiUri.board}/like/${articleId}/${memberId}`,
+        checkedLike({ commit, rootGetters }, { articleId, memberId }) {
+            axios.get(
+                `${apiUri.board}/like/${articleId}/${memberId}`,
                 {
-                    withCredentials: true,  
-                    params :{
-                        memberId,articleId
+                    withCredentials: true,
+                    params: {
+                        memberId, articleId
                     },
                     headers: {
                         Authorization: `Bearer ${rootGetters['auth/accessToken']}`
                     }
                 }
             ).then((result) => {
-                if(result.data.payload[0] == null){
-                commit('setLikechecked', null);
-                }else {
-                commit('setLikechecked', result.data.payload[0]);
+                if (result.data.payload[0] == null) {
+                    commit('setLikechecked', null);
+                } else {
+                    commit('setLikechecked', result.data.payload[0]);
                 }
             }).catch((error) => {
                 console.error(error);
                 commit('common/setSuccess', false, { root: true });
-         });
-       }
+            });
+        },
+        // 해당 게시글에 대한 댓글 조회
+        requestReplyList({ commit, rootGetters }, { articleId }) {
+            axios.get(
+                `${apiUri.board}/reply/${articleId}`,
+                {
+                    withCredentials: true,
+                    params: {
+                        articleId
+                    },
+                    headers: {
+                        Authorization: `Bearer ${rootGetters['auth/accessToken']}`
+                    }
+                }
+            ).then((result) => {
+                commit('setReplyList', result.data.payload);
+                console.log("조회 완료");
+            }).catch((error) => {
+                console.error(error);
+                commit('common/setSuccess', false, { root: true });
+            });
+        }
     }
 
 };
