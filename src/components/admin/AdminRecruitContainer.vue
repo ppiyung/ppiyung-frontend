@@ -233,15 +233,15 @@ export default {
             });
         },
         loadRecruitList() {
-            this.$store.dispatch('auth/authRequest', {
-            requestCallback: () => {
-                this.$store.dispatch('admin/requestRecruitList');
-            },
-            failedCallback: (error) => {
-                console.error('실패');
-                console.error(error);
-                this.$store.commit('common/setSuccess', false);
-            }
+                this.$store.dispatch('auth/authRequest', {
+                requestCallback: () => {
+                    this.$store.dispatch('admin/requestRecruitList');
+                },
+                failedCallback: (error) => {
+                    console.error('실패');
+                    console.error(error);
+                    this.$store.commit('common/setSuccess', false);
+                }
             });
         }
     },
@@ -271,7 +271,7 @@ export default {
                     valueByBool = false;
                 }
 
-                this.$store.commit('admin/setRecruitOption', {
+                this.$store.commit('recruit/setPageOption', {
                     ...this.$store.getters['admin/recruitManage'].queryOption,
                     closed: valueByBool
                 });

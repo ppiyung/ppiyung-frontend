@@ -17,7 +17,10 @@
       </b-dropdown>
 
       <div>
-        <b-button class="new-recruit-btn" variant="primary">새 공고</b-button>
+        <b-button
+          class="new-recruit-btn"
+          variant="primary"
+          @click="() => { this.$router.push({ name: 'company/newRecruit' }) }">새 공고</b-button>
       </div>
     </div>
 

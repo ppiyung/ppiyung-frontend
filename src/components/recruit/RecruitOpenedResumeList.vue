@@ -39,6 +39,10 @@
         </b-card>
       </template>
     </b-table>
+
+    <div v-if="suggestList.length === 0" class="no-item">
+      조건에 맞는 데이터가 존재하지 않습니다.
+    </div>
   </div>
 </template>
 

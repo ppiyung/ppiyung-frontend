@@ -7,14 +7,14 @@
           </b-button>
         </template>
 
-        <template #cell(editRecruitNotice)>
-          <b-button size="sm"  class="mr-2" >
+        <template #cell(editRecruitNotice)="row">
+          <b-button size="sm"  class="mr-2" @click="goToEdit(row.item.recruitId)">
             공고수정
           </b-button>
         </template>
           
-        <template #cell(closeRecruitNotice)>
-          <b-button size="sm" class="mr-2" >
+        <template #cell(closeRecruitNotice)="row">
+          <b-button size="sm" class="mr-2" @click="closeNow(row.item.recruitId)">
             즉시마감
           </b-button>
         </template>
@@ -65,6 +65,9 @@ export default {
             recruitEndAt: dayjs.unix(item.recruitEndAt / 1000).format('YYYY년 MM월 DD일')
           }
         });
+    },
+    recruitListRaw() {
+      return this.$store.getters['recruit/recruitList'];
     },
     workArea() {
       return this.$store.getters['recruit/selectedWorkArea'];
@@ -120,36 +123,49 @@ export default {
             this.loadRecruitList();
         }
     },
+    'closeRecruitResult.success': {
+      handler(val) {
+        if (val === true) {
+          alert('공고 수정에 성공했습니다.');
+          this.loadRecruitList();
+        } else if (val === false) {
+          alert('공고 수정에 실패했습니다.');
+        }
+        this.closeRecruitResult.success = null;
+      }
+    }
    },
    data(){
       return{
         fields: [
-        {
-            key: 'recruitStartAt',
-            label: '채용시작일'  
-        },
-        {
-            key: 'recruitEndAt',
-            label: '채용마감일'
-        },
-        {
-            key: 'recruitTitle',
-            label: '채용공고 제목'
-        },
-        {
-            key: 'applicantsList',
-            label: '지원자 현황'
-        },
-        {
-            key: 'editRecruitNotice',
-            label:'공고 수정'
-        },
-        {
-            key: 'closeRecruitNotice',
-            label: '즉시마감'
+          {
+              key: 'recruitStartAt',
+              label: '채용시작일'  
+          },
+          {
+              key: 'recruitEndAt',
+              label: '채용마감일'
+          },
+          {
+              key: 'recruitTitle',
+              label: '채용공고 제목'
+          },
+          {
+              key: 'applicantsList',
+              label: '지원자 현황'
+          },
+          {
+              key: 'editRecruitNotice',
+              label:'공고 수정'
+          },
+          {
+              key: 'closeRecruitNotice',
+              label: '즉시마감'
+          }
+        ],
+        closeRecruitResult: {
+          success: null
         }
-
-        ] 
     }   
    },
    methods:{
@@ -183,6 +199,32 @@ export default {
     },
     goToDetail(recruitId) {
       this.$router.push({ name: "company/recruitStatus", params: { recruitId: recruitId } })
+    },
+    goToEdit(recruitId) {
+      this.$router.push({ name: "company/editRecruit", params: { recruitId: recruitId } })
+    },
+    closeNow(recruitId) {
+            const currentRecruitRef = this.recruitListRaw.find((item) => {
+                return item.recruitId === recruitId;
+            })
+
+            const recruitInfo = {...currentRecruitRef};
+
+            recruitInfo.recruitEndAt = new Date(new Date().setDate((new Date().getDate()-1))).toISOString();
+
+            this.$store.dispatch('auth/authRequest', {
+                requestCallback: () => {
+                  this.$store.dispatch('recruit/requestEditRecruit', {
+                    recruitId: recruitId,
+                    paylaod: recruitInfo,
+                    resultRef: this.closeRecruitResult
+                  });
+                },
+                failedCallback: (error) => {
+                    console.error('실패');
+                    console.error(error);
+                }
+            });
     }
    },
    mounted(){

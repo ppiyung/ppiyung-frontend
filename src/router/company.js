@@ -1,6 +1,8 @@
 import CompanyRecruitView from '../views/company/CompanyRecruitMainView.vue';
 import RecruitJobOfferView from '../views/company/RecruitJobOfferView.vue';
 import CompanyRecruitDetailView from '../views/company/CompanyRecruitDetailView.vue';
+import CompanyRecruitNew from '../views/company/CompanyRecruitNewView.vue';
+import CompanyRecruitEdit from '../views/company/CompanyRecruitEditView.vue';
 
 export default [
     {
@@ -8,6 +10,18 @@ export default [
         name: 'company/recruit',
         component: CompanyRecruitView,
         meta: { requiresAuth: true }
+    },
+    {
+        path: '/company/recruit/new',
+        name: 'company/newRecruit',
+        component: CompanyRecruitNew,
+        mata : { requiresAuth: true }
+    },
+    {
+        path: '/company/recruit/edit/:recruitId',
+        name: 'company/editRecruit',
+        component: CompanyRecruitEdit,
+        mata : { requiresAuth: true }
     },
     {
         path: '/company/recruit/:recruitId',

@@ -73,6 +73,7 @@ export default {
         }
       )
         .then((result) => {
+          console.log(result);
           commit('setRecruitDetail', result.data.payload[0]);
           commit('common/setSuccess', true, { root: true });
         })
@@ -413,6 +414,55 @@ export default {
         })
         .catch(() => {
           console.log('실패');
+          resultRef.success = false;
+        });
+    },
+
+    // 채용공고 게시
+    requestAddRecruit({ commit, rootGetters }, {
+      companyId, workAreaId, recruitTitle, recruitDetail, recruitStartAt, recruitEndAt
+    }) {
+      axios.post(
+        apiUri.recruit,
+        { companyId, workAreaId, recruitTitle, recruitDetail, recruitStartAt, recruitEndAt },
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${rootGetters['auth/accessToken']}`
+          }
+        }
+      )
+        .then(() => {
+          console.log('공고 게시 성공');
+          commit('common/setSuccess', true, { root: true });
+        })
+        .catch(() => {
+          console.error('공고 게시 실패');
+          commit('common/setSuccess', false, { root: true });
+        });
+    },
+
+    // 채용공고 수정
+    requestEditRecruit({ rootGetters }, {recruitId, paylaod, resultRef }) {
+      const { companyId, workAreaId, recruitTitle, recruitDetail, recruitStartAt, recruitEndAt }
+        = paylaod
+
+      axios.put(
+        `${apiUri.recruit}/${recruitId}`,
+        { companyId, workAreaId, recruitTitle, recruitDetail, recruitStartAt, recruitEndAt },
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${rootGetters['auth/accessToken']}`
+          }
+        }
+      )
+        .then(() => {
+          console.log('공고 수정 성공');
+          resultRef.success = true;
+        })
+        .catch(() => {
+          console.error('공고 수정 실패');
           resultRef.success = false;
         });
     },
