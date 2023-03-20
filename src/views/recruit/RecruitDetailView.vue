@@ -8,7 +8,7 @@
         <div>
           {{recruitDetail.companyId}}
         </div>
-
+        
         <div>
           지원 시작: {{new Date(new Date(recruitDetail.recruitStartAt))}} <br>
           지원 마감: {{new Date(recruitDetail.recruitEndAt)}}

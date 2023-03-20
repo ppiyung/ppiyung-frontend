@@ -43,8 +43,8 @@
           :active="likechecked"
           @click="toggleLike()"
         >
-          <img src="@/assets/heart.png" id="LikeImg" v-if="!likechecked" />
-          <img src="@/assets/disHeart.png" id="disLikeImg" v-if="likechecked" />
+          <!-- <img src="@/assets/heart.png" id="LikeImg" v-if="!likechecked" />
+          <img src="@/assets/disHeart.png" id="disLikeImg" v-if="likechecked" /> -->
         </div>
 
         <!-- <div
