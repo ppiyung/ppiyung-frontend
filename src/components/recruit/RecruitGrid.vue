@@ -7,6 +7,7 @@
       :companyId="recruit.companyId"
       :recruitTitle="recruit.recruitTitle"
       :recruitDetail="recruit.recruitDetail"
+      :comapnyImg="recruit.imgLocation ? `${$apiUri.resources}/images/${recruit.imgLocation}` : 'default.png'"
       :recruitStartAt="new Date(recruit.recruitStartAt).toISOString()"
       :recruitEndAt="new Date(recruit.recruitEndAt).toISOString()"/>
   </ul>

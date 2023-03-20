@@ -2,7 +2,7 @@
     <b-card
       :title="recruitTitle"
       :sub-title="companyId"
-      img-src="https://picsum.photos/600/400/?image=82"
+      :img-src="comapnyImg"
       class="mb-2"
       @click="moveToDetailPage(recuritId)">
             <b-card-text>
@@ -16,7 +16,7 @@
 export default {
   props: [
     'recuritId', 'companyId', 'recruitTitle', 'recruitDetail',
-    'workAreaId', 'recruitStartAt', 'recruitEndAt'
+    'workAreaId', 'recruitStartAt', 'recruitEndAt', 'comapnyImg'
   ],
   data() {
     return {
