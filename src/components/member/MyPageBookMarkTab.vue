@@ -1,14 +1,77 @@
 <template>
   <b-tab title="관심 채용 정보">
-    <h3>{{ memberInfo.memberNickname }}님의 관심 채용 정보</h3>
+     <h3><span id="mypageNickname">{{memberInfo.memberNickname}}</span> 님의 관심 채용 정보</h3>
     <br />
-    <div v-if="!bookMarkList.length" class="fadeNotice">관심 채용 정보가 존재하지 않습니다.</div>
-    <div v-else>{{ bookMarkList }}</div>
+    <div v-if="!bookMarkList.length" class="fadeNotice">
+      관심 채용 정보가 존재하지 않습니다.
+    </div>
+    <div v-else>
+      <b-table :items="bookMarkList" :fields="fields" striped responsive="sm">
+        <template #row-details="row">
+          <b-card>
+            <b-row>
+              <b-col sm="3" class="text-sm-right"><b>직무분야 </b></b-col>
+              <b-col>{{ row.item.workAreaId }}</b-col>
+            </b-row>
+
+            <b-row>
+              <b-col sm="3" class="text-sm-right"><b>채용 공고 제목</b></b-col>
+              <b-col>{{ row.item.recruitTitle }}</b-col>
+            </b-row>
+
+            <b-row>
+              <b-col sm="3" class="text-sm-right"><b>채용 공고 내용 </b></b-col>
+              <b-col>{{ row.item.recruitDetail }}</b-col>
+            </b-row>
+
+            <b-row>
+              <b-col sm="3" class="text-sm-right"><b>채용 날짜</b></b-col>
+              <b-col>{{ row.item.recruit_start_at }}  </b-col>
+            </b-row>
+            <b-row>
+              <b-col sm="3" class="text-sm-right"><b>채용 마감 날짜</b></b-col>
+              <b-col>{{ row.item.recruit_end_at }}</b-col>
+            </b-row>
+          </b-card>
+        </template>
+      </b-table>
+    </div>
   </b-tab>
 </template>
 
 <script>
 export default {
+  data() {
+    return {
+      fields: [
+        {
+          key: "work_area_id",
+          label: "직무분야",
+          sortable: true,
+        },
+        {
+          key: "recruit_title",
+          label: "채용 공고 제목",
+          sortable: false,
+        },
+        {
+          key: "recruit_detail",
+          label: "채용 공고 내용",
+          sortable: false,
+        },
+        {
+          key: "recruit_start_at",
+          label: "채용 시작 날짜",
+          sortable: true,
+        },
+         {
+          key: "recruit_end_at",
+          label: "채용 마감 날짜",
+          sortable: true,
+        },
+      ],
+    };
+  },
   computed: {
     memberInfo() {
       return this.$store.getters["auth/memberInfo"];
@@ -33,11 +96,14 @@ export default {
 </script>
 
 <style>
-.fadeNotice{
-    font-weight: 900;
-    text-align: center;
-    margin-top: 100px;
-    color: darkgray;
-    font-size: 35px;
+.fadeNotice {
+  font-weight: 900;
+  text-align: center;
+  margin-top: 100px;
+  color: darkgray;
+  font-size: 35px;
+}
+#mypageNickname{
+ background-color: cornsilk;
 }
 </style>

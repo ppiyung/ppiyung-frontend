@@ -1,6 +1,6 @@
 <template>
   <b-tab title="정보 수정하기" active>
-    <h5>{{ memberInfo.memberNickname }}</h5>
+     <h3><span id="mypageNickname">{{memberInfo.memberNickname}}</span> 님의 회원정보 수정 </h3>
     <br />
     <div class="updateContainer">
       <b-row>
@@ -140,7 +140,7 @@ export default {
 .duplicate-indicator {
   margin-bottom: 10px;
 }
-.updateContainer{
-  margin: 50px;
+#mypageNickname{
+ background-color: cornsilk;
 }
 </style>

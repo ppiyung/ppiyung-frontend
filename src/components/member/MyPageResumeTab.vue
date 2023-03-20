@@ -1,14 +1,25 @@
 <template>
   <b-tab title="나의 이력서 관리" active>
     <!-- {{memberInfo}} -->
-    <h5>{{memberInfo.memberNickname}} 님의 이력서 </h5> <br>
-    {{memberInfo.memberNickname}} 님의 이력서 : {{memberDetail.memberResume.resumeFilename}}  <br>
-    이력서 올린 날짜:{{memberDetail.memberResume.resumeUpdatedAt}}  <br>
-    이력서 공개 여부:  
+    <h3>
+      <span id="mypageNickname">{{ memberInfo.memberNickname }}</span> 님의
+      이력서
+    </h3>
+    <br/>
+    <div>
+      {{ memberInfo.memberNickname }} 님의 이력서 :
+      {{ memberDetail.memberResume.resumeFilename }} <br><br>
+      이력서 올린 날짜:{{ memberDetail.memberResume.resumeUpdatedAt }} <br><br>
+      이력서 공개 여부:
 
-    {{memberDetail.memberResume.resumeOpen}} 
-    <input type="radio" name="resumeOpen" value="true" checked="checked">공개
-    <input type="radio" name="resumeOpen" value="false" >비공개
+      {{ memberDetail.memberResume.resumeOpen }} 
+      <input
+        type="radio"
+        name="resumeOpen"
+        value="true"
+        checked="checked"
+      />공개 <input type="radio" name="resumeOpen" value="false" />비공개 <br><br>
+    </div>
 
     <b-form-file
       v-model="resumeFile"
@@ -16,8 +27,10 @@
       placeholder="업로드할 이력서를 선택해주세요."
       drop-placeholder="이곳에 이력서 드래그"
     ></b-form-file>
-    <b-button @click="uploadResume">업로드</b-button>
+    <div class="resumeButtonContainer">  
+        <b-button @click="uploadResume" style=" margin-right: 10px;">업로드</b-button>
     <b-button @click="getResume">이력서 다운로드</b-button>
+    </div>
 
   </b-tab>
 </template>
@@ -36,9 +49,9 @@ export default {
     memberInfo() {
       return this.$store.getters["auth/memberInfo"];
     },
-     memberDetail() {
-      return this.$store.getters['member/memberDetail'];
-    }
+    memberDetail() {
+      return this.$store.getters["member/memberDetail"];
+    },
   },
   methods: {
     uploadResume() {
@@ -97,10 +110,18 @@ export default {
           console.error(response);
           alert("이력서 다운로드에 실패했습니다.");
         });
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style>
+#mypageNickname {
+  background-color: cornsilk;
+}
+.resumeButtonContainer{
+   float: right;
+  margin: 50px;
+
+}
 </style>
