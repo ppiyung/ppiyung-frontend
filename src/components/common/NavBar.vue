@@ -29,7 +29,9 @@
                             <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
                         </b-nav-item>
                         <b-nav-item>
-                            <font-awesome-icon icon="fa-solid fa-bell" />
+                            <router-link :to="{ name: 'notify/nomal'}" :class="{'selected': this.currentMenu === 'notify'}">
+                                <font-awesome-icon icon="fa-solid fa-bell" />
+                            </router-link>
                         </b-nav-item>
                         <b-nav-item v-if="!isLogin">
                             <router-link :to="{ name: 'login' }">
@@ -71,6 +73,10 @@ export default {
         return 'recruit';
       } if (name === 'board') {
         return 'board';
+
+     } if (name === 'notify') {
+        return 'notify';
+
       } if (name === 'myPage'){
         return 'myPage';
       }
