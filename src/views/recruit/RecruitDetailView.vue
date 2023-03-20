@@ -123,8 +123,8 @@ export default {
 
 <style scoped>
 img {
-  max-height: 500px;
-  max-width: 600px;
+  max-height: 100px;
+  max-width: 100px;
 }
 h1 {
   margin-top: 20px;

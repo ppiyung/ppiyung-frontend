@@ -4,13 +4,7 @@
     <div>
       <b-card no-body>
         <b-tabs pills card vertical>
-          <profile-tab />
-          <resume-tab/>
           <update-tab/>
-          <apply-tab/>
-          <suggest-tab/>
-          <community-tab/>
-          <book-mark-tab/>
         </b-tabs>
       </b-card>
     </div>
@@ -18,19 +12,13 @@
 </template>
 
 <script>
-import UpdateTab from '@/components/member/MyPageUpdateTab.vue';
+import UpdateTab from '@/components/member/MyCompanyPageUpdateTab.vue';
 import BasicLayout from '@/components/common/BaseLayout.vue';
-import ProfileTab from '@/components/member/MyPageProfileTab.vue';
-import ResumeTab from '@/components/member/MyPageResumeTab.vue';
-import ApplyTab from '@/components/member/MyPageApplyTab.vue';
-import SuggestTab from '@/components/member/MyPageSuggestTab.vue';
-import CommunityTab from '@/components/member/MyPageCommunityTab.vue';
-import BookMarkTab from '@/components/member/MyPageBookMarkTab.vue';
 
 export default {
   name: 'MyPageView',
   components:{
-   BasicLayout, ProfileTab,ResumeTab ,UpdateTab ,ApplyTab,SuggestTab ,CommunityTab ,BookMarkTab
+   BasicLayout,UpdateTab
   },
   computed: {
     loginMemberInfo() {

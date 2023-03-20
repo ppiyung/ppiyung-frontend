@@ -16,7 +16,6 @@
           class="d-inline-block"
           >삭제</b-button
         >
-   
       </div>
     </div>
     <b-card>
@@ -47,10 +46,6 @@
           <font-awesome-icon style="color: red" icon="fa-solid fa-heart"  v-if="!likechecked" />
           <font-awesome-icon style="color: black" icon="fa-solid fa-heart"  v-if="likechecked"  />
 
-        
-          <!-- <img src="@/assets/heart.png" id="LikeImg" v-if="!likechecked" />
->>>>>>> 0c1c1eed839fa86e0980097f30d827f1af832d7f
-          <img src="@/assets/disHeart.png" id="disLikeImg" v-if="likechecked" /> -->
         </div>
       </b-card-footer>
     </b-card>

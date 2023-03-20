@@ -10,7 +10,8 @@ export default {
         boardTotal: '',
         likechecked: [],
         replyList: [],
-        articleId: ''
+        articleId: '',
+        myCommunityList: []
     },
     // 변수를 반환하는 getter로 이해.
     getters: {
@@ -33,6 +34,9 @@ export default {
         },
         articleId(state) {
             return state.articleId;
+        },
+         myCommunityList(state){
+            return state.myCommunityList
         }
 
     },
@@ -59,6 +63,9 @@ export default {
         },
         setArticleId(state, articleId) {
             state.articleId == articleId;
+        },
+        setMyCommunityList(state,myCommunityList){
+            state.myCommunityList = myCommunityList;
         }
     },
 
@@ -93,6 +100,30 @@ export default {
                 });
         },
 
+        //마이페이지 커뮤니티 게시글 조회
+    
+        myCommunityList({ commit, rootGetters },id) {
+            console.log('마이커뮤니티리스트');
+            axios.get(
+                `${apiUri.board}/${id}`,
+                {
+                  withCredentials: true,
+                  headers: {
+                    Authorization: `Bearer ${rootGetters['auth/accessToken']}`
+                  }
+                }
+              )
+                .then((result) => {
+                  console.log(result.data);
+                  commit('setMyCommunityList', result.data.payload);
+                  commit('common/setSuccess', true, { root: true });
+                })
+                .catch((error) => {
+                  console.error(error);
+                  commit('common/setSuccess', false, { root: true });
+                });
+            },
+            
         //개별 커뮤니티 게시물 세부 조회
         requestBoardDetail({ commit, rootGetters }, articleId) {
             axios.get(
