@@ -42,6 +42,7 @@ export default [
         component: MyCompanyPageView,
         meta: { requiresAuth: true }
     },
+    {
         path: '/notify/company',
         name: 'notify/company',
         component: NotifyCompanyView,
