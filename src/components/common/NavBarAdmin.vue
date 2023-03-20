@@ -34,8 +34,8 @@
                         <b-nav-item>
                             <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
                         </b-nav-item>
-                        <b-nav-item>
-                            <font-awesome-icon icon="fa-solid fa-bell" />
+                        <b-nav-item>                            
+                                <font-awesome-icon icon="fa-solid fa-bell" />
                         </b-nav-item>
                         <b-nav-item v-if="!isLogin">
                             <router-link :to="{ name: 'login' }">

@@ -2,8 +2,9 @@ import RecruitMainView from '../views/recruit/RecruitMainView.vue';
 import BoardMainView from '../views/board/BoardMainView.vue';
 import RecruitDetailView from '../views/recruit/RecruitDetailView.vue';
 import CompanyProfile from '../views/recruit/CompanyProfile.vue';
-import BoardDetailView from '../views/board/BoardDetailView.vue';
+import NotifyNomalView from '../views/notify/NotifyNomalView.vue';
 import MyPageView from '../views/member/MyPageView.vue';
+import BoardDetailView from '../views/board/BoardDetailView.vue';
 import BoardInsertView from '../views/board/BoardInsertView.vue';
 import BoardModfiyView from  '../views/board/BoardModifyView.vue';
 
@@ -33,6 +34,12 @@ export default [
         meta: { requiresAuth: true }
       },
       {
+        path: '/notify/nomal',
+        name: 'notify/nomal',
+        component: NotifyNomalView,
+        meta: { requiresAuth: true }
+      },
+      {
         path: '/board/article',
         name: 'boardInsert',
         component: BoardInsertView,
@@ -57,4 +64,5 @@ export default [
         component: BoardModfiyView,
         meta: {requiresAuth: true}
       }
+
 ]

@@ -223,13 +223,13 @@ export default {
             recruitInfo.recruitEndAt = new Date(new Date().setDate((new Date().getDate()-1))).toISOString();
 
             this.$store.dispatch('auth/authRequest', {
-            requestCallback: () => {
-                this.$store.dispatch('admin/requestEditRecruit', { recruitInfo, resultRef: this.editRecruitResult });
-            },
-            failedCallback: (error) => {
-                console.error('실패');
-                console.error(error);
-            }
+                requestCallback: () => {
+                    this.$store.dispatch('admin/requestEditRecruit', { recruitInfo, resultRef: this.editRecruitResult });
+                },
+                failedCallback: (error) => {
+                    console.error('실패');
+                    console.error(error);
+                }
             });
         },
         loadRecruitList() {

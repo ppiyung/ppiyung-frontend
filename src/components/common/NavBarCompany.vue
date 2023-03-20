@@ -28,8 +28,10 @@
                         <b-nav-item>
                             <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
                         </b-nav-item>
-                        <b-nav-item>
-                            <font-awesome-icon icon="fa-solid fa-bell" />
+                        <b-nav-item> 
+                            <router-link :to="{ name: 'notify/company'}" :class="{'selected': this.currentMenu === 'notify'}">
+                                <font-awesome-icon icon="fa-solid fa-bell" />
+                            </router-link>
                         </b-nav-item>
                         <b-nav-item v-if="!isLogin">
                             <router-link :to="{ name: 'login' }">
@@ -71,6 +73,8 @@ export default {
         return 'recruit';
       } if (name === 'company/suggest') {
         return 'suggest';
+      } if (name === 'notify') {
+        return 'notify';
       }
       return '';
     },
