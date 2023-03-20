@@ -64,7 +64,7 @@ export default {
       query: '',
       searchResult: [],
       notifyInfoParam: {
-        createdAtFormmated: dayjs.unix(this.notificationCreatedAt / 1000).format("YYYY년 MM월 DD일 HH시 mm분 ss초"),
+        createdAtFormmated: dayjs.utc(this.notificationCreatedAt).format("YYYY년 MM월 DD일 HH시 mm분 ss초"),
          memberId: this.$store.getters['auth/memberInfo'].memberId
       }
     };
