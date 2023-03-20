@@ -9,6 +9,5 @@ export default {
   recruit: `${baseUri}/recruit`,
   board: `${baseUri}/board`,
   resources: `${baseUri}/resources`,
-  board: `${baseUri}/board`,
   kakaoLocationByKeyword: 'https://dapi.kakao.com/v2/local/search/keyword.json'
 };

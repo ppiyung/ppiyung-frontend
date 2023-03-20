@@ -270,9 +270,9 @@ export default {
             });
         },
         // 댓글 입력
-        inputCommnent({ commit, rootGetters }, { articleId, replyContent, memberId, replyCreatedAt,reloadFuncRef }) {
+        inputCommnent({ commit, rootGetters }, { articleId, replyContent, memberId, replyCreatedAt, reloadFuncRef }) {
             axios.post(
-                `${apiUri.board}/reply/`,{articleId,replyContent,memberId,replyCreatedAt},
+                `${apiUri.board}/reply/`, { articleId, replyContent, memberId, replyCreatedAt },
                 {
                     withCredentials: true,
                     headers: {
@@ -292,12 +292,12 @@ export default {
 
 
         // 댓글 삭제
-        deleteComment({ commit, rootGetters }, { replyId,reloadFuncRef }){
+        deleteComment({ commit, rootGetters }, { replyId, reloadFuncRef }) {
             axios.delete(
                 `${apiUri.board}/reply/${replyId}`,
                 {
                     withCredentials: true,
-                    params:{
+                    params: {
                         replyId
                     },
                     headers: {
@@ -312,7 +312,30 @@ export default {
                 console.error(error);
                 commit('common/setSuccess', false, { root: true });
             });
+        },
+
+        modfiyComment({ commit, rootGetters }, { replyId, replyContent, replyCreatedAt, reloadFuncRef }) {
+            axios.put(
+                `${apiUri.board}/reply/${replyId}`, { replyId, replyContent, replyCreatedAt }
+                , {
+                    withCredentials: true,
+                    params: {
+                        replyId
+                    },
+                    headers: {
+                        Authorization: `Bearer ${rootGetters['auth/accessToken']}`
+                    }
+                }).then(() => {
+                    commit('common/setSuccess', true, { root: true });
+                    console.log('댓글 수정완료');
+                    reloadFuncRef();
+                }).catch((error) => {
+                    console.log("여기서 오류");
+                    console.error(error);
+                    commit('common/setSuccess', false, { root: true });
+                });
         }
+
     }
 
 };

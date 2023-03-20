@@ -6,6 +6,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faBell, faMagnifyingGlass, faHeart } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import CKEditor from '@ckeditor/ckeditor5-vue2';
 
 import App from './App.vue';
 import router from './router';
@@ -21,6 +22,7 @@ Vue.prototype.$secret = secret;
 
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
+Vue.use(CKEditor);
 
 library.add(faBell, faMagnifyingGlass, faHeart);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
