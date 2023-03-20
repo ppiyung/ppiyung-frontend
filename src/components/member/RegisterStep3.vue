@@ -16,6 +16,18 @@
       </b-col>
     </b-row>
 
+    <b-row v-if="isCompany">
+      <b-col lg="1" class="pb-2">
+          기업 소개
+      </b-col>
+      <b-col lg="4" class="pb-2">
+        <b-form-textarea
+            v-model="registerInfoParam.memberInfo"
+            rows="7"
+        ></b-form-textarea>
+      </b-col>
+    </b-row>
+
     <b-row  class="text-center">
       <b-col lg="4" class="pb-2">
           <b-button
