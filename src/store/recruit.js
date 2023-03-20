@@ -304,13 +304,10 @@ export default {
         });
     },
 
-    requestAddBookmark({ commit, rootGetters }, { recruitId, memberId }) {
+    requestAddBookmark({ rootGetters }, { recruitId, resultRef }) {
       axios.post(
-        `${apiUri.recruit}/bookmark`,
-        {
-          recruitId,
-          memberId
-        },
+        `${apiUri.recruit}/bookmark/${recruitId}`,
+        {},
         {
           withCredentials: true,
           headers: {
@@ -319,10 +316,11 @@ export default {
         }
       )
         .then(() => {
-          commit('common/setSuccess', true, { root: true });
+          resultRef.success = true;
         })
-        .catch(() => {
-          commit('common/setSuccess', false, { root: true });
+        .catch((response) => {
+          console.error(response);
+          resultRef.success = false;
         });
     },
     // eslint-disable-next-line
