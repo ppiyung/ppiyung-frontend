@@ -21,6 +21,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch('auth/logout');
+    this.$store.commit('notify/setNotifyList', [ ])
   }
 };
 </script>
