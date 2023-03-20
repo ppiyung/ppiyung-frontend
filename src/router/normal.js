@@ -52,7 +52,7 @@ export default [
         meta : {requiresAuth: true }
       },
       {
-        path: '/member/:id',
+        path: '/member',
         name: 'myPage',
         component: MyPageView,
         meta: { requiresAuth: true }
