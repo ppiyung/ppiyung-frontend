@@ -8,17 +8,13 @@
     <br/>
     <div>
       {{ memberInfo.memberNickname }} 님의 이력서 :
-      {{ memberDetail.memberResume.resumeFilename }} <br><br>
-      이력서 올린 날짜:{{ memberDetail.memberResume.resumeUpdatedAt }} <br><br>
+      {{ memberDetail.memberResume ?
+          memberDetail.memberResume.resumeFilename : '' }} <br><br>
+      이력서 올린 날짜: {{ memberDetail.memberResume ? 
+        memberDetail.memberResume.resumeUpdatedAt : '' }} <br><br>
       이력서 공개 여부:
-
-      {{ memberDetail.memberResume.resumeOpen }} 
-      <input
-        type="radio"
-        name="resumeOpen"
-        value="true"
-        checked="checked"
-      />공개 <input type="radio" name="resumeOpen" value="false" />비공개 <br><br>
+      <input  type="radio"  name="resumeOpen"  value="true"  checked="checked" />공개 
+      <input type="radio" name="resumeOpen"  value="false" />비공개 <br><br>
     </div>
 
     <b-form-file
@@ -36,6 +32,8 @@
 </template>
 
 <script>
+import dayjs from 'dayjs';
+
 export default {
   name: "ResumeTab",
   data() {
@@ -49,9 +47,21 @@ export default {
     memberInfo() {
       return this.$store.getters["auth/memberInfo"];
     },
-    memberDetail() {
-      return this.$store.getters["member/memberDetail"];
-    },
+      memberDetail() {
+      const memberDetailRaw = this.$store.getters["member/memberDetail"];
+      
+      if(Object.keys(memberDetailRaw).length === 0) {
+        return memberDetailRaw;
+      }
+
+      return {
+        ...memberDetailRaw,
+        memberResume: {
+          ...memberDetailRaw.memberResume,
+          resumeUpdatedAt: dayjs.unix(memberDetailRaw.memberResume.resumeUpdatedAt / 1000).format('YYYY년 MM월 DD일'),
+        }
+      }
+    }
   },
   methods: {
     uploadResume() {

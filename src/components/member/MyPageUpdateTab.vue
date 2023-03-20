@@ -1,6 +1,9 @@
 <template>
   <b-tab title="정보 수정하기" active>
-     <h3><span id="mypageNickname">{{memberInfo.memberNickname}}</span> 님의 회원정보 수정 </h3>
+    <h3>
+      <span id="mypageNickname">{{ memberInfo.memberNickname }}</span> 님의
+      회원정보 수정
+    </h3>
     <br />
     <div class="updateContainer">
       <b-row>
@@ -59,6 +62,16 @@
         <b-col lg="4" class="pb-2">
           <b-form-input
             v-model="updateInfoform.memberPhone"
+            required
+          ></b-form-input>
+        </b-col>
+      </b-row>
+
+      <b-row>
+        <b-col lg="1" class="pb-2"> 자기 소개 </b-col>
+        <b-col lg="4" class="pb-2">
+          <b-form-input
+            v-model="updateInfoform.memberInfo"
             required
           ></b-form-input>
         </b-col>
@@ -140,7 +153,7 @@ export default {
 .duplicate-indicator {
   margin-bottom: 10px;
 }
-#mypageNickname{
- background-color: cornsilk;
+#mypageNickname {
+  background-color: cornsilk;
 }
 </style>

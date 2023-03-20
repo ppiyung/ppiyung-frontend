@@ -40,6 +40,7 @@
 </template>
 
 <script>
+import dayjs from 'dayjs';
 export default {
   data() {
     return {
@@ -77,7 +78,20 @@ export default {
       return this.$store.getters["auth/memberInfo"];
     },
     bookMarkList() {
-      return this.$store.getters["recruit/bookMarkList"];
+      const rawData = this.$store.getters["recruit/bookMarkList"];
+
+      if(Object.keys(rawData).length === 0) {
+        return rawData;
+      }
+
+      return rawData
+       .map(item => {
+        return{
+          ...item,
+          recruit_start_at: dayjs.unix(item.recruit_start_at / 1000).format('YYYY년 MM월 DD일'),
+          recruit_end_at:  dayjs.unix(item.recruit_end_at / 1000).format('YYYY년 MM월 DD일')
+       }
+      })
     },
   },
   mounted() {
@@ -92,6 +106,7 @@ export default {
       },
     });
   },
+
 };
 </script>
 

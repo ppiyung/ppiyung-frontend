@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import dayjs from 'dayjs';
 export default {
    data() {
     return {
@@ -48,7 +49,13 @@ export default {
       return this.$store.getters["auth/memberInfo"];
     },
     suggestList() {
-      return this.$store.getters["recruit/suggestList"];
+      return this.$store.getters["recruit/suggestList"]
+      .map(item => {
+        return{
+          ...item,
+          suggestCreatedAt: dayjs.unix(item.suggestCreatedAt / 1000).format('YYYY년 MM월 DD일')
+        }
+      })
     },
   },
   mounted() {

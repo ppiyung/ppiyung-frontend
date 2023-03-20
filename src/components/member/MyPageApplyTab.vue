@@ -48,6 +48,8 @@
 </template>
 
 <script>
+import dayjs from 'dayjs';
+
 export default {
   data() {
     return {
@@ -86,7 +88,17 @@ export default {
       return this.$store.getters["auth/memberInfo"];
     },
     applyList() {
-      return this.$store.getters["recruit/applyListById"];
+      return this.$store.getters["recruit/applyListById"]
+        .map(item => {
+          return {
+            ...item,
+            applyRecruit: {
+              ...item.applyList,
+              recruitStartAt: dayjs.unix(item.applyRecruit.recruitStartAt / 1000).format('YYYY년 MM월 DD일'),
+              recruitEndAt: dayjs.unix(item.applyRecruit.recruitEndAt / 1000).format('YYYY년 MM월 DD일')
+            }
+          }
+        })
     },
   },
   methods: {
