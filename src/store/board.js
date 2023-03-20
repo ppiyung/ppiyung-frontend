@@ -270,7 +270,7 @@ export default {
             });
         },
         // 댓글 입력
-        inputCommnent({ commit, rootGetters }, { articleId, replyContent, memberId, replyCreatedAt, reloadFuncRef }) {
+        inputCommnent({ commit, rootGetters }, { articleId, replyContent, memberId, replyCreatedAt, reloadFuncRef, reloadFuncArticle }) {
             axios.post(
                 `${apiUri.board}/reply/`, { articleId, replyContent, memberId, replyCreatedAt },
                 {
@@ -283,6 +283,7 @@ export default {
                 commit('common/setSuccess', true, { root: true });
                 console.log("댓글 생성 완료");
                 reloadFuncRef();
+                reloadFuncArticle();
             }).catch((error) => {
                 console.error(error);
                 commit('common/setSuccess', false, { root: true });
@@ -292,7 +293,7 @@ export default {
 
 
         // 댓글 삭제
-        deleteComment({ commit, rootGetters }, { replyId, reloadFuncRef }) {
+        deleteComment({ commit, rootGetters }, { replyId, reloadFuncRef, reloadFuncArticle }) {
             axios.delete(
                 `${apiUri.board}/reply/${replyId}`,
                 {
@@ -308,6 +309,7 @@ export default {
                 commit('common/setSuccess', true, { root: true });
                 console.log("댓글 생성 완료");
                 reloadFuncRef();
+                reloadFuncArticle();
             }).catch((error) => {
                 console.error(error);
                 commit('common/setSuccess', false, { root: true });

@@ -28,11 +28,12 @@
           }}</small>
           <small>{{ boardDetail.memberNickname }}</small>
         </div>
-        <div class="d-flex align-items-right">
-          <small class="text-muted mr-2"
-            >like : {{ boardDetail.likeCnt }}</small
-          >
-          <small>reply : {{ boardDetail.commentCnt }}</small>
+        <div align="right">
+          <h5 class="mb-1">  
+            <font-awesome-icon style="color: black" icon="fa-solid fa-heart" />
+            like : {{ boardDetail.likeCnt }}
+          reply : {{ boardDetail.commentCnt }} </h5>
+        
         </div>
       </b-card-header>
       <b-card-body>
@@ -42,8 +43,8 @@
         <div
           v-if="memberId !== boardDetail.memberId"
           :active="likechecked"
-          @click="toggleLike()"> 
-          <font-awesome-icon style="color: red" icon="fa-solid fa-heart"  v-if="!likechecked"  />
+          @click="toggleLike()" > 
+          <font-awesome-icon style="color: red" icon="fa-solid fa-heart"  v-if="!likechecked" />
           <font-awesome-icon style="color: black" icon="fa-solid fa-heart"  v-if="likechecked"  />
 
         
