@@ -10,8 +10,8 @@ export default {
         boardTotal: '',
         likechecked: [],
         replyList: [],
-        articleId : '',
-        myCommunityList:[]
+        articleId: '',
+        myCommunityList: []
     },
     // 변수를 반환하는 getter로 이해.
     getters: {
@@ -32,10 +32,10 @@ export default {
         boardTotal(state) {
             return state.boardTotal;
         },
-        articleId(state){
+        articleId(state) {
             return state.articleId;
         },
-        myCommunityList(state){
+         myCommunityList(state){
             return state.myCommunityList
         }
 
@@ -61,8 +61,8 @@ export default {
         setBoardTotal(state, boardTotal) {
             state.boardTotal = boardTotal;
         },
-        setArticleId(state,articleId){
-            state.articleId = articleId;
+        setArticleId(state, articleId) {
+            state.articleId == articleId;
         },
         setMyCommunityList(state,myCommunityList){
             state.myCommunityList = myCommunityList;
@@ -99,7 +99,7 @@ export default {
                     commit('common/setSuccess', false, { root: true });
                 });
         },
-        
+
         //마이페이지 커뮤니티 게시글 조회
     
         myCommunityList({ commit, rootGetters },id) {
@@ -123,7 +123,7 @@ export default {
                   commit('common/setSuccess', false, { root: true });
                 });
             },
-
+            
         //개별 커뮤니티 게시물 세부 조회
         requestBoardDetail({ commit, rootGetters }, articleId) {
             axios.get(
@@ -140,7 +140,7 @@ export default {
                 }
             )
                 .then((result) => {
-                    commit('setBoardDetail', result.data.payload);
+                    commit('setBoardDetail', result.data.payload[0]);
                 }).catch((error) => {
                     console.error(error);
                 });
@@ -169,7 +169,7 @@ export default {
                 commit('common/setSuccess', false, { root: true });
             });
         },
-        //게시물 수정
+        //게시물 수정+
         setModifyBoard({ commit, rootGetters }, { articleCreatedAt, articleTitle, articleContent, articleId }) {
             axios.put(
                 `${apiUri.board}/article/${articleId}`,
@@ -299,7 +299,76 @@ export default {
                 console.error(error);
                 commit('common/setSuccess', false, { root: true });
             });
+        },
+        // 댓글 입력
+        inputCommnent({ commit, rootGetters }, { articleId, replyContent, memberId, replyCreatedAt, reloadFuncRef, reloadFuncArticle }) {
+            axios.post(
+                `${apiUri.board}/reply/`, { articleId, replyContent, memberId, replyCreatedAt },
+                {
+                    withCredentials: true,
+                    headers: {
+                        Authorization: `Bearer ${rootGetters['auth/accessToken']}`
+                    }
+                }
+            ).then(() => {
+                commit('common/setSuccess', true, { root: true });
+                console.log("댓글 생성 완료");
+                reloadFuncRef();
+                reloadFuncArticle();
+            }).catch((error) => {
+                console.error(error);
+                commit('common/setSuccess', false, { root: true });
+            });
+        },
+        // 댓글 수정
+
+
+        // 댓글 삭제
+        deleteComment({ commit, rootGetters }, { replyId, reloadFuncRef, reloadFuncArticle }) {
+            axios.delete(
+                `${apiUri.board}/reply/${replyId}`,
+                {
+                    withCredentials: true,
+                    params: {
+                        replyId
+                    },
+                    headers: {
+                        Authorization: `Bearer ${rootGetters['auth/accessToken']}`
+                    }
+                }
+            ).then(() => {
+                commit('common/setSuccess', true, { root: true });
+                console.log("댓글 생성 완료");
+                reloadFuncRef();
+                reloadFuncArticle();
+            }).catch((error) => {
+                console.error(error);
+                commit('common/setSuccess', false, { root: true });
+            });
+        },
+
+        modfiyComment({ commit, rootGetters }, { replyId, replyContent, replyCreatedAt, reloadFuncRef }) {
+            axios.put(
+                `${apiUri.board}/reply/${replyId}`, { replyId, replyContent, replyCreatedAt }
+                , {
+                    withCredentials: true,
+                    params: {
+                        replyId
+                    },
+                    headers: {
+                        Authorization: `Bearer ${rootGetters['auth/accessToken']}`
+                    }
+                }).then(() => {
+                    commit('common/setSuccess', true, { root: true });
+                    console.log('댓글 수정완료');
+                    reloadFuncRef();
+                }).catch((error) => {
+                    console.log("여기서 오류");
+                    console.error(error);
+                    commit('common/setSuccess', false, { root: true });
+                });
         }
+
     }
 
 };

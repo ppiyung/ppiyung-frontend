@@ -4,7 +4,7 @@ import NotifyCompanyView from '../views/notify/NotifyCompanyView.vue';
 import CompanyRecruitDetailView from '../views/company/CompanyRecruitDetailView.vue';
 import CompanyRecruitNew from '../views/company/CompanyRecruitNewView.vue';
 import CompanyRecruitEdit from '../views/company/CompanyRecruitEditView.vue';
-
+import MyCompanyPageView from '../views/company/MyCompanyPageView';
 export default [
     {
         path: '/company/recruit',
@@ -37,6 +37,11 @@ export default [
         mata : { requiresAuth: true }
     },
     {
+        path: '/company',
+        name: 'myCompany',
+        component: MyCompanyPageView,
+        meta: { requiresAuth: true }
+    },
         path: '/notify/company',
         name: 'notify/company',
         component: NotifyCompanyView,
