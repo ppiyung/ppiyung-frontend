@@ -287,8 +287,32 @@ export default {
                 console.error(error);
                 commit('common/setSuccess', false, { root: true });
             });
-        }
+        },
+        // 댓글 수정
 
+
+        // 댓글 삭제
+        deleteComment({ commit, rootGetters }, { replyId,reloadFuncRef }){
+            axios.delete(
+                `${apiUri.board}/reply/${replyId}`,
+                {
+                    withCredentials: true,
+                    params:{
+                        replyId
+                    },
+                    headers: {
+                        Authorization: `Bearer ${rootGetters['auth/accessToken']}`
+                    }
+                }
+            ).then(() => {
+                commit('common/setSuccess', true, { root: true });
+                console.log("댓글 생성 완료");
+                reloadFuncRef();
+            }).catch((error) => {
+                console.error(error);
+                commit('common/setSuccess', false, { root: true });
+            });
+        }
     }
 
 };
