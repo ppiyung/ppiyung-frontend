@@ -1,45 +1,49 @@
-
 <template>
 
-  <div class="NotifyApply-container">
-    <notify-apply-card
+  <div class="CompanyNomal-container">
+    <notify-company-card
       v-for="notify in notifyList"
       :key="notify.notifyId"
       :notificationId="notify.notificationId"
       :applyId="notify.applyId"
+      :suggestId="notify.suggestId"
       :memberId="notify.memberId"
       :notifyDetail="notify.notifyDetail"
       :applyResult="notify.applyResult"
       :recruitId="notify.recruitId"
-      :recruitTitle="notify.recruitTitle"
-      :notificationCreateAt="new Date(notify.notificationCreatedAt).toISOString()"/>
+      :memberName="notify.memberName"
+      :recruitTitle="notify.recruit.recruitTitle"
+      :companyId="notify.companyId"
+      :notificationCreatedAt="notify.notificationCreatedAt"/>
+    
   </div>
   
 </template>
 
 <script>
-import NotifyApplyCard from './NotifyApplyCard.vue';
+import NotifyCompanyCard from './NotifyCompanyCard.vue';
 
 export default {
   components: {
-     NotifyApplyCard
+     NotifyCompanyCard
 
   },
   computed: {
     notifyList() {
       return this.$store.getters['notify/notifyList'];
     },
+    // auth 토근 로그인 
     memberInfo() {
       return this.$store.getters['auth/memberInfo'];
     }
   },
 
-  // 반응성 생성
+  // auth 토근 로그인
   watch: {
     workArea() {
       this.$store.dispatch('auth/authRequest', {
         requestCallback: () => {
-          this.$store.dispatch('notify/apply/requestNotifyList', );
+          this.$store.dispatch('notify/company/requestNotifyList', );
         },
         failedCallback: (error) => {
           console.error('실패');

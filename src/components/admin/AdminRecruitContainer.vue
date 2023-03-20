@@ -96,6 +96,7 @@ export default {
             editRecruitResult: {
                 success: null
             },
+            includeClosed: false,
             fields: [
                 {
                     key: 'recruitId',
@@ -232,15 +233,15 @@ export default {
             });
         },
         loadRecruitList() {
-            this.$store.dispatch('auth/authRequest', {
-            requestCallback: () => {
-                this.$store.dispatch('admin/requestRecruitList');
-            },
-            failedCallback: (error) => {
-                console.error('실패');
-                console.error(error);
-                this.$store.commit('common/setSuccess', false);
-            }
+                this.$store.dispatch('auth/authRequest', {
+                requestCallback: () => {
+                    this.$store.dispatch('admin/requestRecruitList');
+                },
+                failedCallback: (error) => {
+                    console.error('실패');
+                    console.error(error);
+                    this.$store.commit('common/setSuccess', false);
+                }
             });
         }
     },
@@ -259,6 +260,21 @@ export default {
                 } else if (val === false) {
                     alert('공고 즉시 마감에 실패했습니다.')
                 }
+            }
+        },
+        watch: {
+            inlcudeClosed(val) {
+                let valueByBool;
+                if (val === 'true') {
+                    valueByBool = true;
+                } else {
+                    valueByBool = false;
+                }
+
+                this.$store.commit('recruit/setPageOption', {
+                    ...this.$store.getters['admin/recruitManage'].queryOption,
+                    closed: valueByBool
+                });
             }
         }
     },

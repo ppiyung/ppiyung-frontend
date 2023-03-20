@@ -29,7 +29,7 @@
                             <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
                         </b-nav-item>
                         <b-nav-item>
-                            <router-link :to="{ name: 'notify/apply'}" :class="{'selected': this.currentMenu === 'notify'}">
+                            <router-link :to="{ name: 'notify/nomal'}" :class="{'selected': this.currentMenu === 'notify'}">
                                 <font-awesome-icon icon="fa-solid fa-bell" />
                             </router-link>
                         </b-nav-item>
@@ -49,12 +49,8 @@
                             :text="memberInfo.memberNickname + '님'"
                             variant="primary"
                             right>
-                            <b-dropdown-item @click="onLogout">로그아웃</b-dropdown-item>
-                            <b-dropdown-item> 
-                                <router-link :to="{ name: 'mypage' }">
-                                       마이페이지
-                              </router-link>
-                            </b-dropdown-item>
+                            <b-dropdown-item @click="goTo('logout')">로그아웃</b-dropdown-item>
+                            <b-dropdown-item @click="goTo('mypage')">마이페이지</b-dropdown-item>
                         </b-nav-item-dropdown>
                     </b-navbar-nav>
                 </b-collapse>
@@ -66,8 +62,8 @@
 <script>
 export default {
   methods: {
-    onLogout() {
-      this.$router.push({ name: 'logout' });
+    goTo(routeName) {
+      this.$router.push({ name: routeName });
     }
   },
   computed: {

@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <router-view/>
+    <router-view class="router-wrapper" />
   </div>
 </template>
 
@@ -18,8 +18,9 @@ export default {
     font-style: normal;
 }
 
-#app{
-     font-family: 'Pretendard-Regular';
+#app {
+  height: 100%;
+  font-family: 'Pretendard-Regular';
 }
 
 </style>
