@@ -4,7 +4,7 @@ import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faBell, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { faBell, faMagnifyingGlass, faHeart} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import CKEditor from '@ckeditor/ckeditor5-vue2';
 import dayjs from 'dayjs';
@@ -32,7 +32,7 @@ Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
 Vue.use(CKEditor);
 
-library.add(faBell, faMagnifyingGlass);
+library.add(faBell, faMagnifyingGlass, faHeart);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 new Vue({
