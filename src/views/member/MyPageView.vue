@@ -9,17 +9,8 @@
           <update-tab/>
           <apply-tab/>
           <suggest-tab/>
-    
-          <b-tab title="내가 작성한 게시글">
-             <h3>내가 작성한 게시글</h3> <br>
-            <b-card-text>내가 작성한 게시글</b-card-text>
-            </b-tab>
-
-             <b-tab title="관심 채용 정보">
-             <h3>관심 채용 정보</h3> <br>
-            <b-card-text>관심 채용 정보</b-card-text>
-            </b-tab>
-
+          <community-tab/>
+          <book-mark-tab/>
         </b-tabs>
       </b-card>
     </div>
@@ -33,11 +24,13 @@ import ProfileTab from '@/components/member/MyPageProfileTab.vue';
 import ResumeTab from '@/components/member/MyPageResumeTab.vue';
 import ApplyTab from '@/components/member/MyPageApplyTab.vue';
 import SuggestTab from '@/components/member/MyPageSuggestTab.vue';
+import CommunityTab from '@/components/member/MyPageCommunityTab.vue';
+import BookMarkTab from '@/components/member/MyPageBookMarkTab.vue';
 
 export default {
   name: 'MyPageView',
   components:{
-   BasicLayout, ProfileTab,ResumeTab ,UpdateTab ,ApplyTab,SuggestTab
+   BasicLayout, ProfileTab,ResumeTab ,UpdateTab ,ApplyTab,SuggestTab ,CommunityTab ,BookMarkTab
   },
   computed: {
     loginMemberInfo() {
@@ -64,4 +57,5 @@ export default {
   width: 1200px;
   height: fit-content;
 }
+
 </style>

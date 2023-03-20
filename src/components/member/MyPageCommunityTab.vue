@@ -1,6 +1,10 @@
 <template>
-    <b-tab title="지원현황" active>
-
+    <b-tab title="내가 쓴 게시글" >
+        <h3> {{memberInfo.memberNickname}} 님이 쓴 게시글 </h3>
+    <br>
+      <div v-if="!myCommunityList.length" class="fadeNotice">게시글이 존재하지 않습니다.</div>
+      <div v-else>{{ myCommunityList }}</div>
+ 
     </b-tab>
 </template>
 
@@ -11,15 +15,15 @@ export default {
         memberInfo() {
             return this.$store.getters["auth/memberInfo"];
       },
-        suggestList(){
-          return this.$store.getters["recruit/suggestList"]
+        myCommunityList(){
+          return this.$store.getters["board/myCommunityList"]
         }
     
     },
       mounted() {
           this.$store.dispatch('auth/authRequest', {
               requestCallback: () => {
-                  this.$store.dispatch('recruit/suggestList', this.memberInfo.memberId);
+                  this.$store.dispatch('board/myCommunityList', this.memberInfo.memberId);
               },
               failedCallback: (error) => {
                   console.error('실패');

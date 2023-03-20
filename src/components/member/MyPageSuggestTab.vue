@@ -1,7 +1,9 @@
 <template>
   <b-tab title="입사 제안">
              <h3>{{memberInfo.memberNickname}}님에게 온 입사 제안</h3> <br>
-            {{ suggestList }}
+               <div v-if="!suggestList.length" class="fadeNotice">아직 입사 제안이 오지 않았습니다.</div>
+                <div v-else>{{ suggestList }}</div>
+
             </b-tab>
 </template>
 
@@ -16,7 +18,7 @@ export default {
       }
   },
     mounted() {
-                    console.log('asdf1');
+                  
         this.$store.dispatch('auth/authRequest', {
             requestCallback: () => {
               console.log('asdf2');

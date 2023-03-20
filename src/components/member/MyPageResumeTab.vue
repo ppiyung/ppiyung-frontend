@@ -5,6 +5,7 @@
     {{memberInfo.memberNickname}} 님의 이력서 : {{memberDetail.memberResume.resumeFilename}}  <br>
     이력서 올린 날짜:{{memberDetail.memberResume.resumeUpdatedAt}}  <br>
     이력서 공개 여부:  
+
     {{memberDetail.memberResume.resumeOpen}} 
     <input type="radio" name="resumeOpen" value="true" checked="checked">공개
     <input type="radio" name="resumeOpen" value="false" >비공개

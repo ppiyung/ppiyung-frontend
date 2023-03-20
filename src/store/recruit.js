@@ -14,7 +14,8 @@ export default {
     recruitDetail: { },
     openedResumeList: [],
     applyListById: [],
-    suggestList:[]
+    suggestList:[],
+    bookMarkList:{}
   },
   getters: {
     recruitList(state) {
@@ -37,6 +38,9 @@ export default {
     },
     suggestList(state){
       return state.suggestList;
+    },
+    bookMarkList(state){
+      return state.bookMarkList;
     }
   },
   mutations: {
@@ -63,13 +67,37 @@ export default {
     },
     setSuggestList(state, suggestList){
       state.suggestList = suggestList;
+    },
+    setBookMarkList(state, bookMarkList){
+      state.bookMarkList =bookMarkList;
     }
 
   },
   actions: {
+    //마이페이지 - 관심채용 리스트 조회
+    bookMarkList({ commit, rootGetters }, id) {
+  
+      axios.get(
+        `${apiUri.recruit}/bookmark/${id}`,
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${rootGetters['auth/accessToken']}`
+          }
+        }
+      )
+        .then((result) => {
+          commit('setBookMarkList', result.data.payload);
+          commit('common/setSuccess', true, { root: true });
+        })
+        .catch((error) => {
+          console.error(error);
+          commit('common/setSuccess', false, { root: true });
+        });
+    },
     //마이페이지-입사제안 리스트 조회
     suggestList({ commit, rootGetters }, id) {
-      console.log('asdf3');
+  
       axios.get(
         `${apiUri.recruit}/suggest/member/${id}`,
         {
