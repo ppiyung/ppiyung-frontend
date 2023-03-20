@@ -18,30 +18,28 @@
         <template #row-details="row">
           <b-card>
             <b-row>
-              <b-col sm="3" class="text-sm-right"><b>게시글 제목 </b></b-col>
-              <b-col @click="moveToDetailPage(articleId)">{{ row.item.articleTitle }}</b-col>
+              <b-col sm="3" class="text-sm-right" v-if="memberId === boardDetail.memberId" @click="moveToDetailPage(articleId)" >{{ row.item.articleTitle }}</b-col>
+
             </b-row>
 
             <b-row>
-              <b-col sm="3" class="text-sm-right" ><b>게시글 제목 </b></b-col>
-              <b-col >{{ row.item.articleContent }}</b-col>
+              <b-col sm="3" class="text-sm-right" >{{ row.item.articleContent }}</b-col>
+             
             </b-row>
 
             <b-row>
               <b-col sm="3" class="text-sm-right"
-                ><b>게시글 작성 날짜 </b></b-col
+                ><b>{{ row.item.articleCreatedAt }} </b></b-col
               >
-              <b-col>{{ row.item.articleCreatedAt }}</b-col>
+          
             </b-row>
 
             <b-row>
-              <b-col sm="3" class="text-sm-right"><b>댓글 수 </b></b-col>
-              <b-col>{{ row.item.commentCnt }}</b-col>
+              <b-col sm="3" class="text-sm-right"><b>{{ row.item.commentCnt }}</b></b-col>
             </b-row>
 
             <b-row>
-              <b-col sm="3" class="text-sm-right"><b>좋아요 수</b></b-col>
-              <b-col>{{ row.item.likeCnt }}</b-col>
+              <b-col sm="3" class="text-sm-right">{{ row.item.likeCnt }}</b-col>
             </b-row>
           </b-card>
         </template>
@@ -53,6 +51,9 @@
 
 <script>
 export default {
+    props:[
+       'articleId'
+    ],
   data() {
     return {
       fields: [
@@ -85,6 +86,7 @@ export default {
     };
   },
   computed: {
+ 
     memberInfo() {
       return this.$store.getters["auth/memberInfo"];
     },
