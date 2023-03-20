@@ -20,6 +20,8 @@
     "bootstrap-vue": "^2.23.1",
     "core-js": "^3.8.3",
     "dayjs": "^1.11.7",
+    "dayjs-plugin-utc": "^0.1.2",
+    "dayjs-timezone-iana-plugin": "^0.1.0",
     "dotenv": "^16.0.3",
     "vue": "^2.6.14",
     "vue-router": "^3.5.1",
