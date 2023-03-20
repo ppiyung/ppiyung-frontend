@@ -51,15 +51,11 @@
 import dayjs from 'dayjs';
 
 export default {
-  component: { dayjs },
-
   props: [
     'notificationId', 'memberId', 'applyId', 'notificationCreatedAt', 'memberName',
     'applyResult', 'recruitId', 'recruitTitle', 'suggestId'
   ],
   data() {
-    dayjs();
-
     return {
       query: '',
       searchResult: [],

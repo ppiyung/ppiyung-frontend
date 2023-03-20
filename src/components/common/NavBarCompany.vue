@@ -50,7 +50,7 @@
                             variant="primary"
                             right>
                             <b-dropdown-item @click="goTo('logout')">로그아웃</b-dropdown-item>
-                            <b-dropdown-item @click="goTo('mypage')">마이페이지</b-dropdown-item>
+                            <b-dropdown-item @click="goTo('myCompany')">마이페이지</b-dropdown-item>
                         </b-nav-item-dropdown>
                     </b-navbar-nav>
                 </b-collapse>
