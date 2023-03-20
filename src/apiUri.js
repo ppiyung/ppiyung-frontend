@@ -10,6 +10,5 @@ export default {
   resources: `${baseUri}/resources`,
   notify: `${baseUri}/notify`,
   board: `${baseUri}/board`,
-  resources: `${baseUri}/resources`,
   kakaoLocationByKeyword: 'https://dapi.kakao.com/v2/local/search/keyword.json'
 };

@@ -55,8 +55,8 @@ export default {
         });
     },
 
-    // 알림 목록에서 해당 알림 삭제
-    requestDeleteNotify({ commit, rootGetters }, notificationId) { 
+    // 일반회원 알림 목록에서 해당 알림 삭제
+    requestDeleteNomalNotify({ commit, rootGetters }, notificationId) { 
       console.log('알림 삭제 시작');
       axios.delete(
         `${apiUri.notify}/${notificationId}`,
@@ -75,7 +75,37 @@ export default {
         commit('common/setSuccess', true, { root: true });
         alert('알림이 삭제되었습니다.');
           //  페이지 새로고침을 위해 router.push 대신 window.location.reload() 사용
-          if (router.currentRoute.name !== '/notify/apply') {
+          if (router.currentRoute.name !== '/notify/nomal') {
+            window.location.reload();
+        }
+        })
+        .catch(() => {
+          commit('common/setSuccess', false, { root: true });
+          alert('알림 삭제가 실패했습니다.');
+        });
+    },
+
+     // 일반회원 알림 목록에서 해당 알림 삭제
+     requestDeleteCompanyNotify({ commit, rootGetters }, notificationId) { 
+      console.log('알림 삭제 시작');
+      axios.delete(
+        `${apiUri.notify}/${notificationId}`,
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${rootGetters['auth/accessToken']}`
+          },
+          data: {
+            notificationId: notificationId
+          }
+        }
+      )
+      .then(() => {
+    
+        commit('common/setSuccess', true, { root: true });
+        alert('알림이 삭제되었습니다.');
+          //  페이지 새로고침을 위해 router.push 대신 window.location.reload() 사용
+          if (router.currentRoute.name !== '/notify/company') {
             window.location.reload();
         }
         })

@@ -6,13 +6,11 @@ import auth from './auth';
 import recruit from './recruit';
 import member from './member';
 import common from './common';
-<<<<<<< HEAD
 
 import notify from './notify';
 
-=======
 import board from './board';
->>>>>>> 0c1c1eed839fa86e0980097f30d827f1af832d7f
+
 import admin from './admin';
 
 
@@ -38,13 +36,8 @@ export default new Vuex.Store({
   },
   // Vuex 모듈을 등록, 상위 함수들을 갖는 Vuex 스토어의 하위 하위 모듈로써 동작함. 
   modules: {
-<<<<<<< HEAD
 
-    auth, recruit, member, common, notify, admin
-
-=======
-    auth, recruit, member, common, board, admin
->>>>>>> 0c1c1eed839fa86e0980097f30d827f1af832d7f
+    auth, recruit, member, common, notify, board, admin
   },
   // auth 모듈 영구히 저장
   plugins: [vuexLocal.plugin]

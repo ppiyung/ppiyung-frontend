@@ -39,6 +39,7 @@ export default [
         component: NotifyNomalView,
         meta: { requiresAuth: true }
       },
+      {
         path: '/board/article',
         name: 'boardInsert',
         component: BoardInsertView,

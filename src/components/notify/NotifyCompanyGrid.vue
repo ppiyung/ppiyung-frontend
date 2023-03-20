@@ -1,6 +1,6 @@
 <template>
 
-  <div class="CompanyNomal-container">
+  <div class="Company-container">
     <notify-company-card
       v-for="notify in notifyList"
       :key="notify.notifyId"
