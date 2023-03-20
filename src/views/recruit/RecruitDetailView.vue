@@ -8,7 +8,7 @@
           <h1>{{recruitDetail.recruitTitle}}</h1>
 
           <div>
-            모집 기업: {{recruitDetail.companyName}}
+            <router-link :to="{ name: 'companyProfile', params: { id: recruitDetail.companyId } }">{{recruitDetail.companyName}}</router-link>
           </div>
           
           <div>
@@ -25,15 +25,23 @@
         </b-card>
 
         <div class="apply-control">
-          <b-button variant="primary" @click="requestApply">지원하기</b-button>&nbsp;
-          <b-button variant="secondary" @click="requestAddBookmark">관심공고</b-button>
+          <b-button variant="primary" @click="requestApply" :disabled="isAlreadyApplied">
+            {{isAlreadyApplied ? '지원완료' : '지원하기'}}
+          </b-button> &nbsp;
+          <b-button variant="secondary" @click="requestAddBookmark" :disabled="isAlreadyBookmarked">
+            {{isAlreadyBookmarked ? '관심공고 추가 완료' : '관심공고'}}
+          </b-button>
         </div>
       </b-col>
 
       <b-col lg="4" class="apply-control-right">
         <div class="apply-control">
-          <b-button variant="primary" @click="requestApply" size="lg">지원하기</b-button>&nbsp;
-          <b-button variant="secondary" size="lg" @click="requestAddBookmark">관심공고</b-button>
+          <b-button variant="primary" @click="requestApply" size="lg" :disabled="isAlreadyApplied">
+            {{isAlreadyApplied ? '지원완료' : '지원하기'}}
+          </b-button> &nbsp;
+          <b-button variant="secondary" size="lg" @click="requestAddBookmark" :disabled="isAlreadyBookmarked">
+            {{isAlreadyBookmarked ? '관심공고 추가 완료' : '관심공고'}}
+          </b-button>
         </div>
       </b-col>
     </b-row>
@@ -55,6 +63,12 @@ export default {
         success: null
       },
       bookmarkResult: {
+        success: null
+      },
+      preloadApplyResult: {
+        success: null
+      },
+      preloadBookmarkResult: {
         success: null
       }
     };
@@ -80,6 +94,12 @@ export default {
         return raw;
       }
     },
+    bookmarkHistory() {
+      return this.$store.getters['recruit/bookMarkList'];
+    },
+    applyHistory() {
+      return this.$store.getters['recruit/applyListById'];
+    },
     isSuccess() {
       return this.$store.getters['common/isSuccess'];
     },
@@ -94,6 +114,29 @@ export default {
     },
     memberInfo() {
       return this.$store.getters['auth/memberInfo'];
+    },
+    isAlreadyBookmarked() {
+      if (!this.preloadApplyResult.success
+          || !this.preloadBookmarkResult.success) {
+            return;
+      }
+
+      const result = this.bookmarkHistory.find(item => {
+        if (item.recruit_id === this.recruitDetail.recruitId) {
+          return true;
+        }
+      });
+      
+      return result === undefined ? false : true;
+    },
+    isAlreadyApplied() {
+      const result = this.applyHistory.find(item => {
+        if (item.applyRecruit.recruitId === this.recruitDetail.recruitId) {
+          return true;
+        }
+      });
+
+      return result === undefined ? false : true;
     }
   },
   watch: {
@@ -106,7 +149,7 @@ export default {
       handler(val) {
         if (val === true) {
           alert('공고 지원에 성공했습니다.');
-          
+          this.$router.go(0);
         } else if (val === false) {
           alert('공고 지원에 실패했습니다.');
         }
@@ -116,12 +159,26 @@ export default {
     'bookmarkResult.success': {
       handler(val) {
         if (val === true) {
-          alert('공고 지원에 성공했습니다.');
-          
+          alert('관심공고 추가에 성공했습니다.');
+          this.$router.go(0);
         } else if (val === false) {
-          alert('공고 지원에 실패했습니다.');
+          alert('관심공고 추가에 실패했습니다.');
         }
         this.applyResult.success = null;
+      }
+    },
+    'preloadBookmarkResult.success': {
+      handler(val) {
+        if (val === false) {
+          alert('데이터를 로드하는 중 문제가 발생했습니다.');
+        }
+      }
+    },
+    'preloadApplyResult.success': {
+      handler(val) {
+        if (val === false) {
+          alert('데이터를 로드하는 중 문제가 발생했습니다.');
+        }
       }
     }
   },
@@ -167,13 +224,43 @@ export default {
         requestCallback: () => {
           this.$store.dispatch(
             'recruit/requestAddBookmark',
-            { recruitId: this.recruitId, resultRef: this.applyResult }
+            { recruitId: this.recruitId, resultRef: this.bookmarkResult }
           );
         },
         failedCallback: (error) => {
           console.error('실패');
           console.error(error);
-          this.applyResult.success = false;
+          this.bookmarkResult.success = false;
+        }
+      });
+    },
+    loadApplyHistory() {
+      this.$store.dispatch('auth/authRequest', {
+        requestCallback: () => {
+          this.$store.dispatch(
+            'recruit/requestApplyList',
+            { memberId: this.memberInfo.memberId, resultRef: this.preloadApplyResult }
+          );
+        },
+        failedCallback: (error) => {
+          console.error('실패');
+          console.error(error);
+          this.preloadResult.success = false;
+        }
+      });
+    },
+    loadBookmarkHistory() {
+      this.$store.dispatch('auth/authRequest', {
+        requestCallback: () => {
+          this.$store.dispatch(
+            'recruit/requestBookmark',
+            { memberId: this.memberInfo.memberId, resultRef: this.preloadBookmarkResult }
+          );
+        },
+        failedCallback: (error) => {
+          console.error('실패');
+          console.error(error);
+          this.preloadResult.success = false;
         }
       });
     }
@@ -184,7 +271,6 @@ export default {
 <style scoped>
 a {
   color: #007bff !important;
-  text-decoration: underline !important;
   cursor: pointer;
 }
 h1 {

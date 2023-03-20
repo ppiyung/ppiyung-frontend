@@ -239,6 +239,34 @@ export default {
         });
     },
 
+    // 기업 프로필용 기업별 채용공고 조회
+    requestRecruitListByOnlyCompanyId({commit, rootGetters}, {companyId, resultRef}) { 
+      axios.get(
+        apiUri.recruit,
+        {
+          withCredentials: true,
+          params: {
+             company: companyId,
+             page: 1,
+             size: 50
+          },
+          headers: {
+            Authorization: `Bearer ${rootGetters['auth/accessToken']}`
+          }
+        }
+      )
+      .then((result) => {
+        const { list } = result.data.payload
+        commit('setRecruitList', list);
+        resultRef.success = true;
+      })
+      .catch((error) => {
+        console.error(error);
+        commit('common/setSuccess', false, { root: true });
+        resultRef.success = false;
+      });
+    },
+
     requestRecruitListByWorkArea({ commit, getters, rootGetters }) { // 직무분야별 채용공고 조회
       console.log(getters.pageOption);
       axios.get(
@@ -304,6 +332,7 @@ export default {
         });
     },
 
+    // 북마크 추가
     requestAddBookmark({ rootGetters }, { recruitId, resultRef }) {
       axios.post(
         `${apiUri.recruit}/bookmark/${recruitId}`,
@@ -323,6 +352,50 @@ export default {
           resultRef.success = false;
         });
     },
+
+    // 북마크 불러오기
+    requestBookmark({ commit, rootGetters }, { memberId, resultRef }) {
+  
+      axios.get(
+        `${apiUri.recruit}/bookmark/${memberId}`,
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${rootGetters['auth/accessToken']}`
+          }
+        }
+      )
+        .then((result) => {
+          commit('setBookMarkList', result.data.payload);
+          resultRef.success = true;
+        })
+        .catch((error) => {
+          console.error(error);
+          resultRef.success = false;
+        });
+    },
+
+    requestApplyList({ commit, rootGetters }, { memberId, resultRef }) { // 직무분야별 채용공고 조회
+      axios.get(
+        `${apiUri.recruit}/apply/member/${memberId}`,
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${rootGetters['auth/accessToken']}`
+          }
+        }
+      )
+        .then((result) => {
+          console.log(result.data);
+          commit('setApplyListById', result.data.payload);
+          resultRef.success = true;
+        })
+        .catch((error) => {
+          console.error(error);
+          resultRef.success = false;
+        });
+    },
+
     // eslint-disable-next-line
     requestAddApply({ rootGetters }, { recruitId, resultRef }) {
       axios.post(
