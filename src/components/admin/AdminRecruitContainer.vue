@@ -15,8 +15,8 @@
                     </b-row>
 
                     <b-row>
-                        <b-col sm="3" class="text-sm-right"><b>노출 여부: </b></b-col>
-                        <b-col>{{ row.item.isExposed }}</b-col>
+                        <b-col sm="3" class="text-sm-right"><b>진행 여부: </b></b-col>
+                        <b-col>{{ row.item.isOngoing }}</b-col>
                     </b-row>
 
                     <b-row>
@@ -52,8 +52,12 @@
                     <b-row>
                         <b-col sm="3" class="text-sm-right"><b>작업: </b></b-col>
                         <b-col>
-                            <b-button @click="stopExpose(row.item.recruitId)">
-                                노출 중단 (즉시 마감)
+                            <b-button @click="setExpose(row.item.recruitId, !row.item.recruitExpose)">
+                                {{row.item.recruitExpose ? '상단 배너 노출 중단'
+                                    : '상단 배너 노출 시작'}}
+                            </b-button> &nbsp;
+                            <b-button @click="stopRecruit(row.item.recruitId)" v-if="row.item.isOngoing === '노출 중'">
+                                즉시 마감
                             </b-button>
                         </b-col>
                     </b-row>
@@ -96,6 +100,9 @@ export default {
             editRecruitResult: {
                 success: null
             },
+            exposeRecruitResult: {
+                success: null
+            },
             includeClosed: false,
             fields: [
                 {
@@ -134,8 +141,13 @@ export default {
                     sortable: true
                 },
                 {
-                    key: 'isExposed',
-                    label: '노출 여부',
+                    key: 'isOngoing',
+                    label: '진행중 여부',
+                    sortable: true 
+                },
+                {
+                    key: 'recruitExpose',
+                    label: '상단 노출 여부',
                     sortable: true 
                 },
                 {
@@ -159,7 +171,7 @@ export default {
                         recruitStartAt: dayjs.unix(item.recruitStartAt / 1000).format("YYYY년 MM월 DD일"),
                         recruitEndAt: dayjs.unix(item.recruitEndAt / 1000).format("YYYY년 MM월 DD일"),
                         workArea: item.workAreaId === 1 ? '프론트엔드' : item.workAreaId === 2 ? '웹개발' : '알 수 없음' ,
-                        isExposed: new Date() > new Date(item.recruitStartAt) && new Date() < new Date(item.recruitEndAt) ? '노출 중' : '마감'
+                        isOngoing: new Date() > new Date(item.recruitStartAt) && new Date() < new Date(item.recruitEndAt) ? '노출 중' : '마감'
                     };
                 });
         },
@@ -212,7 +224,7 @@ export default {
                 this.$store.commit('admin/setRecruitOption', { ...this.queryOption, page })
             }
         },
-        stopExpose(recruitId) {
+        stopRecruit(recruitId) {
             if (!confirm("공고를 정말 마감하시겠습니까? 기업회원이 공고 기간을 다시 수정해야 공고가 다시 노출됩니다.")) {
                 return;
             }
@@ -225,6 +237,22 @@ export default {
             this.$store.dispatch('auth/authRequest', {
                 requestCallback: () => {
                     this.$store.dispatch('admin/requestEditRecruit', { recruitInfo, resultRef: this.editRecruitResult });
+                },
+                failedCallback: (error) => {
+                    console.error('실패');
+                    console.error(error);
+                }
+            });
+        },
+        setExpose(recruitId, willBeExposed) {
+            console.log(willBeExposed);
+            if (!confirm("배너 노출 설정을 변경하시겠습니까? 이 작업은 즉시 반영됩니다.")) {
+                return;
+            }
+
+            this.$store.dispatch('auth/authRequest', {
+                requestCallback: () => {
+                    this.$store.dispatch('admin/requestSetRecruitExpose', { willBeExposed, recruitId, resultRef: this.exposeRecruitResult });
                 },
                 failedCallback: (error) => {
                     console.error('실패');
@@ -262,20 +290,28 @@ export default {
                 }
             }
         },
-        watch: {
-            inlcudeClosed(val) {
-                let valueByBool;
-                if (val === 'true') {
-                    valueByBool = true;
-                } else {
-                    valueByBool = false;
+        'exposeRecruitResult.success': {
+            handler(val) {
+                if (val === true) {
+                    this.loadRecruitList();
+                    this.exposeRecruitResult.success = null;
+                } else if (val === false) {
+                    alert('공고 상단 노출여부 수정에 실패했습니다.')
                 }
-
-                this.$store.commit('recruit/setPageOption', {
-                    ...this.$store.getters['admin/recruitManage'].queryOption,
-                    closed: valueByBool
-                });
             }
+        },
+        inlcudeClosed(val) {
+            let valueByBool;
+            if (val === 'true') {
+                valueByBool = true;
+            } else {
+                valueByBool = false;
+            }
+
+            this.$store.commit('recruit/setPageOption', {
+                ...this.$store.getters['admin/recruitManage'].queryOption,
+                closed: valueByBool
+            });
         }
     },
     created() {

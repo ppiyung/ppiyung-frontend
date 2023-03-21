@@ -183,18 +183,23 @@ export default {
         });
     },
     // 전체 채용공고 조회
-    requestRecruitList({ commit, rootGetters }) { 
+    requestRecruitList({ commit, rootGetters }, params) { 
+      if (params === undefined) {
+        params = { }
+      }
+
       axios.get(
         apiUri.recruit,
         {
           withCredentials: true,
           headers: {
             Authorization: `Bearer ${rootGetters['auth/accessToken']}`
-          }
+          },
+          params
         }
       )
         .then((result) => {
-          commit('setRecruitList', result.data.payload);
+          commit('setRecruitList', result.data.payload.list);
           commit('common/setSuccess', true, { root: true });
         })
         .catch((error) => {
@@ -337,7 +342,8 @@ export default {
           withCredentials: true,
           params: {
             workArea: getters.selectedWorkArea,
-            ...getters.pageOption
+            ...getters.pageOption,
+            
          },
           headers: {
             Authorization: `Bearer ${rootGetters['auth/accessToken']}`
@@ -610,8 +616,8 @@ export default {
     },
 
     // 채용공고 게시
-    requestAddRecruit({ commit, rootGetters }, {
-      companyId, workAreaId, recruitTitle, recruitDetail, recruitStartAt, recruitEndAt
+    requestAddRecruit({ rootGetters }, {
+      companyId, workAreaId, recruitTitle, recruitDetail, recruitStartAt, recruitEndAt, resultRef
     }) {
       axios.post(
         apiUri.recruit,
@@ -625,11 +631,11 @@ export default {
       )
         .then(() => {
           console.log('공고 게시 성공');
-          commit('common/setSuccess', true, { root: true });
+          resultRef.success = true;
         })
         .catch(() => {
           console.error('공고 게시 실패');
-          commit('common/setSuccess', false, { root: true });
+          resultRef.success = false;
         });
     },
 

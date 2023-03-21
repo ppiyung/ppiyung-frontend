@@ -43,13 +43,15 @@ export default {
     }
   },
   watch: {
-    success(val) {
-      if (val === true) {
-        alert('공고 게시에 성공했습니다.');
-        this.$router.push({ name: 'company/recruit' })
-      } else if (val === false) {
-        alert('공고 게시에 실패했습니다.');
-        this.$store.commit('common/setSuccess', null);
+    'addResult.success': {
+      handler(val) {
+        if (val === true) {
+          alert('공고 게시에 성공했습니다.');
+          this.$router.push({ name: 'company/recruit' });
+        } else if (val === false) {
+          alert('공고 게시에 실패했습니다.');
+          this.addResult.success = null;
+        }
       }
     }
   },
@@ -78,6 +80,9 @@ export default {
                 { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' }
             ]
         }
+      },
+      addResult: {
+        success: null
       }
     }
   },
@@ -99,7 +104,7 @@ export default {
 
       this.$store.dispatch('auth/authRequest', {
         requestCallback: () => {
-            this.$store.dispatch('recruit/requestAddRecruit', this.recruitFormData);
+            this.$store.dispatch('recruit/requestAddRecruit', {...this.recruitFormData, resultRef: this.addResult });
         },
         failedCallback: (error) => {
             console.error('실패');

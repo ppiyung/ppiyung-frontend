@@ -57,8 +57,13 @@ import dayjs from 'dayjs';
 export default {
    computed: {
     recruitList() {
-      return this.$store.getters['recruit/recruitList']
-        .map(item => {
+      const raw = this.$store.getters['recruit/recruitList'];
+
+      if (Object.keys(raw).length === 0) {
+        return raw
+      }
+
+      return raw.map(item => {
           return {
             ...item,
             recruitStartAt: dayjs.unix(item.recruitStartAt / 1000).format('YYYY년 MM월 DD일'),
