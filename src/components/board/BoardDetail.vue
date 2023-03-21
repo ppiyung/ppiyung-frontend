@@ -30,8 +30,9 @@
         <div align="right">
           <h5 class="mb-1">  
             <font-awesome-icon style="color: black" icon="fa-solid fa-heart" />
-            like : {{ boardDetail.likeCnt }}
-          reply : {{ boardDetail.commentCnt }} </h5>
+           {{ boardDetail.likeCnt }}
+          <font-awesome-icon icon="fa-solid fa-comment" />
+           {{ boardDetail.commentCnt }} </h5>
         
         </div>
       </b-card-header>
@@ -42,9 +43,9 @@
         <div
           v-if="memberId !== boardDetail.memberId"
           :active="likechecked"
-          @click="toggleLike()" > 
-          <font-awesome-icon style="color: red" icon="fa-solid fa-heart"  v-if="!likechecked" />
-          <font-awesome-icon style="color: black" icon="fa-solid fa-heart"  v-if="likechecked"  />
+          @click="toggleLike()"> 
+          <font-awesome-icon style="color: red" icon="fa-solid fa-heart"  v-if="!likechecked" size="2x" />
+          <font-awesome-icon style="color: black" icon="fa-solid fa-heart"  v-if="likechecked" size="2x"  />
 
         </div>
       </b-card-footer>
