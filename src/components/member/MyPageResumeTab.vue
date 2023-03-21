@@ -166,10 +166,6 @@ export default {
 .resumeButtonContainer {
     margin-top: 60px;
     display: flex;
-    justify-content: center;
-  
-}
-.resumeOpenContainor{
-   margin-top: 20px;
+    justify-content: center; 
 }
 </style>

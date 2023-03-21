@@ -17,7 +17,10 @@ export default {
     applyListById: [],
     suggestList:[],
     bookMarkList:{},
+    companyRecruitList:[],
+    allRecruitListCompany:{},
     proposalsList:[] // 기업별 제안 목록 
+
 
   },
   getters: {
@@ -44,6 +47,12 @@ export default {
     },
     bookMarkList(state){
       return state.bookMarkList;
+    },
+    companyRecruitList(state){
+      return state.companyRecruitList;
+    },
+    allRecruitListCompany(state){
+      return state.allRecruitListCompany;
     },
     proposalsList(state){
       return state.proposalsList
@@ -75,15 +84,40 @@ export default {
       state.suggestList = suggestList;
     },
     setBookMarkList(state, bookMarkList){
-      state.bookMarkList=bookMarkList;
+      state.bookMarkList = bookMarkList;
     },
-    setProposalsList(state, proposalsList)
-    {
+    setCompanyRecruitList(state, companyRecruitList){
+      state.companyRecruitList = companyRecruitList;
+    },
+    setAllRecruitListCompany(state, allRecruitListCompany){
+      state.allRecruitListCompany = allRecruitListCompany;
+    },
+    setProposalsList(state, proposalsList){
       state.proposalsList=proposalsList;
     }
 
   },
   actions: {
+    //기업 메인페이지 채용리스트 불러오기
+    allRecruitListCompany({ commit, rootGetters }, {companyId}){
+      axios.get(
+        `${apiUri.recruit}/companyinfo/${companyId}`,
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${rootGetters['auth/accessToken']}`
+          }
+        }
+      )
+        .then((result) => {
+          commit('setAllRecruitListCompany', result.data.payload);
+          commit('common/setSuccess', true, { root: true });
+        })
+        .catch((error) => {
+          console.error(error);
+          commit('common/setSuccess', false, { root: true });
+        });
+    },
     //마이페이지 - 관심채용 리스트 조회
     bookMarkList({ commit, rootGetters }, id) {
   
@@ -213,7 +247,27 @@ export default {
             commit('common/setSuccess', false, { root: true });
           });
       },
-      
+      //기업메인페이지 채용현황 리스트 조회 
+      companyRecruitList({commit, rootGetters}, {memberId}){
+        axios.get(
+          `${apiUri.recruit}/statistics/${memberId}`,
+          {
+            withCredentials: true,
+            headers: {
+              Authorization: `Bearer ${rootGetters['auth/accessToken']}`
+            }
+          }
+        )
+          .then((result) => {
+            commit('setCompanyRecruitList', result.data.payload);
+            commit('common/setSuccess', true, { root: true });
+          })
+          .catch((error) => {
+            console.error(error);
+            commit('common/setSuccess', false, { root: true });
+          });
+
+      },
     // 기업별+직무분야별 채용공고 조회
     requestRecruitListByCompanyId({commit, getters, rootGetters}, {memberId}) { 
       const { page, size, closed } = getters.pageOption;
@@ -233,7 +287,6 @@ export default {
             Authorization: `Bearer ${rootGetters['auth/accessToken']}`
           }
         }
-      
       )
         .then((result) => {
           const { list, total } = result.data.payload
