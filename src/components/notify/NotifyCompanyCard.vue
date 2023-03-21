@@ -12,7 +12,7 @@
              알림시간: {{ this.notifyInfoParam.createdAtFormmated }}
              <br>
              <b-button variant="primary" class="mr-2">
-                <router-link class="text-white" :to="{ name: 'mypage' }">
+                <router-link class="text-white" :to="{ name: 'myCompany' }">
                   MyPage
                 </router-link>
              </b-button>
@@ -35,7 +35,7 @@
             알림시간: {{ this.notifyInfoParam.createdAtFormmated }}
             <br>
               <b-button variant="primary" class="mr-2">
-               <router-link class="text-white" :to="{ name: 'mypage' }">
+               <router-link class="text-white" :to="{ name: 'myCompany' }">
                 MyPage
                 </router-link>
               </b-button>
