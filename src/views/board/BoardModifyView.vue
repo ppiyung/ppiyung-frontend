@@ -25,7 +25,7 @@ export default {
     data(){
         dayjs(); // 현재 날짜 및 시간 가져오기
         return {
-            coummityPostInfoParam: {articleCreatedAt : dayjs().format("YYYY-MM-DDTHH:mm:ss.SSSZ"), memberId : this.$store.getters['auth/memberInfo'].memberId },
+            coummityPostInfoParam: {articleCreatedAt : dayjs().format("YYYY-MM-DD HH:mm:ss.SSSZ"), memberId : this.$store.getters['auth/memberInfo'].memberId },
         }
     },
     components :{

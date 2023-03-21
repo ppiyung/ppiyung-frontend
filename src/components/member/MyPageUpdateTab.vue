@@ -1,11 +1,14 @@
 <template>
-  <b-tab title="정보 수정하기" active>
-     <h3><span id="mypageNickname">{{memberInfo.memberNickname}}</span> 님의 회원정보 수정 </h3>
+  <b-tab title="정보 수정하기">
+    <h3>
+      <span id="mypageNickname">{{ memberInfo.memberNickname }}</span> 님의
+      회원정보 수정
+    </h3>
     <br />
-    <div class="updateContainer">
+    <b-container>
       <b-row>
-        <b-col lg="1" class="pb-2"> 비밀번호 </b-col>
-        <b-col lg="4" class="pb-2">
+        <b-col sm="3" class="pb-2"> 비밀번호 </b-col>
+        <b-col sm="9" class="pb-2">
           <b-form-input
             v-model="updateInfoform.memberPw"
             type="password"
@@ -15,8 +18,8 @@
       </b-row>
 
       <b-row>
-        <b-col lg="1" class="pb-2"> 이름 </b-col>
-        <b-col lg="4" class="pb-2">
+        <b-col sm="3" class="pb-2"> 이름 </b-col>
+        <b-col sm="9" class="pb-2">
           <b-form-input
             v-model="updateInfoform.memberName"
             required
@@ -25,8 +28,8 @@
       </b-row>
 
       <b-row>
-        <b-col lg="1" class="pb-2"> 닉네임 </b-col>
-        <b-col lg="4" class="pb-2">
+        <b-col sm="3" class="pb-2"> 닉네임 </b-col>
+        <b-col sm="9" class="pb-2">
           <b-form-input
             v-model="updateInfoform.memberNickname"
             required
@@ -35,8 +38,8 @@
       </b-row>
 
       <b-row>
-        <b-col lg="1" class="pb-2"> 생년월일 </b-col>
-        <b-col lg="4" class="pb-2">
+        <b-col sm="3" class="pb-2"> 생년월일 </b-col>
+        <b-col sm="9" class="pb-2">
           <b-form-input
             v-model="updateInfoform.memberBirth"
             type="date"
@@ -45,8 +48,8 @@
       </b-row>
 
       <b-row>
-        <b-col lg="1" class="pb-2"> 성별 </b-col>
-        <b-col lg="4" class="pb-2">
+        <b-col sm="3" class="pb-2"> 성별 </b-col>
+        <b-col sm="9" class="pb-2">
           <b-form-select
             v-model="updateInfoform.memberGender"
             :options="genderOptions"
@@ -55,29 +58,40 @@
       </b-row>
 
       <b-row>
-        <b-col lg="1" class="pb-2"> 전화번호 </b-col>
-        <b-col lg="4" class="pb-2">
+        <b-col sm="3" class="pb-2"> 전화번호 </b-col>
+        <b-col sm="9" class="pb-2">
           <b-form-input
             v-model="updateInfoform.memberPhone"
             required
           ></b-form-input>
         </b-col>
       </b-row>
-
       <b-row>
-        <b-col lg="1" class="pb-2"> 이메일 </b-col>
-        <b-col lg="4" class="pb-2">
+        <b-col sm="3" class="pb-2"> 이메일 </b-col>
+        <b-col sm="9" class="pb-2">
           <b-form-input
             v-model="updateInfoform.memberEmail"
             required
           ></b-form-input>
         </b-col>
+      </b-row>
 
-        <b-col lg="4" class="pb-2">
-          <b-button variant="primary" @click="updateSubmit">수정하기</b-button>
+      <b-row>
+        <b-col sm="3" class="pb-2"> 자기 소개 </b-col>
+        <b-col sm="9" class="pb-2">
+          <b-form-input
+            v-model="updateInfoform.memberInfo"
+            required
+          ></b-form-input>
         </b-col>
       </b-row>
-    </div>
+
+      <b-row>
+        <b-col sm="12" class="pb-2">
+          <b-button id="myPageUpdateBtn" variant="primary" @click="updateSubmit">수정하기</b-button>
+        </b-col>
+      </b-row>
+    </b-container>
   </b-tab>
 </template>
 
@@ -140,7 +154,11 @@ export default {
 .duplicate-indicator {
   margin-bottom: 10px;
 }
-#mypageNickname{
- background-color: cornsilk;
+#mypageNickname {
+  background-color: cornsilk;
 }
+#myPageUpdateBtn{
+  float:right;
+}
+
 </style>

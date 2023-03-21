@@ -7,32 +7,9 @@
     </div>
     <div v-else>
       <b-table :items="bookMarkList" :fields="fields" striped responsive="sm">
-        <template #row-details="row">
-          <b-card>
-            <b-row>
-              <b-col sm="3" class="text-sm-right"><b>직무분야 </b></b-col>
-              <b-col>{{ row.item.workAreaId }}</b-col>
-            </b-row>
-
-            <b-row>
-              <b-col sm="3" class="text-sm-right"><b>채용 공고 제목</b></b-col>
-              <b-col>{{ row.item.recruitTitle }}</b-col>
-            </b-row>
-
-            <b-row>
-              <b-col sm="3" class="text-sm-right"><b>채용 공고 내용 </b></b-col>
-              <b-col>{{ row.item.recruitDetail }}</b-col>
-            </b-row>
-
-            <b-row>
-              <b-col sm="3" class="text-sm-right"><b>채용 날짜</b></b-col>
-              <b-col>{{ row.item.recruit_start_at }}  </b-col>
-            </b-row>
-            <b-row>
-              <b-col sm="3" class="text-sm-right"><b>채용 마감 날짜</b></b-col>
-              <b-col>{{ row.item.recruit_end_at }}</b-col>
-            </b-row>
-          </b-card>
+       <template #cell(recruit_title)="row">
+            <!-- <span @click="moveToDetailPage(row.item.articleId)">{{row.item.articleTitle }}</span> -->
+            <router-link :to="{ name: 'recruitDetail', params: { id: row.item.recruit_id } }">{{row.item.recruit_title }}</router-link>
         </template>
       </b-table>
     </div>
@@ -40,6 +17,7 @@
 </template>
 
 <script>
+import dayjs from 'dayjs';
 export default {
   data() {
     return {
@@ -77,8 +55,30 @@ export default {
       return this.$store.getters["auth/memberInfo"];
     },
     bookMarkList() {
-      return this.$store.getters["recruit/bookMarkList"];
+      const rawData = this.$store.getters["recruit/bookMarkList"];
+
+      if(Object.keys(rawData).length === 0) {
+        return rawData;
+      }
+
+      return rawData
+       .map(item => {
+        return{
+          ...item,
+          recruit_start_at: dayjs.unix(item.recruit_start_at / 1000).format('YYYY년 MM월 DD일'),
+          recruit_end_at:  dayjs.unix(item.recruit_end_at / 1000).format('YYYY년 MM월 DD일')
+       }
+      })
     },
+  },
+   methods: {
+    moveToDetailPage(id) {
+      console.log(id);
+      this.$router.push({
+        name: 'recruitDetail',
+        params: { id }
+      });
+    }
   },
   mounted() {
     this.$store.dispatch("auth/authRequest", {
@@ -92,10 +92,11 @@ export default {
       },
     });
   },
+
 };
 </script>
 
-<style>
+<style scoped>
 .fadeNotice {
   font-weight: 900;
   text-align: center;
