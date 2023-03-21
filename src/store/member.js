@@ -116,7 +116,7 @@ export default {  namespaced: true,
         });
     },
     //이력서 공개여부 수정
-    editResumeOpen({ commit, rootGetters },{memberId,resumeOpen}) { // 회원가입 요청
+    editResumeOpen({ commit, rootGetters },{memberId,resumeOpen, resultRef}) { // 회원가입 요청
       axios.put(
         `${apiUri.member}/resume/${memberId}`,
         {
@@ -131,10 +131,11 @@ export default {  namespaced: true,
         }
       )
         .then(() => {
-          commit('common/setSuccess', true, { root: true });
+          resultRef.success = true;
           alert('회원 이력서 공개 여부를 수정하였습니다.');
         })
         .catch((error) => {
+          resultRef.success = false;
           console.error(error);
           commit('common/setSuccess', false, { root: true });
         });

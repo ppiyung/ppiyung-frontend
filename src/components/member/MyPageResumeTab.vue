@@ -21,7 +21,6 @@
           : ""
       }}
       <br /><br />
-
         <div class="resumeOpenContainor">
         이력서 공개 여부:
 
@@ -59,6 +58,9 @@ export default {
       imgUrl: "",
       resumeFile: null,
       isOpen: false,
+      updateOpenResult: {
+        success: null
+      }
     };
   },
   computed: {
@@ -83,13 +85,40 @@ export default {
       };
     },
   },
+  watch: {
+    'updateOpenResult.success': {
+      handler(val) {
+        if (val === true) {
+          this.loadMemberDetail();
+          this.updateOpenResult.success = null;
+        } else if (val === false) {
+          alert('오류가 발생했습니다.');
+          this.updateOpenResult.success = null;
+        }
+      }
+    }
+  },
   methods: {
+    loadMemberDetail() {
+      this.$store.dispatch('auth/authRequest', {
+        requestCallback: () => {
+          this.$store.dispatch('member/getMemberById', this.memberInfo.memberId);
+        },
+        failedCallback: (error) => {
+          console.error('실패');
+          console.error(error);
+          this.$store.commit('common/setSuccess', false);
+        }
+      });
+    },
     updateOpenVal() {
       this.$store.dispatch("auth/authRequest", {
         requestCallback: () => {
           console.log(this.isOpen, this.memberInfo.memberId);
           this.$store.dispatch("member/editResumeOpen", {
-              resumeOpen: this.isOpen, memberId: this.memberInfo.memberId
+              resumeOpen: this.isOpen,
+              memberId: this.memberInfo.memberId,
+              resultRef: this.updateOpenResult
             });
         },
         failedCallback: (error) => {
@@ -116,6 +145,7 @@ export default {
         )
         .then((result) => {
           console.log(result);
+          this.loadMemberDetail();
         })
         .catch((result) => {
           console.error(result);
