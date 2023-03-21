@@ -2,7 +2,7 @@
   <b-tab title="입사 제안">
     <h3><span id="mypageNickname">{{memberInfo.memberNickname}}</span> 님에게 온 입사 제안</h3>
     <br />
-    <div v-if="!suggestList.length" class="fadeNotice">
+     <div v-if="suggestList.length === 0" class="fadeNotice">
       아직 입사 제안이 오지 않았습니다.
     </div>
     <div v-else>
@@ -77,5 +77,12 @@ export default {
 <style scoped>
 #mypageNickname{
  background-color: cornsilk;
+}
+.fadeNotice {
+  font-weight: 900;
+  text-align: center;
+  margin-top: 100px;
+  color: darkgray;
+  font-size: 35px;
 }
 </style>
