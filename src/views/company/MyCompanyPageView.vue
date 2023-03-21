@@ -5,6 +5,7 @@
       <b-card no-body>
         <b-tabs pills card vertical>
           <update-tab/>
+          <suggest-tab/>
         </b-tabs>
       </b-card>
     </div>
@@ -14,11 +15,12 @@
 <script>
 import UpdateTab from '@/components/member/MyCompanyPageUpdateTab.vue';
 import BasicLayout from '@/components/common/BaseLayout.vue';
+import SuggestTab from '@/components/member/MyCompanyPageSuggestTab.vue';
 
 export default {
   name: 'MyPageView',
   components:{
-   BasicLayout,UpdateTab
+   BasicLayout,UpdateTab,SuggestTab
   },
   computed: {
     loginMemberInfo() {

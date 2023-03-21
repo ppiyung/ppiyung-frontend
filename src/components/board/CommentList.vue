@@ -138,7 +138,7 @@ export default {
             reloadFuncRef: this.loadCommentList,
             reloadFuncArticle : this.loadArticleDetail
           });
- 
+          this.commentContent = '';
         },
         failedCallback: (error) => {
           console.error("실패");

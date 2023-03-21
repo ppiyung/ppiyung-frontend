@@ -21,7 +21,7 @@
         <b-col lg="2" class="pb-2"> 아이디 </b-col>
         <b-col lg="4" class="pb-2">
           <b-form-input
-            disabled = "true"
+            :disabled="true"
             v-model="updateInfoform.memberId"
             required
           ></b-form-input>
