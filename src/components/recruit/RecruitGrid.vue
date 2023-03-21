@@ -4,12 +4,12 @@
       v-for="recruit in recruitList"
       :key="recruit.recruitId"
       :recuritId="recruit.recruitId"
-      :companyId="recruit.companyId"
+      :companyName="recruit.companyName"
       :recruitTitle="recruit.recruitTitle"
       :recruitDetail="recruit.recruitDetail"
-      :comapnyImg="recruit.imgLocation ? `${$apiUri.resources}/images/${recruit.imgLocation}` : 'default.png'"
-      :recruitStartAt="new Date(recruit.recruitStartAt).toISOString()"
-      :recruitEndAt="new Date(recruit.recruitEndAt).toISOString()"/>
+      :companyImg="recruit.imgLocation ? `${$apiUri.resources}/images/${recruit.imgLocation}` : 'default.png'"
+      :recruitStartAt="recruit.recruitStartAt"
+      :recruitEndAt="recruit.recruitEndAt"/>
   </ul>
 </template>
 
@@ -64,7 +64,7 @@ export default {
   },
   watch: {
     workArea() {
-      this.$store.commit("recruit/setPageOption", {page: 1} ); // 페이지를 초기화해준다.
+      this.$store.commit("recruit/setPageOption", {page: 1, closed: false} ); // 페이지를 초기화해준다.
       this.$store.dispatch('auth/authRequest', {
         requestCallback: () => {
           this.$store.dispatch('recruit/requestRecruitListByWorkArea');
@@ -78,6 +78,8 @@ export default {
     }
   },
   mounted() {
+    this.$store.commit("recruit/setPageOption", {page: 1, size: 12, closed: false} ); 
+
     document.addEventListener('scroll', this.handleWindowScroll);
 
     this.$store.dispatch('auth/authRequest', {

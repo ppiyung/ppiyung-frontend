@@ -1,22 +1,24 @@
 <template>
     <b-card
       :title="recruitTitle"
-      :sub-title="companyId"
-      :img-src="comapnyImg"
+      :sub-title="companyName"
+      :img-src="companyImg"
       class="mb-2"
       @click="moveToDetailPage(recuritId)">
             <b-card-text>
-            공고 시작: {{ recruitStartAt }} 
-            공고 마감: {{ recruitEndAt }}
+            공고 시작: {{recruitStartAtFormatted}} <br>
+            공고 마감: {{recruitEndAtFormatted}}
             </b-card-text>
     </b-card>
 </template>
 
 <script>
+import dayjs from 'dayjs';
+
 export default {
   props: [
-    'recuritId', 'companyId', 'recruitTitle', 'recruitDetail',
-    'workAreaId', 'recruitStartAt', 'recruitEndAt', 'comapnyImg'
+    'recuritId', 'companyName', 'recruitTitle', 'recruitDetail',
+    'workAreaId', 'recruitStartAt', 'recruitEndAt', 'companyImg'
   ],
   data() {
     return {
@@ -28,6 +30,14 @@ export default {
       coordX: null,
       coordY: null
     };
+  },
+  computed: {
+    recruitStartAtFormatted() {
+      return dayjs.utc(this.recruitStartAt).format("YYYY년 MM월 DD일");
+    },
+    recruitEndAtFormatted() {
+      return dayjs.utc(this.recruitEndAt).format("YYYY년 MM월 DD일");
+    }
   },
   methods: {
     moveToDetailPage(id) {
