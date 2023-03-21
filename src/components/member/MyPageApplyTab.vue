@@ -1,5 +1,5 @@
 <template>
-  <b-tab title="지원현황" active>
+  <b-tab title="지원현황" >
      <h3><span id="mypageNickname">{{memberInfo.memberNickname}}</span> 님이 지원한 목록</h3> <br>
     <div class="apply-container">
       <div v-if="!applyList.length" class="fadeNotice">
@@ -7,38 +7,14 @@
       </div>
       <div v-else>
         <b-table :items="applyList" :fields="fields" striped responsive="sm">
-          <template #row-details="row">
-            <b-card>
-              <b-row>
-                <b-col sm="3" class="text-sm-right"
-                  ><b>지원한 회사 </b></b-col>
-                <b-col>{{ row.item.applyMember.memberName }}</b-col>
-              </b-row>
-
-               <b-row>
-                <b-col sm="3" class="text-sm-right"
-                  ><b>채용 공고</b></b-col>
-                <b-col>{{ row.item.applyRecruit.recruitTitle }}</b-col>
-              </b-row>
-
-                <b-row>
-                <b-col sm="3" class="text-sm-right" ><b>직무분야</b></b-col>
-                <b-col>{{ row.item.applyRecruit.workAreaId }}</b-col>
-              </b-row>
-
-                <b-row>
-                <b-col sm="3" class="text-sm-right"
-                  ><b>채용 시작일 </b></b-col>
-                <b-col>{{ row.item.applyRecruit.recruitStartAt}}</b-col>
-              </b-row>
-
-                <b-row>
-                <b-col sm="3" class="text-sm-right"
-                  ><b>채용 마감일 </b></b-col>
-                <b-col>{{ row.item.applyRecruit.recruitEndAt }}</b-col>
-              </b-row>
-
-            </b-card>
+          <template #cell(companyName)="row">
+            <!-- <span @click="moveToDetailPage(row.item.articleId)">{{row.item.articleTitle }}</span> -->
+            <router-link :to="{ name: 'companyProfile', params: { id: row.item.applyRecruit.companyId } }">{{row.item.applyRecruit.companyName}}</router-link>
+          </template>
+        
+          <template #cell(recruitTitle)="row">
+            <!-- <span @click="moveToDetailPage(row.item.articleId)">{{row.item.articleTitle }}</span> -->
+            <router-link :to="{ name: 'recruitDetail', params: { id: row.item.applyRecruit.recruitId } }">{{row.item.applyRecruit.recruitTitle}}</router-link>
           </template>
         </b-table>
       </div>
@@ -48,17 +24,19 @@
 </template>
 
 <script>
+import dayjs from 'dayjs';
+
 export default {
   data() {
     return {
       fields: [
         {
-          key: "applyMember.memberName",
+          key: "companyName",
           label: "입사 지원한 회사",
           sortable: false,
         },
         {
-          key: "applyRecruit.recruitTitle",
+          key: "recruitTitle",
           label: "채용 공고 ",
           sortable: true,
         },
@@ -86,17 +64,27 @@ export default {
       return this.$store.getters["auth/memberInfo"];
     },
     applyList() {
-      return this.$store.getters["recruit/applyListById"];
+      return this.$store.getters["recruit/applyListById"]
+        .map(item => {
+          return {
+            ...item,
+            applyRecruit: {
+              ...item.applyRecruit,
+              recruitStartAt: dayjs.unix(item.applyRecruit.recruitStartAt / 1000).format('YYYY년 MM월 DD일'),
+              recruitEndAt: dayjs.unix(item.applyRecruit.recruitEndAt / 1000).format('YYYY년 MM월 DD일')
+            }
+          }
+        })
     },
   },
   methods: {
     moveToDetailPage(id) {
       console.log(id);
       this.$router.push({
-        name: "recruitDetail",
-        params: { id },
+        name: 'companyProfile',
+        params: { id }
       });
-    },
+    }
   },
   mounted() {
     this.$store.dispatch("auth/authRequest", {
@@ -113,7 +101,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .duplicate-indicator {
   margin-bottom: 10px;
 }

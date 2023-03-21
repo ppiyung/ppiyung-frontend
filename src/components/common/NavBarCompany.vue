@@ -26,11 +26,9 @@
 
                     <b-navbar-nav align="right">
                         <b-nav-item>
-                            <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
-                        </b-nav-item>
-                        <b-nav-item> 
-                            <router-link :to="{ name: 'notify/company'}" :class="{'selected': this.currentMenu === 'notify'}">
-                                <font-awesome-icon icon="fa-solid fa-bell" />
+                            <router-link :to="{ name: 'notify/nomal'}" :class="{'selected': this.currentMenu === 'notify'}">
+                                <font-awesome-icon icon="fa-solid fa-bell" /> &nbsp;
+                                <b-badge variant="light" v-if="newNotiExist">new</b-badge> &nbsp;
                             </router-link>
                         </b-nav-item>
                         <b-nav-item v-if="!isLogin">
@@ -83,6 +81,9 @@ export default {
     },
     isLogin() {
       return this.$store.getters['auth/isLogin'];
+    },
+    newNotiExist() {
+        return this.$store.getters['notify/notifyList'].length !== 0;
     }
   }
 };

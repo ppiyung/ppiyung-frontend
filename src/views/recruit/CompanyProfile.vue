@@ -12,7 +12,7 @@
                 :companyId="recruit.companyId"
                 :recruitTitle="recruit.recruitTitle"
                 :recruitDetail="recruit.recruitDetail"
-                :comapnyImg="recruit.imgLocation ? `${$apiUri.resources}/images/${recruit.imgLocation}` : 'default.png'"
+                :comapnyImg="profileImgSrc"
                 :recruitStartAt="new Date(recruit.recruitStartAt).toISOString()"
                 :recruitEndAt="new Date(recruit.recruitEndAt).toISOString()"/>
             </div>
@@ -65,9 +65,14 @@ export default {
         },
         profileImgSrc() {
             if (Object.keys(this.memberDetail).length !== 0) {
-                return this.$apiUri.resources + '/images/' + this.memberDetail.profileImage.imgLocation;
+                const location = this.memberDetail.profileImage.imgLocation;
+                if (location === null || location === undefined) {
+                    return '/default.png';
+                } else {
+                    return this.$apiUri.resources + '/images/' + this.memberDetail.profileImage.imgLocation;
+                }
             } else {
-                return '';
+                return '/default.png';
             }
         }
     },
