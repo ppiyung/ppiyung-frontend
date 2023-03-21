@@ -1,5 +1,5 @@
 <template>
-  <b-tab title="정보 수정하기" active>
+  <b-tab title="정보 수정하기">
     <h3>
       <span id="mypageNickname">{{ memberInfo.memberNickname }}</span> 님의
       회원정보 수정
@@ -66,22 +66,21 @@
           ></b-form-input>
         </b-col>
       </b-row>
-
       <b-row>
-        <b-col sm="3" class="pb-2"> 자기 소개 </b-col>
+        <b-col sm="3" class="pb-2"> 이메일 </b-col>
         <b-col sm="9" class="pb-2">
           <b-form-input
-            v-model="updateInfoform.memberInfo"
+            v-model="updateInfoform.memberEmail"
             required
           ></b-form-input>
         </b-col>
       </b-row>
 
       <b-row>
-        <b-col sm="3" class="pb-2"> 이메일 </b-col>
+        <b-col sm="3" class="pb-2"> 자기 소개 </b-col>
         <b-col sm="9" class="pb-2">
           <b-form-input
-            v-model="updateInfoform.memberEmail"
+            v-model="updateInfoform.memberInfo"
             required
           ></b-form-input>
         </b-col>

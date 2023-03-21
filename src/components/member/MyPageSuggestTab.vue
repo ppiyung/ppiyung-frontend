@@ -7,18 +7,9 @@
     </div>
     <div v-else>
       <b-table :items="suggestList" :fields="fields" striped responsive="sm">
-        <template #row-details="row">
-          <b-card>
-            <b-row>
-              <b-col sm="3" class="text-sm-right"><b>입사 제안한 회사 </b></b-col>
-              <b-col>{{ row.item.companyName }}</b-col>
-            </b-row>
-
-            <b-row>
-              <b-col sm="3" class="text-sm-right"><b>입사 제안 온 날짜 </b></b-col>
-              <b-col>{{ row.item.suggestCreatedAt}}</b-col>
-            </b-row>
-          </b-card>
+        <template #cell(companyName)="row">
+            <!-- <span @click="moveToDetailPage(row.item.articleId)">{{row.item.articleTitle }}</span> -->
+            <router-link :to="{ name: 'companyProfile', params: { id: row.item.companyId } }">{{row.item.companyName }}</router-link>
         </template>
       </b-table>
     </div>
@@ -58,6 +49,15 @@ export default {
       })
     },
   },
+  methods: {
+    moveToDetailPage(id) {
+      console.log(id);
+      this.$router.push({
+        name: 'companyProfile',
+        params: { id }
+      });
+    }
+  },
   mounted() {
     this.$store.dispatch("auth/authRequest", {
       requestCallback: () => {
@@ -74,7 +74,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #mypageNickname{
  background-color: cornsilk;
 }

@@ -8,7 +8,8 @@ export default {  namespaced: true,
       currentStep: 1,
       memberActive: true
     },
-    memberDetail: { }
+    memberDetail: { },
+    resumeOpen: false
   },
   getters: {
     registerInfo(state) {
@@ -108,6 +109,30 @@ export default {  namespaced: true,
           console.log(result);
           commit('setMemberDetail', result.data.payload);
           commit('common/setSuccess', true, { root: true });
+        })
+        .catch((error) => {
+          console.error(error);
+          commit('common/setSuccess', false, { root: true });
+        });
+    },
+    //이력서 공개여부 수정
+    editResumeOpen({ commit, rootGetters },{memberId,resumeOpen}) { // 회원가입 요청
+      axios.put(
+        `${apiUri.member}/resume/${memberId}`,
+        {
+          resumeOpen
+        }
+        ,
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${rootGetters['auth/accessToken']}`
+          }
+        }
+      )
+        .then(() => {
+          commit('common/setSuccess', true, { root: true });
+          alert('회원 이력서 정보 수정에 성공했습니다.');
         })
         .catch((error) => {
           console.error(error);

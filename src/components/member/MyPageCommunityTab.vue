@@ -15,34 +15,11 @@
         striped
         responsive="sm"
       >
-        <template #row-details="row">
-          <b-card>
-            <b-row>
-              <b-col sm="3" class="text-sm-right" v-if="memberId === boardDetail.memberId" @click="moveToDetailPage(articleId)" >{{ row.item.articleTitle }}</b-col>
-
-            </b-row>
-
-            <b-row>
-              <b-col sm="3" class="text-sm-right" >{{ row.item.articleContent }}</b-col>
-             
-            </b-row>
-
-            <b-row>
-              <b-col sm="3" class="text-sm-right"
-                ><b>{{ row.item.articleCreatedAt }} </b></b-col
-              >
-          
-            </b-row>
-
-            <b-row>
-              <b-col sm="3" class="text-sm-right"><b>{{ row.item.commentCnt }}</b></b-col>
-            </b-row>
-
-            <b-row>
-              <b-col sm="3" class="text-sm-right">{{ row.item.likeCnt }}</b-col>
-            </b-row>
-          </b-card>
+        <template #cell(articleTitle)="row">
+            <!-- <span @click="moveToDetailPage(row.item.articleId)">{{row.item.articleTitle }}</span> -->
+            <router-link :to="{ name: 'boardDetail', params: { id: row.item.articleId } }">{{row.item.articleTitle }}</router-link>
         </template>
+
       </b-table>
     </div>
   </b-tab>
@@ -51,9 +28,7 @@
 
 <script>
 export default {
-    props:[
-       'articleId'
-    ],
+ 
   data() {
     return {
       fields: [
