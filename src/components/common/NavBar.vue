@@ -108,7 +108,7 @@ export default {
     }
 
     a.selected {
-        color: #FFFFFF;
+        color: yellow;
         font-weight: bold;
     }
 </style>

@@ -2,7 +2,7 @@
   <b-tab title="관심 채용 정보">
      <h3><span id="mypageNickname">{{memberInfo.memberNickname}}</span> 님의 관심 채용 정보</h3>
     <br />
-    <div v-if="!bookMarkList.length" class="fadeNotice">
+     <div v-if="bookMarkList.length === 0" class="fadeNotice">
       관심 채용 정보가 존재하지 않습니다.
     </div>
     <div v-else>
