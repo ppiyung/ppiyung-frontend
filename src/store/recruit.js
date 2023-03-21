@@ -18,7 +18,9 @@ export default {
     suggestList:[],
     bookMarkList:{},
     companyRecruitList:[],
-    allRecruitListCompany:{}
+    allRecruitListCompany:{},
+    proposalsList:[] // 기업별 제안 목록 
+
 
   },
   getters: {
@@ -51,6 +53,9 @@ export default {
     },
     allRecruitListCompany(state){
       return state.allRecruitListCompany;
+    },
+    proposalsList(state){
+      return state.proposalsList
     }
   },
   mutations: {
@@ -79,13 +84,16 @@ export default {
       state.suggestList = suggestList;
     },
     setBookMarkList(state, bookMarkList){
-      state.bookMarkList =bookMarkList;
+      state.bookMarkList = bookMarkList;
     },
     setCompanyRecruitList(state, companyRecruitList){
       state.companyRecruitList = companyRecruitList;
     },
     setAllRecruitListCompany(state, allRecruitListCompany){
       state.allRecruitListCompany = allRecruitListCompany;
+    },
+    setProposalsList(state, proposalsList){
+      state.proposalsList=proposalsList;
     }
 
   },
@@ -485,7 +493,7 @@ export default {
 
        )
        .then(() => {
-        console.log('입사 제안 보내기 성공');
+        console.log('입사 제안 보내기 성공'); 
         resultRef.success = true;
       })
       .catch(() => {
@@ -649,5 +657,31 @@ export default {
           resultRef.success = false;
         });
     },
+
+    // 기업 마이페이지 - 기업별 보낸 입사제안목록 조회
+    sentProposalsList({ commit, rootGetters }, companyId) {
+      axios.get(
+        `${apiUri.recruit}/suggest/company/${companyId}`,
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${rootGetters['auth/accessToken']}`
+          },
+          params: {
+            companyId 
+          }
+        }
+      ).then((result) => {
+          commit('setProposalsList', result.data.payload);
+          console.log("기업별 입사제안 목록 조회 성공");
+          commit('common/setSuccess', true, { root: true });
+        })
+        .catch((error) => {
+          console.error(error);
+          console.log("기업별 입사제안 목록 조회 실패");
+          commit('common/setSuccess', false, { root: true });
+        });
+    
+      }
   }
 };
