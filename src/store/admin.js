@@ -178,6 +178,26 @@ export default {
                 resultRef.success = false;
             });
         },
+        requestSetRecruitExpose({ rootGetters }, { recruitId, willBeExposed, resultRef}) { // 회원정보 수정 요청
+            console.log('채용공고 수정(상단배너노출 설정) 요청 시작');
+            axios.put(
+                `${apiUri.recruit}/expose/${recruitId}`,
+                { recruitExpose: willBeExposed },
+                {
+                    withCredentials: true,
+                    headers: {
+                    Authorization: `Bearer ${rootGetters['auth/accessToken']}`
+                    }
+                }
+            )
+            .then(() => {
+                resultRef.success = true;
+            })
+            .catch((error) => {
+                console.error(error);
+                resultRef.success = false;
+            });
+        },
         requestRecruitList({ commit, rootGetters, getters }) {
             axios.get(
                 apiUri.recruit,
