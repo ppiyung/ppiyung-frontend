@@ -1,30 +1,91 @@
 <template>
-    <b-tab title="나의 프로필" active>
-         <h3><span id="mypageNickname">{{this.memberDetail.memberNickname}}</span> 님의 프로필</h3><br>
-        <b-card-text>내 아이디: {{this.memberDetail.memberId}} </b-card-text>
-        <b-card-text>내 이름: {{this.memberDetail.memberName}}</b-card-text>
-        <b-card-text>내 생일: {{this.memberDetail.memberBirth}}</b-card-text>
-        <b-card-text>내 성별: {{this.memberDetail.memberGender}}</b-card-text>
-        <b-card-text>내 전화번호: {{this.memberDetail.memberPhone}}</b-card-text>
-        <b-card-text>내 주소: {{this.memberDetail.memberAddr}}</b-card-text>
-        <b-card-text>닉네임: {{this.memberDetail.memberNickname}}</b-card-text>
-        <b-card-text>이메일: {{this.memberDetail.memberEmail}}</b-card-text>
-        <b-card-text>자기소개: {{this.memberDetail.memberInfo}}</b-card-text>
-        <b-card-text>구직 희망 포지션: {{this.memberDetail.workAreaId}}</b-card-text>
-    </b-tab>
+  <b-tab title="나의 프로필" aria-selected="true" active> 
+    <h3>
+      <span id="mypageNickname">{{ memberDetail.memberNickname }}</span> 님의 프로필 <br>
+    </h3>
+    <b-card-group deck>
+      <b-card header="개인 정보">
+        <b-list-group flush>
+          <b-list-group-item>
+            <b-row>
+              <b-col>아이디</b-col>
+              <b-col>{{ memberDetail.memberId }}</b-col>
+            </b-row>
+          </b-list-group-item>
+          <b-list-group-item>
+            <b-row>
+              <b-col>이름</b-col>
+              <b-col>{{ memberDetail.memberName }}</b-col>
+            </b-row>
+          </b-list-group-item>
+          <b-list-group-item>
+            <b-row>
+              <b-col>생일</b-col>
+              <b-col>{{ memberDetail.memberBirth }}</b-col>
+            </b-row>
+          </b-list-group-item>
+          <b-list-group-item>
+            <b-row>
+              <b-col>성별</b-col>
+              <b-col>{{ memberDetail.memberGender }}</b-col>
+            </b-row>
+          </b-list-group-item>
+          <b-list-group-item>
+            <b-row>
+              <b-col>전화번호</b-col>
+              <b-col>{{ memberDetail.memberPhone }}</b-col>
+            </b-row>
+          </b-list-group-item>
+          <b-list-group-item>
+            <b-row>
+              <b-col>주소</b-col>
+              <b-col>{{ memberDetail.memberAddr }}</b-col>
+            </b-row>
+          </b-list-group-item>
+          <b-list-group-item>
+            <b-row>
+              <b-col>닉네임</b-col>
+              <b-col>{{ memberDetail.memberNickname }}</b-col>
+            </b-row>
+          </b-list-group-item>
+          <b-list-group-item>
+            <b-row>
+              <b-col>이메일</b-col>
+              <b-col>{{ memberDetail.memberEmail }}</b-col>
+            </b-row>
+          </b-list-group-item>
+          <b-list-group-item>
+            <b-row>
+              <b-col>구직 희망 포지션</b-col>
+              <b-col>{{ memberDetail.workAreaId }}</b-col>
+            </b-row>
+         </b-list-group-item>
+        </b-list-group>
+      </b-card>
+      <b-card header="자기 소개">
+        <b-card-text>{{ memberDetail.memberInfo }}</b-card-text>
+      </b-card>
+    </b-card-group>
+  </b-tab>
 </template>
 
+
 <script>
+import dayjs from 'dayjs';
 export default {
     computed: {
         memberDetail() {
-            return this.$store.getters['member/memberDetail'];
+            const memberDetailRaw = this.$store.getters["member/memberDetail"]
+            return {
+                ...memberDetailRaw,
+                memberBirth: dayjs.unix(memberDetailRaw.memberBirth / 1000).format('YYYY년 MM월 DD일')
+            }
         }
     }
 }
 </script>
 
-<style>
+<style scoped>
 #mypageNickname{
  background-color: cornsilk;
 }
