@@ -21,7 +21,7 @@
               <b-col>{{ row.item.memberName }}</b-col>
             </b-row>
             <b-row>
-              <b-col sm="2" class="text-sm-right"><b>제안 직무</b></b-col>
+              <b-col sm="2" class="text-sm-right"><b>제안직무</b></b-col>
               <b-col>{{ row.item.workAreaName }}</b-col>
             </b-row>
             <b-row>
@@ -127,10 +127,8 @@ export default {
   },
   methods: {
     downloadResume(memberId) {
-      console.log(memberId);
       this.$store.dispatch("auth/authRequest", {
         requestCallback: () => {
-          console.log(memberId);
           this.$store.dispatch("recruit/downloadResume", {
             memberId: memberId,
             resultRef: this.downloadResult,

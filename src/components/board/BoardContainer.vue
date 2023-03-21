@@ -18,11 +18,11 @@
           <small>{{article.articleCreatedAt}}</small>
         </div>
         <p class="mb-1"> {{article.articleContent}}</p>
-        <div align="right"><h7 class="mb-1"> {{article.memberNickname}} &bull;  
+        <div align="right"><h5 class="mb-1"> {{article.memberNickname}} &bull;  
           <font-awesome-icon style="color: black" icon="fa-solid fa-heart" />
           {{article.likeCnt}} &bull;
           <font-awesome-icon icon="fa-solid fa-comment" />
-          {{article.commentCnt}}  </h7> </div>
+          {{article.commentCnt}} </h5> </div>
       
         <!-- <small class="ml-auto">
          {{article.memberNickname}} &bull;  {{article.likeCnt}} Likes &bull;{{article.commentCnt}}Comments

@@ -68,7 +68,7 @@ export default {
   watch: {
     isSuccess(val) {
       if (val === true) {
-        if (this.registerType === 'A') {
+        if (this.registerType === 'A' || this.registerType === 'N' ) {
           alert('회원가입에 성공했습니다.');
           this.$router.push({ name: 'login' });
         } else {
