@@ -60,6 +60,9 @@ export default {
       coordY: null
     };
   },
+  props: [
+    'initialCoordX', 'initialCoordY'
+  ],
   watch: {
     addrInput() {
       this.$emit('changed', {
@@ -118,7 +121,7 @@ export default {
     const container = this.$refs.map_container;
     const options = {
       // eslint-disable-next-line
-      center: new kakao.maps.LatLng(37.5063203551829, 127.041231426975), // 지도의 중심좌표.
+      center: new kakao.maps.LatLng(this.initialCoordY, this.initialCoordX), // 지도의 중심좌표.
       level: 3
     };
 
