@@ -1,8 +1,8 @@
 <template>
   <base-layout>
     <admin-main-container v-if="memberType === 'ROLE_ADMIN'" />
-    <company-main-container v-if="memberType === 'ROLE_COMPANY'" />
-    <main-container v-if="memberType === 'ROLE_NORMAL'" />
+    <company-main-container v-else-if="memberType === 'ROLE_COMPANY'" />
+    <main-container v-else />
   </base-layout>
 </template>
 

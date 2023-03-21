@@ -65,19 +65,23 @@ export default {
     },
     methods:{
         loadRecruitList() {
-            this.$store.dispatch('auth/authRequest', {
-                requestCallback: () => {
-                    this.$store.dispatch('recruit/requestRecruitList', {
+            this.$axios.get(
+                this.$apiUri.recruit,
+                {
+                    withCredentials: true,
+                    params: {
                         size: 8,
                         page: 1,
                         closed: false
-                    });
-                },
-                failedCallback: (error) => {
-                    console.error('실패');
-                    console.error(error);
-                    this.$store.commit('common/setSuccess', false);
+                    }
                 }
+            )
+            .then((result) => {
+                this.$store.commit('recruit/setRecruitList', result.data.payload.list);
+            })
+            .catch((error) => {
+                console.error(error);
+                alert('요청에 실패했습니다. 다시 시도해주세요.');
             });
         },
         loadExposedRecruitList() {
@@ -85,9 +89,6 @@ export default {
                 this.$apiUri.recruit,
                 {
                     withCredentials: true,
-                    headers: {
-                        Authorization: `Bearer ${this.$store.getters['auth/accessToken']}`
-                    },
                     params: {
                         page: 1,
                         size: 10,
