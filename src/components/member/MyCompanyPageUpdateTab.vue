@@ -103,6 +103,7 @@
             v-model="updateInfoform.memberAddr"
             required
           ></b-form-input>
+          <update-map-container @changed="handleChanged" />
         </b-col>
         </b-row>
 
@@ -123,9 +124,11 @@
 </template>
 
 <script>
+import UpdateMapContainer from './UpdateMapContainer.vue';
+
 export default {
   name : "UpdateTab",
-  components: {},
+  components: { UpdateMapContainer },
   data() {
     return {
       updateInfoform: {},
@@ -160,6 +163,12 @@ export default {
     },
   },
   methods: {
+    // 선택 장소가 변하는 경우
+    handleChanged({ addrInput, coordX, coordY}) {
+      this.updateInfoform.memberAddr = addrInput;
+      this.updateInfoform.memberCoordX = coordX;
+      this.updateInfoform.memberCoordY = coordY;
+    },
     //기업 프로필 업로드
     upleoadImage(){ 
        this.$axios
@@ -176,6 +185,7 @@ export default {
         )
         .then((result) => {
           console.log(result);
+          alert('이미지 업로드에 성공했습니다.');
         })
         .catch((result) => {
           console.error(result);
