@@ -132,7 +132,7 @@ export default {  namespaced: true,
       )
         .then(() => {
           commit('common/setSuccess', true, { root: true });
-          alert('회원 이력서 정보 수정에 성공했습니다.');
+          alert('회원 이력서 공개 여부를 수정하였습니다.');
         })
         .catch((error) => {
           console.error(error);
