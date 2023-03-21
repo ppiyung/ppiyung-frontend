@@ -208,7 +208,7 @@ export default {
             {
               recruitId: this.recruitId,
               memberId: this.memberInfo.memberId,
-              resultRef: this.bookmarkResult
+              resultRef: this.applyResult
             }
           );
         },
