@@ -30,15 +30,9 @@ export default {
     }
   },
   actions: {
-    getWorkArea({ commit, rootGetters }) {
+    getWorkArea({ commit }) {
       axios.get(
-          `${apiUri.recruit}/workarea`,
-          {
-              withCredentials: true,
-              headers: {
-                  Authorization: `Bearer ${rootGetters['auth/accessToken']}`
-              }
-          }
+          `${apiUri.recruit}/workarea`
       ).then((response) => {
           console.log("직무분야 가져오기 완료");
           commit('setWorkArea', response.data.payload);

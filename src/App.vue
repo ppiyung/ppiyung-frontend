@@ -35,6 +35,7 @@ export default {
   },
   created() {
     this.loadNotification();
+    this.$store.dispatch('common/getWorkArea');
   },
   watch: {
     '$route' () {
