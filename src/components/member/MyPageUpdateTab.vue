@@ -154,8 +154,8 @@ export default {
 .duplicate-indicator {
   margin-bottom: 10px;
 }
-#mypageNickname {
-  background-color: cornsilk;
+#mypageNickname{
+ font-weight: 900;
 }
 #myPageUpdateBtn{
   float:right;

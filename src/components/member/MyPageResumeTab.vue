@@ -190,8 +190,8 @@ export default {
 };
 </script>
 <style scoped>
-#mypageNickname {
-  background-color: cornsilk;
+#mypageNickname{
+ font-weight: 900;
 }
 .resumeButtonContainer {
     margin-top: 60px;

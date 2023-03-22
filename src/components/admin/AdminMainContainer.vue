@@ -1,12 +1,25 @@
 <template>
-    <div class="dashboard-container">
-        <ul>
-            <li>현재 진행중인 채용: {{statistics.ongoingRecruits}}건</li>
-            <li>현재 채용 지원자: {{statistics.applyMembers}}명</li>
-        </ul>
+  <div class="dashboard-container">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">현재 진행중인 채용</h5>
+            <p class="card-text">{{statistics.ongoingRecruits}}건</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">현재 채용 지원자</h5>
+            <p class="card-text">{{statistics.applyMembers}}명</p>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </template>
-
 <script>
 export default {
     components: {

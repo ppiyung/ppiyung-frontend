@@ -119,6 +119,6 @@ export default {
   font-size: 35px;
 }
 #mypageNickname{
- background-color: cornsilk;
+ font-weight: 900;
 }
 </style>
