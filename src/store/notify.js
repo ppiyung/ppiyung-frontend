@@ -85,7 +85,7 @@ export default {
         });
     },
 
-     // 일반회원 알림 목록에서 해당 알림 삭제
+     // 기업회원 알림 목록에서 해당 알림 삭제
      requestDeleteCompanyNotify({ commit, rootGetters }, notificationId) { 
       console.log('알림 삭제 시작');
       axios.delete(
