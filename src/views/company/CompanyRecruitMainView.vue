@@ -28,7 +28,6 @@
    </basic-layout>
 </template>
 
-
 <script>
 import BasicLayout from '@/components/common/BaseLayout.vue';
 import RecruitWorkAreaControl from '@/components/recruit/RecruitWorkAreaControl.vue';
