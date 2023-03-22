@@ -1,5 +1,8 @@
 <template>
   <div class="container my-4">
+    <div align="left">
+      <b-button @click="moveToBack()">되돌아가기</b-button>
+    </div>
     <div id="button" align="right">
       <div>
         <b-button
@@ -105,6 +108,12 @@ export default {
     });
   },
   methods: {
+    moveToBack(){
+      this.$router.push({
+        name: "board",
+      });
+    }
+    ,
     loadArticleDetail() {
       this.$store.dispatch("auth/authRequest", {
         requestCallback: () => {
