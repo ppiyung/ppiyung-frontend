@@ -10,9 +10,10 @@ export default {
   methods: {
     loadNotification() {
       if (!this.isLogin) {
+        this.$store.commit('notify/setNotifyList', []);
         return;
       }
-
+      console.log('불러오기');
       this.$store.dispatch('auth/authRequest', {
         requestCallback: () => {
           this.$store.dispatch('notify/requestNotifyList', this.$store.getters['auth/memberInfo'].memberId);
@@ -30,7 +31,7 @@ export default {
       return this.$store.getters['auth/memberInfo'];
     },
     isLogin() {
-      return Object.keys(this.memberInfo).length === 0 ? false : true;
+      return this.$store.getters['auth/isLogin'];
     }
   },
   created() {
@@ -39,6 +40,9 @@ export default {
   },
   watch: {
     '$route' () {
+      if (this.$route.name === 'logout') {
+        return;
+      }
       this.loadNotification();
     }
   }
