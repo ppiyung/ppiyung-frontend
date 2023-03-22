@@ -11,7 +11,7 @@
       <b-col lg="4" class="pb-2">
         <b-form-input
             v-model="registerInfoParam.memberId"
-            required
+            required aria-required="true"
         ></b-form-input>
       </b-col>
     </b-row>

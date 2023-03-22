@@ -1,9 +1,5 @@
 <template>
   <div>
-    <div class="control-wrapper">
-      <b-button variant="primary" @click="submit">수정</b-button>
-    </div>
-
     <b-form-group label-cols="4" label-cols-lg="2" label="채용 분야" label-for="recruit-title">
       <b-form-select v-model="recruitFormData.workAreaId" :options="workAreaOptions"></b-form-select>
     </b-form-group>
