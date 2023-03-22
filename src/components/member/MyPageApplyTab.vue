@@ -2,19 +2,23 @@
   <b-tab title="지원현황" >
      <h3><span id="mypageNickname">{{memberInfo.memberNickname}}</span> 님이 지원한 목록</h3> <br>
     <div class="apply-container">
-      <div v-if="!applyList.length" class="fadeNotice">
+     <div v-if="applyList.length === 0" class="fadeNotice">
         지원한 이력이 없습니다.
       </div>
+
       <div v-else>
         <b-table :items="applyList" :fields="fields" striped responsive="sm">
           <template #cell(companyName)="row">
-            <!-- <span @click="moveToDetailPage(row.item.articleId)">{{row.item.articleTitle }}</span> -->
             <router-link :to="{ name: 'companyProfile', params: { id: row.item.applyRecruit.companyId } }">{{row.item.applyRecruit.companyName}}</router-link>
           </template>
         
           <template #cell(recruitTitle)="row">
-            <!-- <span @click="moveToDetailPage(row.item.articleId)">{{row.item.articleTitle }}</span> -->
             <router-link :to="{ name: 'recruitDetail', params: { id: row.item.applyRecruit.recruitId } }">{{row.item.applyRecruit.recruitTitle}}</router-link>
+          </template>
+
+          <template #cell(applyResult)="row">
+            <span v-if="row.item.applyResult" style="color:blue;">합격</span>
+            <span v-else style="color:red;"> 불합격</span>
           </template>
         </b-table>
       </div>
@@ -49,8 +53,12 @@ export default {
           key: "applyRecruit.recruitEndAt",
           label: "채용 마감일 ",
           sortable: true,
+        },
+          {
+          key: "applyResult",
+          label: "채용 결과 ",
+          sortable: false,
         }
-        
       ],
     };
   },

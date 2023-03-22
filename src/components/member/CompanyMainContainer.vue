@@ -1,5 +1,7 @@
 <template>
+
   <div class="dashboard-container">
+     <router-link :to="{ name: 'company/editRecruit', params: { id: memberInfo.memberId } }"><span id="mainBtn">채용공고 작성하러가기</span></router-link>
     <b-card class="companyTopBox">
       <b-card-header class="bg-light">
         <strong>채용 진행 현황</strong>
@@ -33,16 +35,19 @@
         </b-row>
       </b-card-body>
     </b-card>
+
     <b-card class="companyBottomBox">
       <div v-if="allRecruitListCompany.length === 0" class="fadeNotice">
         진행중인 채용공고가 없습니다.
       </div>
       <div v-else>
+
         <b-table :items="allRecruitListCompany" :fields="fields" striped responsive="sm">
           <template #cell(recruitTitle)="row">
-              <router-link :to="{ name: 'recruitDetail', params: { id: row.item.recruitId } }">{{row.item.recruitTitle }}</router-link>
+              <router-link :to="{ name: 'recruitDetail', params: { recruitId: row.item.recruitId } }">{{row.item.recruitTitle }}</router-link>
           </template>
         </b-table>
+
       </div>
     </b-card>
   </div>
@@ -139,5 +144,10 @@ export default {
   text-align: center;
   color: darkgray;
   font-size: 35px;
+}
+#mainBtn{
+  font-weight: 900;
+  display: flex;
+  justify-content: flex-end;
 }
 </style>

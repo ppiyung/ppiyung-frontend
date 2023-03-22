@@ -158,7 +158,6 @@
 
 <script>
 import RegisterMapContainer from './RegisterMapContainer.vue';
-
 export default {
   components: {
     RegisterMapContainer
@@ -203,66 +202,53 @@ export default {
         alert('중복되는 아이디입니다. 다른 아이디를 사용해주세요.');
         return false;
       }
-
       if (this.registerInfoParam.memberPw.length > 32) {
         alert('비밀번호는 최대 32자를 넘을 수 없습니다.');
         return false;
       }
-
       if (this.registerInfoParam.memberPw !== this.memberPwVerify) {
         alert('비밀번호와 비밀번호 확인이 다릅니다. 다시 한 번 확인해주세요.');
         return false;
       }
-
       if (this.registerInfoParam.memberId.length > 18) {
         alert('아이디는 최대 18자를 넘을 수 없습니다.');
         return false;
       }
-
       if (this.registerInfoParam.memberName.length > 18) {
         alert('이름은 최대 18자를 넘을 수 없습니다.');
         return false;
       }
-
       if (this.registerInfoParam.memberNickname.length > 18) {
         alert('닉네임은 최대 18자를 넘을 수 없습니다.');
         return false;
       }
-
       if (this.registerInfoParam.memberEmail.length > 120) {
         alert('이메일은 최대 120자를 넘을 수 없습니다.');
         return false;
       }
-
       this.registerInfoParam.memberPhone = this.registerInfoParam.memberPhone.replaceAll('-', '');
       if (this.registerInfoParam.memberPhone.length > 18) {
         alert('전화번호는 최대 18자를 넘을 수 없습니다.');
         return false;
       }
-
-
       let reg = /[$&+,:;=?@#|'<>.^*()%!-]/g; // 특수문자 매칭
       if(this.registerInfoParam.memberId.search(reg) !== -1) {
         alert('아이디에는 특수문자가 포함될 수 없습니다.');
         return false;
       }
-
       if(this.registerInfoParam.memberName.search(reg) !== -1) {
         alert('이름에는 특수문자가 포함될 수 없습니다.');
         return false;
       }
-
       if(this.registerInfoParam.memberNickname.search(reg) !== -1) {
         alert('닉네임에는 특수문자가 포함될 수 없습니다.');
         return false;
       }
-
       let reg2 = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|A-Z|a-z]/g; // 영문자, 국문자 매칭
       if(this.registerInfoParam.memberPhone.search(reg2) !== -1) {
         alert('전화번호에는 문자를 입력할 수 없습니다.');
         return false;
       }
-
       return true;
     },
     saveAndNext(e) {
