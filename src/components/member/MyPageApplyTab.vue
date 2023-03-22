@@ -17,8 +17,9 @@
           </template>
 
           <template #cell(applyResult)="row">
-            <span v-if="row.item.applyResult" style="color:blue;">합격</span>
-            <span v-else style="color:red;"> 불합격</span>
+            <span v-if="row.item.applyResult === true" style="color:blue;">합격</span>
+            <span v-else-if="row.item.applyResult === false" style="color:red;"> 불합격</span>
+            <span v-else> 미통보</span>
           </template>
         </b-table>
       </div>
@@ -67,7 +68,13 @@ export default {
       return this.$store.getters["auth/memberInfo"];
     },
     applyList() {
-      return this.$store.getters["recruit/applyListById"]
+      const rawData = this.$store.getters["recruit/applyListById"];
+
+      if(Object.keys(rawData).length === 0) {
+        return rawData;
+      }
+
+      return rawData
         .map(item => {
           return {
             ...item,
