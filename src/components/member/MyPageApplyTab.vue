@@ -40,11 +40,6 @@ export default {
           label: "채용 공고 ",
           sortable: true,
         },
-         {
-          key: "applyRecruit.workAreaId",
-          label: "직무 분야 ",
-          sortable: true,
-        },
            {
           key: "applyRecruit.recruitStartAt",
           label: "채용 시작일 ",

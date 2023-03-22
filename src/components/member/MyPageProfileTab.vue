@@ -57,7 +57,7 @@
           <b-list-group-item>
             <b-row>
               <b-col>구직 희망 포지션</b-col>
-              <b-col>{{ memberDetail.workAreaId }}</b-col>
+              <b-col>{{ memberDetail.workAreaName }}</b-col>
             </b-row>
          </b-list-group-item>
         </b-list-group>
@@ -72,13 +72,16 @@
 
 <script>
 import dayjs from 'dayjs';
+import { workAreaIdToName } from '@/util/workareaHelper';
+
 export default {
     computed: {
         memberDetail() {
             const memberDetailRaw = this.$store.getters["member/memberDetail"]
             return {
                 ...memberDetailRaw,
-                memberBirth: dayjs.unix(memberDetailRaw.memberBirth / 1000).format('YYYY년 MM월 DD일')
+                memberBirth: dayjs.unix(memberDetailRaw.memberBirth / 1000).format('YYYY년 MM월 DD일'),
+                workAreaName: workAreaIdToName(memberDetailRaw.workAreaId)
             }
         }
     }

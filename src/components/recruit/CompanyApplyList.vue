@@ -44,6 +44,7 @@
 
 <script>
 import dayjs from 'dayjs';
+import { workAreaIdToName } from '@/util/workareaHelper';
 
 export default {
    computed: {
@@ -57,6 +58,7 @@ export default {
             ...item,
             memberBirth: dayjs.unix(item.memberBirth / 1000).format('YYYY/MM/DD'), 
             applyCreatedAt: dayjs.unix(item.applyCreatedAt / 1000).format('YYYY/MM/DD'), 
+            workAreaName: workAreaIdToName(item.workAreaId)
           }
         })
     },
@@ -76,7 +78,7 @@ export default {
               label: '지원자 이름'
           },
           {
-              key: 'workAreaId',
+              key: 'workAreaName',
               label: '희망지원부문'
           },
           {
