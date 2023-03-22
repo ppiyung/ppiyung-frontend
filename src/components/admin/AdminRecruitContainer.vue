@@ -93,6 +93,7 @@
 </template>
 <script>
 import dayjs from 'dayjs';
+import { workAreaIdToName } from '@/util/workareaHelper';
 
 export default {
     data() {
@@ -170,7 +171,7 @@ export default {
                         _showDetails: false,
                         recruitStartAt: dayjs.unix(item.recruitStartAt / 1000).format("YYYY년 MM월 DD일"),
                         recruitEndAt: dayjs.unix(item.recruitEndAt / 1000).format("YYYY년 MM월 DD일"),
-                        workArea: item.workAreaId === 1 ? '프론트엔드' : item.workAreaId === 2 ? '웹개발' : '알 수 없음' ,
+                        workArea: workAreaIdToName(item.workAreaId),
                         isOngoing: new Date() > new Date(item.recruitStartAt) && new Date() < new Date(item.recruitEndAt) ? '노출 중' : '마감'
                     };
                 });

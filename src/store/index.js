@@ -18,7 +18,7 @@ Vue.use(Vuex);
 
 const vuexLocal = new VuexPersistence({
   storage: window.localStorage,
-  modules: ['auth'],
+  modules: ['auth', 'common'],
 });
 
 export default new Vuex.Store({

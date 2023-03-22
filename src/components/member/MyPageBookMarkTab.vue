@@ -18,12 +18,14 @@
 
 <script>
 import dayjs from 'dayjs';
+import { workAreaIdToName } from '@/util/workareaHelper';
+
 export default {
   data() {
     return {
       fields: [
         {
-          key: "work_area_id",
+          key: "workAreaName",
           label: "직무분야",
           sortable: true,
         },
@@ -66,7 +68,8 @@ export default {
         return{
           ...item,
           recruit_start_at: dayjs.unix(item.recruit_start_at / 1000).format('YYYY년 MM월 DD일'),
-          recruit_end_at:  dayjs.unix(item.recruit_end_at / 1000).format('YYYY년 MM월 DD일')
+          recruit_end_at:  dayjs.unix(item.recruit_end_at / 1000).format('YYYY년 MM월 DD일'),
+          workAreaName: workAreaIdToName(item.work_area_id)
        }
       })
     },

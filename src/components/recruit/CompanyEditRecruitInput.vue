@@ -40,6 +40,15 @@ export default {
     },
     recruitDetailOriginal() {
       return this.$store.getters['recruit/recruitDetail'];
+    },
+    workAreaOptions() {
+      const workAreaCodes = this.$store.getters['common/workArea'];
+      return workAreaCodes.map((item) => {
+        return {
+          value: item.workAreaId,
+          text: item.workAreaName
+        }
+      });
     }
   },
   watch: {
@@ -73,10 +82,6 @@ export default {
         recruitStartAt: '',
         recruitEndAt:  ''
       },
-      workAreaOptions: [
-        { value: 1, text: '프론트엔드' },
-        { value: 2, text: '웹개발' }
-      ],
       editResult: {
         success: null
       },

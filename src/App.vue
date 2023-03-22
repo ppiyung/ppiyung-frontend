@@ -9,6 +9,10 @@
 export default {
   methods: {
     loadNotification() {
+      if (!this.isLogin) {
+        return;
+      }
+
       this.$store.dispatch('auth/authRequest', {
         requestCallback: () => {
           this.$store.dispatch('notify/requestNotifyList', this.$store.getters['auth/memberInfo'].memberId);
@@ -19,6 +23,14 @@ export default {
           this.$store.commit('common/setSuccess', false);
         }
       });
+    }
+  },
+  computed: {
+    memberInfo() {
+      return this.$store.getters['auth/memberInfo'];
+    },
+    isLogin() {
+      return Object.keys(this.memberInfo).length === 0 ? false : true;
     }
   },
   created() {
