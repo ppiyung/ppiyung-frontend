@@ -1,25 +1,34 @@
 <template>
-  <b-tab title="나의 이력서 관리" active>
+  <b-tab title="나의 이력서 관리" >
     <!-- {{memberInfo}} -->
     <h3>
       <span id="mypageNickname">{{ memberInfo.memberNickname }}</span> 님의
       이력서
     </h3>
-    <br/>
+    <br />
     <div>
       {{ memberInfo.memberNickname }} 님의 이력서 :
-      {{ memberDetail.memberResume.resumeFilename }} <br><br>
-      이력서 올린 날짜:{{ memberDetail.memberResume.resumeUpdatedAt }} <br><br>
-      이력서 공개 여부:
+      {{
+        memberDetail.memberResume
+          ? memberDetail.memberResume.resumeFilename
+          : ""
+      }}
+      <br /><br />
+      이력서 올린 날짜:
+      {{
+        memberDetail.memberResume
+          ? memberDetail.memberResume.resumeUpdatedAt
+          : ""
+      }}
+      <br /><br />
 
-      {{ memberDetail.memberResume.resumeOpen }} 
-      <input
-        type="radio"
-        name="resumeOpen"
-        value="true"
-        checked="checked"
-      />공개 <input type="radio" name="resumeOpen" value="false" />비공개 <br><br>
-    </div>
+        <div class="resumeOpenContainor">
+        이력서 공개 여부:
+
+          <input type="radio" name="resumeOpen" value="true" v-model="isOpen" />공개
+          <input type="radio"  name="resumeOpen"  value="false"  v-model="isOpen" />비공개 
+          <b-button @click="updateOpenVal"  class="btn-sm">확인</b-button> <br><br>
+      </div>
 
     <b-form-file
       v-model="resumeFile"
@@ -27,15 +36,21 @@
       placeholder="업로드할 이력서를 선택해주세요."
       drop-placeholder="이곳에 이력서 드래그"
     ></b-form-file>
-    <div class="resumeButtonContainer">  
-        <b-button @click="uploadResume" style=" margin-right: 10px;">업로드</b-button>
-    <b-button @click="getResume">이력서 다운로드</b-button>
+    <div class="resumeButtonContainer">
+      <b-button @click="uploadResume" style="margin-right: 10px"
+        >업로드</b-button
+      >
+      <b-button @click="getResume">이력서 다운로드</b-button>
     </div>
 
+  
+    </div>
   </b-tab>
 </template>
 
 <script>
+import dayjs from "dayjs";
+
 export default {
   name: "ResumeTab",
   data() {
@@ -43,6 +58,7 @@ export default {
       file: null,
       imgUrl: "",
       resumeFile: null,
+      isOpen: false,
     };
   },
   computed: {
@@ -50,10 +66,39 @@ export default {
       return this.$store.getters["auth/memberInfo"];
     },
     memberDetail() {
-      return this.$store.getters["member/memberDetail"];
+      const memberDetailRaw = this.$store.getters["member/memberDetail"];
+
+      if (Object.keys(memberDetailRaw).length === 0) {
+        return memberDetailRaw;
+      }
+
+      return {
+        ...memberDetailRaw,
+        memberResume: {
+          ...memberDetailRaw.memberResume,
+          resumeUpdatedAt: dayjs
+            .unix(memberDetailRaw.memberResume.resumeUpdatedAt / 1000)
+            .format("YYYY년 MM월 DD일"),
+        },
+      };
     },
   },
   methods: {
+    updateOpenVal() {
+      this.$store.dispatch("auth/authRequest", {
+        requestCallback: () => {
+          console.log(this.isOpen, this.memberInfo.memberId);
+          this.$store.dispatch("member/editResumeOpen", {
+              resumeOpen: this.isOpen, memberId: this.memberInfo.memberId
+            });
+        },
+        failedCallback: (error) => {
+          console.error("실패");
+          console.error(error);
+          this.$store.commit("common/setSuccess", false);
+        },
+      });
+    },
     uploadResume() {
       this.$axios
         .postForm(
@@ -114,14 +159,13 @@ export default {
   },
 };
 </script>
-
-<style>
+<style scoped>
 #mypageNickname {
   background-color: cornsilk;
 }
-.resumeButtonContainer{
-   float: right;
-  margin: 50px;
-
+.resumeButtonContainer {
+    margin-top: 60px;
+    display: flex;
+    justify-content: center; 
 }
 </style>

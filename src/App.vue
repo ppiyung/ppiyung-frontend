@@ -7,6 +7,28 @@
 <script>
 
 export default {
+  methods: {
+    loadNotification() {
+      this.$store.dispatch('auth/authRequest', {
+        requestCallback: () => {
+          this.$store.dispatch('notify/requestNotifyList', this.$store.getters['auth/memberInfo'].memberId);
+        },
+        failedCallback: (error) => {
+          console.error('알림 불러오기 실패');
+          console.error(error);
+          this.$store.commit('common/setSuccess', false);
+        }
+      });
+    }
+  },
+  created() {
+    this.loadNotification();
+  },
+  watch: {
+    '$route' () {
+      this.loadNotification();
+    }
+  }
 };
 </script>
 

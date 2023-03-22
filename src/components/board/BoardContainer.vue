@@ -18,9 +18,15 @@
           <small>{{article.articleCreatedAt}}</small>
         </div>
         <p class="mb-1"> {{article.articleContent}}</p>
-        <small class="ml-auto">
+        <div align="right"><h5 class="mb-1"> {{article.memberNickname}} &bull;  
+          <font-awesome-icon style="color: black" icon="fa-solid fa-heart" />
+          {{article.likeCnt}} &bull;
+          <font-awesome-icon icon="fa-solid fa-comment" />
+          {{article.commentCnt}} </h5> </div>
+      
+        <!-- <small class="ml-auto">
          {{article.memberNickname}} &bull;  {{article.likeCnt}} Likes &bull;{{article.commentCnt}}Comments
-        </small>
+        </small> -->
       </b-list-group-item>
     </b-list-group>
     <div class="btn-cover" align="center" style = "margin: 15px 25px 15px 0px; padding: 10px;">

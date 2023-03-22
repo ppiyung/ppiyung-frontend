@@ -4,7 +4,7 @@
     <div>
       <b-card no-body>
         <b-tabs pills card vertical>
-          <profile-tab />
+          <profile-tab aria-selected="true"/>
           <resume-tab/>
           <update-tab/>
           <apply-tab/>

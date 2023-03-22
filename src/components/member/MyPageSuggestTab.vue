@@ -2,23 +2,14 @@
   <b-tab title="입사 제안">
     <h3><span id="mypageNickname">{{memberInfo.memberNickname}}</span> 님에게 온 입사 제안</h3>
     <br />
-    <div v-if="!suggestList.length" class="fadeNotice">
+     <div v-if="suggestList.length === 0" class="fadeNotice">
       아직 입사 제안이 오지 않았습니다.
     </div>
     <div v-else>
       <b-table :items="suggestList" :fields="fields" striped responsive="sm">
-        <template #row-details="row">
-          <b-card>
-            <b-row>
-              <b-col sm="3" class="text-sm-right"><b>입사 제안한 회사 </b></b-col>
-              <b-col>{{ row.item.companyName }}</b-col>
-            </b-row>
-
-            <b-row>
-              <b-col sm="3" class="text-sm-right"><b>입사 제안 온 날짜 </b></b-col>
-              <b-col>{{ row.item.suggestCreatedAt}}</b-col>
-            </b-row>
-          </b-card>
+        <template #cell(companyName)="row">
+            <!-- <span @click="moveToDetailPage(row.item.articleId)">{{row.item.articleTitle }}</span> -->
+            <router-link :to="{ name: 'companyProfile', params: { id: row.item.companyId } }">{{row.item.companyName }}</router-link>
         </template>
       </b-table>
     </div>
@@ -26,6 +17,7 @@
 </template>
 
 <script>
+import dayjs from 'dayjs';
 export default {
    data() {
     return {
@@ -48,8 +40,23 @@ export default {
       return this.$store.getters["auth/memberInfo"];
     },
     suggestList() {
-      return this.$store.getters["recruit/suggestList"];
+      return this.$store.getters["recruit/suggestList"]
+      .map(item => {
+        return{
+          ...item,
+          suggestCreatedAt: dayjs.unix(item.suggestCreatedAt / 1000).format('YYYY년 MM월 DD일')
+        }
+      })
     },
+  },
+  methods: {
+    moveToDetailPage(id) {
+      console.log(id);
+      this.$router.push({
+        name: 'companyProfile',
+        params: { id }
+      });
+    }
   },
   mounted() {
     this.$store.dispatch("auth/authRequest", {
@@ -67,8 +74,15 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #mypageNickname{
  background-color: cornsilk;
+}
+.fadeNotice {
+  font-weight: 900;
+  text-align: center;
+  margin-top: 100px;
+  color: darkgray;
+  font-size: 35px;
 }
 </style>

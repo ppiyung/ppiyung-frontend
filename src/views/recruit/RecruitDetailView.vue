@@ -9,6 +9,7 @@
 
           <div>
             <router-link :to="{ name: 'companyProfile', params: { id: recruitDetail.companyId } }">{{recruitDetail.companyName}}</router-link>
+            <br><br>
           </div>
           
           <div>
@@ -208,7 +209,7 @@ export default {
             {
               recruitId: this.recruitId,
               memberId: this.memberInfo.memberId,
-              resultRef: this.bookmarkResult
+              resultRef: this.applyResult
             }
           );
         },
