@@ -77,6 +77,7 @@ export default {
         refreshToken: ''
       });
       commit('common/setSuccess', null, { root: true });
+      commit('notify/setNotifyList', [], { root: true });
     },
     authRequest({ commit, getters }, { requestCallback, failedCallback }) {
       // requestCallback: 토큰 유효 기간에 문제가 없을 때 실행되는 콜백

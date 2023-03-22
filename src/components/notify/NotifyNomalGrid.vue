@@ -13,7 +13,7 @@
       :recruitId="notify.recruitId"
       :memberName="notify.memberName"
       :recruitTitle="notify.recruit.recruitTitle"
-      :companyName="notify.recruit.companyName"
+      :companyName="notify.companyNickName"
       :companyId="notify.companyId"
       :notificationCreatedAt="notify.notificationCreatedAt"/>
     

@@ -23,7 +23,7 @@
           {{article.likeCnt}} &bull;
           <font-awesome-icon icon="fa-solid fa-comment" />
           {{article.commentCnt}} </h5> </div>
-      
+          
         <!-- <small class="ml-auto">
          {{article.memberNickname}} &bull;  {{article.likeCnt}} Likes &bull;{{article.commentCnt}}Comments
         </small> -->
