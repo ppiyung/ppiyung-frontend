@@ -16,9 +16,9 @@
       </b-col>
     </b-row>
 
-    <b-row v-if="isCompany">
+    <b-row>
       <b-col lg="1" class="pb-2">
-          기업 소개
+          {{isCompany ? '기업 소개' : '자기 소개'}}
       </b-col>
       <b-col lg="4" class="pb-2">
         <b-form-textarea
@@ -47,11 +47,7 @@
 export default {
   data() {
     return {
-      registerInfoParam: {},
-      workAreaType: [
-        { value: 1, text: '프론트엔드' },
-        { value: 2, text: '웹개발' }
-      ]
+      registerInfoParam: {}
     };
   },
   computed: {
@@ -63,6 +59,15 @@ export default {
     },
     isSuccess() {
       return this.$store.getters['common/isSuccess'];
+    },
+    workAreaType() {
+      const workAreaCodes = this.$store.getters['common/workArea'];
+      return workAreaCodes.map((item) => {
+        return {
+          value: item.workAreaId,
+          text: item.workAreaName
+        }
+      });
     }
   },
   watch: {

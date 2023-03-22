@@ -43,11 +43,12 @@ export default {
     isSuccess(newVal) {
       if (newVal === false) {
         alert('로그인에 실패했습니다. 아이디와 비밀번호를 한 번 더 확인해주세요.');
+        this.$store.commit('common/setSuccess', null);
       } else if (newVal === true) {
+        this.$store.dispatch('common/getWorkArea');
+        this.$store.commit('common/setSuccess', null);
         this.$router.push({ name: 'main' });
       }
-
-      this.$store.commit('common/setSuccess', null);
     }
   },
   methods: {

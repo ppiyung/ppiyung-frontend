@@ -4,11 +4,13 @@
       <b-form-radio v-model="closed" :aria-describedby="ariaDescribedby" name="some-radios" value="false">제외</b-form-radio>
       <b-form-radio v-model="closed" :aria-describedby="ariaDescribedby" name="some-radios" value="true">포함</b-form-radio>
     </b-form-group>
-    <b-button
+    
+    <b-button v-for="workArea in workAreaList"
+        :key="workArea.workAreaId"
         pill
-        :variant="workAreaId === 1 ? 'primary' : 'outline-primary'"
-        @click="setWorkArea(1)">
-        프론트엔드
+        :variant="workAreaId === workArea.workAreaId ? 'primary' : 'outline-primary'"
+        @click="setWorkArea(workArea.workAreaId)">
+        {{ workArea.workAreaName }}
     </b-button>
     <b-button
         pill
@@ -29,6 +31,9 @@ export default {
   computed: {
     workAreaId() {
       return this.$store.getters['admin/recruitManage'].queryOption.workArea;
+    },
+    workAreaList() {
+      return this.$store.getters['common/workArea'];
     }
   },
   methods: {

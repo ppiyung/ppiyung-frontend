@@ -81,7 +81,7 @@
 
                     <b-row>
                         <b-col sm="3" class="text-sm-right"><b>구직/채용 분야: </b></b-col>
-                        <b-col>{{ row.item.workAreaId }}</b-col>
+                        <b-col>{{ row.item.workAreaName }}</b-col>
                     </b-row>
 
                     <b-row>
@@ -130,6 +130,7 @@
 </template>
 <script>
 import dayjs from 'dayjs';
+import { workAreaIdToName } from '@/util/workareaHelper';
 
 export default {
     data() {
@@ -201,7 +202,8 @@ export default {
                         memberBirth: dayjs.unix(item.memberBirth / 1000).format("YYYY년 MM월 DD일"),
                         memberVerified: item.role === 'ROLE_COMPANY' ? item.memberVerified : '-',
                         memberGender: item.memberGender === 'F' ? '여성' : item.memberGender === 'M' ? '남성' : '-',
-                        memberType: item.memberType === 'N' ? '구직' : item.memberType === 'C' ? '기업' :  '관리'
+                        memberType: item.memberType === 'N' ? '구직' : item.memberType === 'C' ? '기업' :  '관리',
+                        workAreaName: workAreaIdToName(item.workAreaId)
                     };
                 });
         },
