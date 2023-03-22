@@ -22,6 +22,12 @@
                                 인재저격
                             </router-link>
                         </b-nav-item>
+                        <b-nav-item>
+                            <router-link :to="{ name: 'board' }"
+                                :class="{'selected': this.currentMenu === 'board'}">
+                                커뮤니티
+                            </router-link>
+                        </b-nav-item>
                     </b-navbar-nav>
 
                     <b-navbar-nav align="right">

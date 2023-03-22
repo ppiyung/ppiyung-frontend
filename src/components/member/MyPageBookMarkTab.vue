@@ -3,7 +3,7 @@
      <h3><span id="mypageNickname">{{memberInfo.memberNickname}}</span> 님의 관심 채용 정보</h3>
     <br />
      <div v-if="bookMarkList.length === 0" class="fadeNotice">
-      관심 채용 정보가 존재하지 않습니다.
+      관심 채용정보 내역이 없습니다.
     </div>
     <div v-else>
       <b-table :items="bookMarkList" :fields="fields" striped responsive="sm">

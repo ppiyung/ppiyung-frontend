@@ -70,7 +70,7 @@
                     </b-row>
 
                     <b-row>
-                        <b-col sm="3" class="text-sm-right"><b>사업자번호: </b></b-col>
+                        <b-col sm="3" class="text-sm-right"><b>사업자등록번호: </b></b-col>
                         <b-col>{{ row.item.memberRegNum}}</b-col>
                     </b-row>
 
