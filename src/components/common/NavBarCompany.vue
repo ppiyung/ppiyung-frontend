@@ -22,11 +22,17 @@
                                 인재저격
                             </router-link>
                         </b-nav-item>
+                        <b-nav-item>
+                            <router-link :to="{ name: 'board' }"
+                                :class="{'selected': this.currentMenu === 'board'}">
+                                커뮤니티
+                            </router-link>
+                        </b-nav-item>
                     </b-navbar-nav>
 
                     <b-navbar-nav align="right">
                         <b-nav-item>
-                            <router-link :to="{ name: 'notify/nomal'}" :class="{'selected': this.currentMenu === 'notify'}">
+                            <router-link :to="{ name: 'notify/company'}" :class="{'selected': this.currentMenu === 'notify'}">
                                 <font-awesome-icon icon="fa-solid fa-bell" /> &nbsp;
                                 <b-badge variant="light" v-if="newNotiExist">new</b-badge> &nbsp;
                             </router-link>

@@ -24,11 +24,11 @@
 
     <b-card id="notify-suggest"
      v-if="suggestId !== 0"
-      :title="'[입사제안 알림메세지] - 채용공고명: ' + recruitTitle"
+      :title="'[입사제안 알림메세지] - 채용기업명: ' + companyName"
       class="mb-2">
             <b-card-text v-model="notifyInfoParam">
             안녕하세요. {{ this.memberName }} 님! <br>
-            채용기업에서 <span style="color: blue">입사제안</span>을 요청했습니다. <br>
+            채용기업 <span style="color: blue"> {{ this.companyName }} </span>에서 <span style="color: blue">입사제안</span>을 요청했습니다. <br>
             자세한 사항은 마이페이지를 확인해주세요.
             <br><br>
             알림시간: {{ this.notifyInfoParam.createdAtFormmated }}
@@ -54,7 +54,7 @@ export default {
 
   props: [
     'notificationId', 'memberId', 'applyId', 'notificationCreatedAt', 'memberName',
-    'applyResult', 'recruitId', 'recruitTitle', 'suggestId'
+    'applyResult', 'recruitId', 'recruitTitle', 'suggestId', 'companyName'
   ],
   data() {
     dayjs();

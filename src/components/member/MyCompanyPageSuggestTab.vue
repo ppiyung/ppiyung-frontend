@@ -6,7 +6,7 @@
     </h3>
     <br />
     <div v-if="!proposalsList.length" class="fadeNotice">
-      아직 제안보낸 지원자가 없습니다.
+      입사 제안 내역이 없습니다.
     </div>
     <div v-else>
       <b-table :items="proposalsList" :fields="fields" striped responsive="sm">
@@ -60,7 +60,7 @@ export default {
         },
         {
           key: "memberPhone",
-          label: "구직자 번호",
+          label: "구직자 연락처",
           sortable: true,
         },
         {

@@ -5,14 +5,16 @@
     <recruit-work-area-control />
 
     <div class="company-recruit-control">
-      <b-dropdown id="dropdown-buttons" text="진행상태" class="m-2" v-model="isClosed">
+      <b-dropdown id="dropdown-buttons"
+        :text="pageOption.closed === true ? '마감포함' : '진행중인 공고'"
+        class="m-2" v-model="isClosed">
           <b-dropdown-item-button
             @click="changeClosedOption(false)" :active="!isClosed">
-            채용중만 조회
+            진행중인 공고 조회
           </b-dropdown-item-button>
           <b-dropdown-item-button
             @click="changeClosedOption(true)" :active="isClosed">
-            마감 포함
+            마감 포함 공고 조회
           </b-dropdown-item-button>
       </b-dropdown>
 
@@ -27,7 +29,6 @@
     <company-recruit-list />
    </basic-layout>
 </template>
-
 
 <script>
 import BasicLayout from '@/components/common/BaseLayout.vue';
@@ -54,6 +55,9 @@ export default {
   computed: {
     workArea() {
       return this.$store.getters['recruit/selectedWorkArea'];
+    },
+    pageOption() {
+      return this.$store.getters['recruit/pageOption'];
     }
   },
   watch: {
