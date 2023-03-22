@@ -13,6 +13,7 @@
       :recruitId="notify.recruitId"
       :memberName="notify.memberName"
       :recruitTitle="notify.recruit.recruitTitle"
+      :companyName="notify.recruit.companyName"
       :companyId="notify.companyId"
       :notificationCreatedAt="notify.notificationCreatedAt"/>
     
@@ -43,7 +44,7 @@ export default {
     workArea() {
       this.$store.dispatch('auth/authRequest', {
         requestCallback: () => {
-          this.$store.dispatch('notify/company/requestNotifyList', );
+          this.$store.dispatch('notify/nomal/requestNotifyList', );
         },
         failedCallback: (error) => {
           console.error('실패');

@@ -3,7 +3,7 @@
     <h3><span id="mypageNickname">{{memberInfo.memberNickname}}</span> 님에게 온 입사 제안</h3>
     <br />
      <div v-if="suggestList.length === 0" class="fadeNotice">
-      아직 입사 제안이 오지 않았습니다.
+      요청받은 입사제안 내역이 없습니다.
     </div>
     <div v-else>
       <b-table :items="suggestList" :fields="fields" striped responsive="sm">

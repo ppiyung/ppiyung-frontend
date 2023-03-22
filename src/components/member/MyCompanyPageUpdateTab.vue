@@ -75,7 +75,7 @@
       </b-row>
 
       <b-row>
-        <b-col lg="2" class="pb-4">사업자번호</b-col>
+        <b-col lg="2" class="pb-4">사업자등록번호</b-col>
         <b-col lg="4" class="pb-2">
           <b-form-input
             v-model="updateInfoform.memberRegNum"

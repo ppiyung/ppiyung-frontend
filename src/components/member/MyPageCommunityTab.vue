@@ -6,7 +6,7 @@
     </h3>
     <br />
      <div v-if="myCommunityList.length === 0" class="fadeNotice">
-      게시글이 존재하지 않습니다.
+      작성한 게시글 내역이 않습니다.
     </div>
     <div v-else>
       <b-table
