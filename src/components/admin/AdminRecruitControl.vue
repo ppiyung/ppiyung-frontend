@@ -12,12 +12,6 @@
         @click="setWorkArea(workArea.workAreaId)">
         {{ workArea.workAreaName }}
     </b-button>
-    <b-button
-        pill
-        :variant="workAreaId === 2 ? 'primary' : 'outline-primary'"
-        @click="setWorkArea(2)">
-        웹개발
-    </b-button>
   </b-container>
 </template>
 
