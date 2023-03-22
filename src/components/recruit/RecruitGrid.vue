@@ -1,5 +1,5 @@
 <template>
-  <ul class="recruit-container" ref="resultContainer">
+  <div class="recruit-container" ref="resultContainer">
     <recruit-card
       v-for="recruit in recruitList"
       :key="recruit.recruitId"
@@ -10,7 +10,11 @@
       :companyImg="recruit.imgLocation ? `${$apiUri.resources}/images/${recruit.imgLocation}` : 'default.png'"
       :recruitStartAt="recruit.recruitStartAt"
       :recruitEndAt="recruit.recruitEndAt"/>
-  </ul>
+
+      <div v-if="recruitList.length === 0">
+        등록된 채용 공고가 없습니다.
+      </div>
+  </div>
 </template>
 
 <script>
