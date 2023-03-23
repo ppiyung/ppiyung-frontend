@@ -15,7 +15,7 @@
         >
             <!-- Text slides with image -->
             <b-carousel-slide
-                img-src="/banner.png"
+                img-src="/삐융.png"
             ></b-carousel-slide>
 
             <b-carousel-slide

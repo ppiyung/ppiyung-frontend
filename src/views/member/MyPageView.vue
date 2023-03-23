@@ -54,8 +54,9 @@ export default {
 
 <style scoped>
 .card{
-  width: 1200px;
+  width: 90%;
   height: fit-content;
 }
+
 
 </style>

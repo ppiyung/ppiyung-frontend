@@ -42,6 +42,7 @@ export default {
 .main-container {
   margin-top: 30px;
   min-height: 100vh;
+  margin-bottom: 60px;
 }
 footer {
   text-align: center;

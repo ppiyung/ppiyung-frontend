@@ -1,44 +1,48 @@
 <template>
-    <base-layout>
-        <h1>{{memberDetail.memberName}}</h1>
+  <base-layout>
+    <h1>{{ memberDetail.memberName }}</h1>
 
-        <section class="section-applying">
-            <h2>현재 진행중인 채용</h2>
-            <div class = "recruit-card-wrapper">
-                <recruit-card
-                v-for="recruit in recruitList"
-                :key="recruit.recruitId"
-                :recuritId="recruit.recruitId"
-                :companyId="recruit.companyId"
-                :recruitTitle="recruit.recruitTitle"
-                :recruitDetail="recruit.recruitDetail"
-                :comapnyImg="profileImgSrc"
-                :recruitStartAt="new Date(recruit.recruitStartAt).toISOString()"
-                :recruitEndAt="new Date(recruit.recruitEndAt).toISOString()"/>
-            </div>
-        </section>
+    <section class="section-applying">
+      <h2>현재 진행중인 채용</h2>
+      <div class="recruit-card-wrapper">
+        <recruit-card
+          v-for="recruit in recruitList"
+          :key="recruit.recruitId"
+          :recuritId="recruit.recruitId"
+          :companyId="recruit.companyId"
+          :recruitTitle="recruit.recruitTitle"
+          :recruitDetail="recruit.recruitDetail"
+          :comapnyImg="profileImgSrc"
+          :recruitStartAt="new Date(recruit.recruitStartAt).toISOString()"
+          :recruitEndAt="new Date(recruit.recruitEndAt).toISOString()"
+        />
+      </div>
+    </section>
 
-        <section class="section-introduce">
-            <h2>회사 소개</h2>
-            <img :src="profileImgSrc"
-            class="profile-img">
-            
-            <div>
-                {{memberDetail.memberInfo}}
-            </div>
-        </section>
+    <section class="section-introduce">
+      <h2>회사 소개</h2>
+      <b-card-group deck>
+        <b-card :img-src="profileImgSrc" img-alt="Image" img-top>
+          <b-card-text>{{ memberDetail.memberInfo }}</b-card-text>
+        </b-card>
+      </b-card-group>
+    </section>
 
-        <section class="section-map">
-            <h2>회사 위치</h2>
+    <section class="section-map">
+      <h2>회사 위치</h2>
 
-            {{ memberDetail.memberAddr }}<br /><br />
+      {{ memberDetail.memberAddr }}<br /><br />
 
-            <company-profile-map
-                :coordX="memberDetail.memberCoordX"
-                :coordY="memberDetail.memberCoordY"
-            />
-        </section>
-    </base-layout>
+      <b-card-group deck id="mapDetail">
+        <b-card>
+          <company-profile-map
+            :coordX="memberDetail.memberCoordX"
+            :coordY="memberDetail.memberCoordY"
+          />
+        </b-card>
+      </b-card-group>
+    </section>
+  </base-layout>
 </template>
 
 <script>
@@ -127,6 +131,7 @@ img.profile-img {
 section {
     margin: 60px;
 }
+
 .recruit-card-wrapper {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
