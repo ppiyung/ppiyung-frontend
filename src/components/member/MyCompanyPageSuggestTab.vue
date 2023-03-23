@@ -146,7 +146,7 @@ export default {
 </script>
 
 <style>
-#mypageNickname {
-  background-color: cornsilk;
+#mypageNickname{
+ font-weight: 900;
 }
 </style>

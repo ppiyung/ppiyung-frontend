@@ -1,6 +1,6 @@
 <template>
   <b-container>
-    <b-button v-for="workArea in workAreaList"
+    <b-button class="mr-2" v-for="workArea in workAreaList"
       :key="workArea.workAreaId"
       pill
       :variant="workAreaId === workArea.workAreaId ? 'primary' : 'outline-primary'"
@@ -33,4 +33,5 @@ export default {
     margin-top: 25px;
     margin-bottom: 15px;
 }
+
 </style>

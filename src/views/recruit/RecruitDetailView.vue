@@ -23,9 +23,8 @@
 
           <div v-html="recruitDetail.recruitDetail" class="recruit-detail">
           </div>
-        </b-card>
 
-        <div class="apply-control">
+            <div class="apply-control">
           <b-button variant="primary" @click="requestApply" :disabled="isAlreadyApplied">
             {{isAlreadyApplied ? '지원완료' : '지원하기'}}
           </b-button> &nbsp;
@@ -33,6 +32,9 @@
             {{isAlreadyBookmarked ? '관심공고 추가 완료' : '관심공고'}}
           </b-button>
         </div>
+        </b-card>
+
+      
       </b-col>
 
       <b-col lg="4" class="apply-control-right">
@@ -280,6 +282,7 @@ h1 {
 .apply-control {
   margin-top: 25px;
   margin-bottom: 25px;
+  float: right;
 }
 .recruit-detail {
   margin: 20px;

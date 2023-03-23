@@ -90,6 +90,6 @@ export default {
 
 <style scoped>
 #mypageNickname{
- background-color: cornsilk;
+ font-weight: 900;
 }
 </style>
