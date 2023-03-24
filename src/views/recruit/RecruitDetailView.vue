@@ -18,7 +18,7 @@
           </div>
 
           <div>
-            채용 분야: {{workArea}}
+            채용 분야: {{workAreaName}}
           </div>
 
           <div v-html="recruitDetail.recruitDetail" class="recruit-detail">
@@ -57,6 +57,7 @@
 import BasicLayout from '@/components/common/BaseLayout.vue';
 // eslint-disable-next-line
 import dayjs from 'dayjs';
+import { workAreaIdToName } from '@/util/workareaHelper';
 
 export default {
   name: 'RecruitDetailView',
@@ -106,14 +107,8 @@ export default {
     isSuccess() {
       return this.$store.getters['common/isSuccess'];
     },
-    workArea() {
-      if (this.recruitDetail.workAreaId === 1) {
-        return '프론트엔드';
-      }
-      if (this.recruitDetail.workAreaId === 2) {
-        return '웹개발';
-      }
-      return '알 수 없음';
+    workAreaName() {
+      return workAreaIdToName(this.recruitDetail.workAreaId)
     },
     memberInfo() {
       return this.$store.getters['auth/memberInfo'];

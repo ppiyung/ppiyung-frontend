@@ -7,13 +7,13 @@
             <b-card-text v-model="notifyInfoParam">
              안녕하세요. {{ this.memberName }} 님! <br>
              해당 채용공고의 <span style="color: blue">지원자 현황</span>이 업데이트 되었습니다. <br>
-             자세한 사항은 마이페이지를 확인해주세요. 
+             자세한 사항은 지원 현황 보기
              <br><br>
              알림시간: {{ this.notifyInfoParam.createdAtFormmated }}
              <br>
              <b-button variant="primary" class="mr-2">
-                <router-link class="text-white" :to="{ name: 'myCompany' }">
-                  MyPage
+                <router-link class="text-white" :to="{ name: 'company/recruitStatus', params: { recruitId } }">
+                  지원 현황으로
                 </router-link>
              </b-button>
             
@@ -29,14 +29,13 @@
       class="mb-2">
             <b-card-text v-model="notifyInfoParam">
             안녕하세요. {{ this.memberName }} 님! <br>
-            공개구직자에게 <span style="color: blue">입사제안</span>요청을 완료했습니다. <br>
-            자세한 사항은 마이페이지를 확인해주세요.
+            공개구직자에게 <span style="color: blue">입사제안</span>요청을 완료했습니다.
             <br><br>
             알림시간: {{ this.notifyInfoParam.createdAtFormmated }}
             <br>
               <b-button variant="primary" class="mr-2">
                <router-link class="text-white" :to="{ name: 'myCompany' }">
-                MyPage
+                인재저격 페이지로
                 </router-link>
               </b-button>
               <b-button @click="deleteSubmit">

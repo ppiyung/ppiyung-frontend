@@ -69,7 +69,8 @@ export default {
           ...item,
           recruit_start_at: dayjs.unix(item.recruit_start_at / 1000).format('YYYY년 MM월 DD일'),
           recruit_end_at:  dayjs.unix(item.recruit_end_at / 1000).format('YYYY년 MM월 DD일'),
-          workAreaName: workAreaIdToName(item.work_area_id)
+          workAreaName: workAreaIdToName(item.work_area_id),
+          recruit_detail: item.recruit_detail.replace(/<[^>]*>?/g, '').substr(0,50)+ '...'
        }
       })
     },
@@ -95,7 +96,6 @@ export default {
       },
     });
   },
-
 };
 </script>
 

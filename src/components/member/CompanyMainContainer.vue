@@ -1,7 +1,7 @@
 <template>
 
   <div class="dashboard-container">
-     <router-link :to="{ name: 'company/editRecruit', params: { id: memberInfo.memberId } }"><span id="mainBtn">채용공고 작성하러가기</span></router-link>
+     <router-link :to="{ name: 'company/newRecruit' }"><span id="mainBtn">채용공고 작성하러가기</span></router-link>
     <b-card class="companyTopBox">
       <b-card-header class="bg-light">
         <strong>채용 진행 현황</strong>
@@ -44,7 +44,7 @@
 
         <b-table :items="allRecruitListCompany" :fields="fields" striped responsive="sm">
           <template #cell(recruitTitle)="row">
-              <router-link :to="{ name: 'recruitDetail', params: { recruitId: row.item.recruitId } }">{{row.item.recruitTitle }}</router-link>
+              <router-link :to="{ name: 'company/recruitStatus', params: { recruitId: row.item.recruitId } }">{{row.item.recruitTitle }}</router-link>
           </template>
         </b-table>
 

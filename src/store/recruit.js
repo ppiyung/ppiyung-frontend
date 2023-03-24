@@ -516,7 +516,8 @@ export default {
             withCredentials: true,
             headers: {
               Authorization: `Bearer ${rootGetters['auth/accessToken']}`
-            }
+            },
+            responseType: "blob",
           }
         )
         .then((response) => {

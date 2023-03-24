@@ -10,7 +10,7 @@
       :memberId="notify.memberId"
       :notifyDetail="notify.notifyDetail"
       :applyResult="notify.applyResult"
-      :recruitId="notify.recruitId"
+      :recruitId="notify.recruit.recruitId"
       :memberName="notify.memberName"
       :recruitTitle="notify.recruit.recruitTitle"
       :companyId="notify.companyId"
