@@ -39,6 +39,15 @@ export default {
             return this.$store.getters['board/boardDetail'];
         }
     },
+    watch: {
+        boardDetail(val) {
+            this.coummityPostInfoParam = {
+                ...val,
+                articleCreatedAt : dayjs(this.boardDetail.coummityPostInfoParam).format("YYYY-MM-DD HH:mm:ss.SSSZ"),
+                memberId : this.$store.getters['auth/memberInfo'].memberId
+            }
+        }
+    },
     created() {
     this.$store.dispatch('auth/authRequest', {
       requestCallback: () => {
